@@ -3,7 +3,7 @@ import React from 'react';
 
 const Custom3DGrid: React.FC = () => {
     // Create an array for 2,500 squares (50 x 50 grid)
-    const squares = Array.from({ length: 2500 }, (_, i) => i);
+    const squares = Array.from({ length: 3500 }, (_, i) => i);
 
     return (
         <div className="w-screen h-screen overflow-hidden relative">
@@ -12,8 +12,8 @@ const Custom3DGrid: React.FC = () => {
                 className="absolute top-1/2 left-1/2"
                 style={{
                     // Use 90vmin so the container is square and fits within the viewport
-                    width: '400vmin',
-                    height: '400vmin',
+                    width: '450vmin',
+                    height: '450vmin',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(50, 1fr)',
                     gridTemplateRows: 'repeat(50, 1fr)',
