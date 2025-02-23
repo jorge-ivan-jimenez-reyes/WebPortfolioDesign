@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c98144ba-a213-4c5e-87b5-b1d8bbd5dd0a" name="Changes" comment="structure">
+    <list default="true" id="c98144ba-a213-4c5e-87b5-b1d8bbd5dd0a" name="Changes" comment="grid 3d view">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Custom3DView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Custom3DView.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740338937285</updated>
       <workItem from="1740338938463" duration="458000" />
-      <workItem from="1740339401590" duration="8270000" />
+      <workItem from="1740339401590" duration="8297000" />
     </task>
     <task id="LOCAL-00001" summary="file">
       <option name="closed" value="true" />
@@ -335,7 +336,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740348052393</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="grid 3d view">
+      <option name="closed" value="true" />
+      <created>1740348120106</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1740348120106</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,7 +359,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="file" />
     <MESSAGE value="structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="structure" />
+    <MESSAGE value="grid 3d view" />
+    <option name="LAST_COMMIT_MESSAGE" value="grid 3d view" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
