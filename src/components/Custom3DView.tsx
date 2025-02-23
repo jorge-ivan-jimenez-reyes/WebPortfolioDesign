@@ -12,8 +12,8 @@ const Custom3DGrid: React.FC = () => {
                 className="absolute top-1/2 left-1/2"
                 style={{
                     // Use 90vmin so the container is square and fits within the viewport
-                    width: '200vmin',
-                    height: '200vmin',
+                    width: '250vmin',
+                    height: '250vmin',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(50, 1fr)',
                     gridTemplateRows: 'repeat(50, 1fr)',
