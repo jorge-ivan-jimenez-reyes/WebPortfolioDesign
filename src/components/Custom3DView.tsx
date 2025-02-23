@@ -2,18 +2,22 @@
 import React from 'react';
 
 const Custom3DGrid: React.FC = () => {
-    // Create an array of 100 squares (10x10 grid).
-    // Change the length and grid classes for a different number of squares.
-    const squares = Array.from({ length: 300 }, (_, i) => i);
+    // Create an array for 2,500 squares (50 x 50 grid)
+    const squares = Array.from({ length: 2500 }, (_, i) => i);
 
     return (
-        <div
-            className="w-full h-screen overflow-hidden relative"
-            style={{ perspective: '10000px' }} // gives a 3D perspective to its children
-        >
+        <div className="w-screen h-screen overflow-hidden relative">
+            {/* Container for 3D perspective */}
             <div
-                className="absolute top-1/2 left-1/2 grid grid-cols-10 grid-rows-10 gap-2"
+                className="absolute top-1/2 left-1/2"
                 style={{
+                    // Use 90vmin so the container is square and fits within the viewport
+                    width: '150vmin',
+                    height: '150vmin',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(50, 1fr)',
+                    gridTemplateRows: 'repeat(50, 1fr)',
+                    gap: '0.25rem', // adjust gap as needed
                     transform:
                         'translate(-50%, -50%) skewX(-48deg) skewY(14deg) scaleX(2) scale(0.3234375) rotate(0deg) translateZ(0)',
                 }}
@@ -21,7 +25,9 @@ const Custom3DGrid: React.FC = () => {
                 {squares.map((i) => (
                     <div
                         key={i}
-                        className="w-16 h-16 bg-gray-700 hover:bg-gray-500 transition-colors duration-200"
+                        className="bg-gray-700 hover:bg-gray-500 transition-colors duration-200"
+                        // Each square will maintain a 1:1 aspect ratio
+                        style={{ aspectRatio: '1 / 1' }}
                     />
                 ))}
             </div>
