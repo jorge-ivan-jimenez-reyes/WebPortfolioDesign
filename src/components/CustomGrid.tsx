@@ -8,7 +8,7 @@ export default function CustomGrid() {
     };
 
     // Create 12 placeholder squares (adjust the number as needed)
-    const squares = Array.from({ length: 12 }, (_, i) => i);
+    const squares = Array.from({ length: 60 }, (_, i) => i);
 
     return (
         <div className="w-full h-screen relative bg-gray-100">
@@ -25,7 +25,9 @@ export default function CustomGrid() {
                         key={idx}
                         className="w-32 h-32 bg-gray-700 hover:bg-white transition-colors duration-300 flex items-center justify-center shadow-lg"
                     >
+
                         {/* Optionally, render a letter or icon here */}
+                        <span className="text-white text-2xl font-bold">A</span>
                         <span className="text-white text-2xl font-bold">A</span>
                     </div>
                 ))}
