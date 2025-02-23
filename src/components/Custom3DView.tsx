@@ -4,7 +4,7 @@ import React from 'react';
 const Custom3DGrid: React.FC = () => {
     // Create an array of 100 squares (10x10 grid).
     // Change the length and grid classes for a different number of squares.
-    const squares = Array.from({ length: 100 }, (_, i) => i);
+    const squares = Array.from({ length: 500 }, (_, i) => i);
 
     return (
         <div
