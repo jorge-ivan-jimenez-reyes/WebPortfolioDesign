@@ -45,7 +45,7 @@ const Cell: React.FC = memo(() => {
     );
 });
 
-const Custom3DGrid: React.FC = () => {
+const Custom3DView: React.FC = () => {
     // Create an array for 2,500 squares (50 x 50 grid)
     const squares = Array.from({ length: 2500 }, (_, i) => i);
 
@@ -77,4 +77,4 @@ const Custom3DGrid: React.FC = () => {
     );
 };
 
-export default Custom3DGrid;
+export default Custom3DView;
