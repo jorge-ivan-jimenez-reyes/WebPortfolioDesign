@@ -1,7 +1,7 @@
 // src/components/Custom3DGrid.tsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
-// Define your custom colors (using the CSS color(display-p3 ...) syntax)
+// Define your custom colors
 const colors = [
     'color(display-p3 0.94 0.19 0.04)',   // red
     'color(display-p3 0.083 0.75 0.283)',  // green
@@ -15,21 +15,34 @@ const colors = [
 ];
 
 const Cell: React.FC = () => {
-    const [bg, setBg] = useState('white'); // initial white background
+    const [bg, setBg] = useState('white'); // initial color white
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleMouseEnter = () => {
+        // Clear any pending timeout so the color doesn't revert while hovered
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+        // Pick a random color from the array on hover
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        setBg(randomColor);
+    };
+
+    const handleMouseLeave = () => {
+        // Delay reverting to white for 1 second (adjust as needed)
+        timerRef.current = setTimeout(() => {
+            setBg('white');
+            timerRef.current = null;
+        }, 1000);
+    };
 
     return (
         <div
-            className="w-full h-full transition-colors duration-200"
+            className="w-full h-full transition-colors duration-500"
             style={{ background: bg, aspectRatio: '1 / 1' }}
-            onMouseEnter={() => {
-                // On hover, pick a random color from the array
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                setBg(randomColor);
-            }}
-            onMouseLeave={() => {
-                // Revert back to white when the mouse leaves
-                setBg('white');
-            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         />
     );
 };
@@ -43,19 +56,11 @@ const Custom3DGrid: React.FC = () => {
             className="w-screen h-screen overflow-hidden relative"
             style={{ overscrollBehavior: 'none' }}
         >
-            {/* A horizontal line of colors at the top */}
-            <div
-                className="absolute top-0 left-0 w-full h-2"
-                style={{
-                    background: `linear-gradient(to right, ${colors.join(', ')})`,
-                }}
-            />
-
-            {/* 3D grid container */}
+            {/* Container for 3D perspective */}
             <div
                 className="absolute top-1/2 left-1/2"
                 style={{
-                    // Ensure the container is square and fits within the viewport
+                    // Use 450vmin so the container is square and fills a large portion of the page
                     width: '450vmin',
                     height: '450vmin',
                     display: 'grid',
