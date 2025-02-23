@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c98144ba-a213-4c5e-87b5-b1d8bbd5dd0a" name="Changes" comment="structure">
+      <change afterPath="$PROJECT_DIR$/src/components/Custom3DView.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740338937285</updated>
       <workItem from="1740338938463" duration="458000" />
-      <workItem from="1740339401590" duration="5263000" />
+      <workItem from="1740339401590" duration="6031000" />
     </task>
     <task id="LOCAL-00001" summary="file">
       <option name="closed" value="true" />
@@ -216,7 +217,23 @@
       <option name="project" value="LOCAL" />
       <updated>1740344737769</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="structure">
+      <option name="closed" value="true" />
+      <created>1740344922814</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1740344922815</updated>
+    </task>
+    <task id="LOCAL-00020" summary="structure">
+      <option name="closed" value="true" />
+      <created>1740344976889</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1740344976889</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,5 +249,17 @@
     <MESSAGE value="file" />
     <MESSAGE value="structure" />
     <option name="LAST_COMMIT_MESSAGE" value="structure" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Custom3DView.tsx</url>
+          <line>2</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
