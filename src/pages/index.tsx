@@ -6,8 +6,6 @@ export default function Home() {
     return (
         <div className="w-screen h-screen relative">
             <Custom3DGrid />
-
-            {/* Footer Component */}
             <Footer />
         </div>
     );
