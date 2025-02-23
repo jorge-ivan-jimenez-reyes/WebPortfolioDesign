@@ -70,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740338937285</updated>
       <workItem from="1740338938463" duration="458000" />
-      <workItem from="1740339401590" duration="8707000" />
+      <workItem from="1740339401590" duration="8825000" />
     </task>
     <task id="LOCAL-00001" summary="file">
       <option name="closed" value="true" />
@@ -360,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740348332717</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="grid 3d view">
+      <option name="closed" value="true" />
+      <created>1740348648890</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1740348648890</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,7 +391,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Custom3DView.tsx</url>
-          <line>46</line>
+          <line>47</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
