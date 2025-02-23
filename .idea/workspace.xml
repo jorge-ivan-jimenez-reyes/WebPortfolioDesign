@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c98144ba-a213-4c5e-87b5-b1d8bbd5dd0a" name="Changes" comment="structure" />
+    <list default="true" id="c98144ba-a213-4c5e-87b5-b1d8bbd5dd0a" name="Changes" comment="structure">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CustomGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/page.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740338937285</updated>
       <workItem from="1740338938463" duration="458000" />
-      <workItem from="1740339401590" duration="2135000" />
+      <workItem from="1740339401590" duration="2447000" />
     </task>
     <task id="LOCAL-00001" summary="file">
       <option name="closed" value="true" />
@@ -148,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740341651214</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="structure">
+      <option name="closed" value="true" />
+      <created>1740341714491</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1740341714491</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
