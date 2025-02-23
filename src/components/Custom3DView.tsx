@@ -9,7 +9,7 @@ const Custom3DGrid: React.FC = () => {
     return (
         <div
             className="w-full h-screen overflow-hidden relative"
-            style={{ perspective: '1000px' }} // gives a 3D perspective to its children
+            style={{ perspective: '10000px' }} // gives a 3D perspective to its children
         >
             <div
                 className="absolute top-1/2 left-1/2 grid grid-cols-10 grid-rows-10 gap-2"
