@@ -45,8 +45,8 @@ const Custom3DGrid: React.FC = () => {
             <div
                 className="absolute top-1/2 left-1/2"
                 style={{
-                    width: '90vmin',
-                    height: '90vmin',
+                    width: '450vmin',
+                    height: '450vmin',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(50, 1fr)',
                     gridTemplateRows: 'repeat(50, 1fr)',
