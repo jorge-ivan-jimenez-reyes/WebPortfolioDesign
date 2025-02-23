@@ -1,57 +1,33 @@
-import React, { useState, useRef } from 'react';
-
-function Square() {
-    const [rotate, setRotate] = useState({ rotateX: 0, rotateY: 0 });
-    const squareRef = useRef<HTMLDivElement>(null);
-
-    function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-        if (!squareRef.current) return;
-        const rect = squareRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const maxRotate = 15; // maximum rotation in degrees
-
-        // Calculate rotation based on distance from center
-        const rotateY = ((x - centerX) / centerX) * maxRotate;
-        const rotateX = -((y - centerY) / centerY) * maxRotate; // negative to tilt upward when cursor moves down
-
-        setRotate({ rotateX, rotateY });
-    }
-
-    function handleMouseLeave() {
-        setRotate({ rotateX: 0, rotateY: 0 });
-    }
-
-    return (
-        <div
-            ref={squareRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="w-32 h-32 bg-gray-700 hover:bg-gray-500 transition-colors duration-200 opacity-80 hover:opacity-100 flex items-center justify-center shadow-lg"
-            style={{
-                perspective: '800px',
-                transform: `perspective(800px) rotateX(${rotate.rotateX}deg) rotateY(${rotate.rotateY}deg)`,
-                transition: 'transform 0.2s ease'
-            }}
-        >
-            {/* Optionally, you can render a letter or an SVG */}
-            <span className="text-white text-xl">A</span>
-        </div>
-    );
-}
+import React from 'react';
 
 export default function CustomGrid() {
-    // Create an array for 12 squares (adjust count as needed)
+    // This style mimics the static transform you provided.
+    const containerStyle = {
+        transform:
+            'translate(calc(-50% + 0px), calc(-50% + 0px)) skewX(-48deg) skewY(14deg) scaleX(2) scale(0.3234375) rotate(0deg) translateZ(0)',
+    };
+
+    // Create 12 placeholder squares (adjust the number as needed)
     const squares = Array.from({ length: 12 }, (_, i) => i);
 
     return (
-        <div className="w-full h-screen relative bg-white">
-            {/* Static grid container */}
-            <div className="absolute inset-0 grid grid-cols-4 grid-rows-3 gap-4 place-items-center">
+        <div className="w-full h-screen relative bg-gray-100">
+            {/* This container is centered and uses a fixed 3D transform */}
+            <div
+                className="absolute top-1/2 left-1/2 grid grid-cols-4 grid-rows-3 gap-4"
+                style={{
+                    ...containerStyle,
+                    perspective: '1000px', // sets up the 3D context
+                }}
+            >
                 {squares.map((idx) => (
-                    <Square key={idx} />
+                    <div
+                        key={idx}
+                        className="w-32 h-32 bg-gray-700 hover:bg-white transition-colors duration-300 flex items-center justify-center shadow-lg"
+                    >
+                        {/* Optionally, render a letter or icon here */}
+                        <span className="text-white text-2xl font-bold">A</span>
+                    </div>
                 ))}
             </div>
         </div>
