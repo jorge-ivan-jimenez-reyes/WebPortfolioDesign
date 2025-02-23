@@ -2,38 +2,45 @@
 import React, { useState } from 'react';
 
 export default function CustomGrid() {
-    // Optional: track mouse position for fancy transforms
     const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
     function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+        // store mouse coords
         setMouse({ x: e.clientX, y: e.clientY });
     }
 
-    // Generate a bunch of squares or cells
-    const cells = Array.from({ length: 100 }, (_, i) => i); // 100 squares
+    // Create an array for 12 squares (or placeholders for letters)
+    const squares = Array.from({ length: 12 }, (_, i) => i);
+
+    // Generate a transform string based on the mouse position
+    const containerTransform = `
+    translate(calc(-50% + ${mouse.x}px), calc(-50% + ${mouse.y}px))
+    skewX(-48deg)
+    skewY(14deg)
+    scale(0.6)
+  `;
 
     return (
         <div
+            // The parent covers the full area and tracks the mouse movement
             onMouseMove={handleMouseMove}
-            className="relative w-full h-screen overflow-hidden
-                 bg-white /* or any bg color you want */
-                 grid grid-cols-10 grid-rows-10 gap-1
-                 /* Tailwind: 10 columns, 10 rows, 1px gap, etc. */
-      "
+            className="w-full h-full relative"
         >
-            {cells.map((cell) => (
-                <div
-                    key={cell}
-                    className="bg-gray-200 transition-transform duration-300
-                     hover:bg-gray-400
-                     /* Some effect on hover? */
-                     "
-                    style={{
-                        // If you want a subtle transform that changes with mouse:
-                        transform: `translate(${mouse.x * 0.001 * cell}px, ${mouse.y * 0.001 * cell}px)`,
-                    }}
-                />
-            ))}
+            {/* This container is centered and transforms based on mouse coords */}
+            <div
+                style={{
+                    transform: containerTransform,
+                    transition: 'transform 0.05s linear', // smooth movement
+                }}
+                className="absolute top-1/2 left-1/2 grid grid-cols-4 grid-rows-3 gap-4"
+            >
+                {squares.map((idx) => (
+                    <div
+                        key={idx}
+                        className="w-32 h-32 bg-gray-700 hover:bg-gray-500 transition-colors duration-200 opacity-80 hover:opacity-100"
+                    />
+                ))}
+            </div>
         </div>
     );
 }

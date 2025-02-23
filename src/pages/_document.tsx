@@ -1,4 +1,3 @@
-// pages/_document.tsx
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -8,7 +7,7 @@ class MyDocument extends Document {
                 <Head>
                     {/* Favicon */}
                     <link rel="icon" href="/favicon.ico" />
-                    {/* Additional meta tags or links can go here */}
+                    {/* Meta tags */}
                     <meta name="description" content="My Portfolio Website" />
                 </Head>
                 <body>
