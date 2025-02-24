@@ -4,24 +4,19 @@ import React from 'react';
 const Footer = () => {
     return (
         <div
-            className="flex items-end w-auto h-[58px] px-2 fixed z-10 left-1/2 rounded-full"
+            className="flex items-center justify-center gap-4 h-[80px] px-4 fixed z-10 left-1/2 rounded-full bg-white/30 border border-gray-200 shadow-sm"
             style={{
-                background: "rgb(255,255,255)",
-                boxShadow: "var(--shadows-large)",
-                border: "1px solid var(--colors-grayA4)",
-                bottom: "16px", // Adjusted to ensure visibility
-                transform: "translateX(-50%)", // Only horizontal centering
-                // Remove animation temporarily for debugging:
-                // animation: "500msease 200ms 1 normal forwards running k-PnvVd",
+                bottom: "16px",
+                transform: "translateX(-50%)",
             }}
         >
             <a
                 href="/"
                 aria-label="Home"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white/60"
             >
                 <svg
-                    className="w-6 h-6 text-black"
+                    className="w-8 h-8 text-black"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
@@ -31,10 +26,10 @@ const Footer = () => {
             <a
                 href="/craft"
                 aria-label="Craft"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white/60"
             >
                 <svg
-                    className="w-6 h-6 text-black"
+                    className="w-8 h-8 text-black"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
@@ -44,10 +39,10 @@ const Footer = () => {
             <a
                 href="/projects"
                 aria-label="Projects"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white/60"
             >
                 <svg
-                    className="w-6 h-6 text-black"
+                    className="w-8 h-8 text-black"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
@@ -57,10 +52,10 @@ const Footer = () => {
             <a
                 href="/photos"
                 aria-label="Photos"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white/60"
             >
                 <svg
-                    className="w-6 h-6 text-black"
+                    className="w-8 h-8 text-black"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
