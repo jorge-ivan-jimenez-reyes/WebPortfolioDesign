@@ -6,7 +6,7 @@ const Footer = () => {
         <div
             className="flex items-center justify-center gap-4 h-[80px] px-4 fixed z-10 left-1/2 rounded-full bg-white/30 border border-gray-200 shadow-sm"
             style={{
-                bottom: "16px",
+                bottom: "15px",
                 transform: "translateX(-50%)",
             }}
         >
