@@ -37,3 +37,25 @@ body {
 .fade-up {
   animation: fadeInUp 0.8s ease forwards;
 }
+
+.c-lesPJm-iezzKVe-css {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* If "Jm" is a class name, prefix it with a dot.
+   Otherwise, if it’s intended to be a tag name, leave it as is. */
+.Jm {
+  box-sizing: border-box;
+}
+
+/* Global reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
