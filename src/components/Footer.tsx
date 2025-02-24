@@ -42,7 +42,7 @@ const Footer = () => {
                 className="w-12 h-12 flex items-center justify-center rounded-full bg-white/60"
             >
                 <svg
-                    className="w-8 h-8 text-black"
+                    className="w-+8 h-8 text-black"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
