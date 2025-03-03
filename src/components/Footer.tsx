@@ -8,8 +8,8 @@ const Footer = () => {
     return (
         <div
             className={`flex items-center justify-center gap-4 h-[80px] px-4 fixed z-10 left-1/2 rounded-full ${
-                isDarkMode ? 'bg-gray-800/30 border-gray-700' : 'bg-white/30 border-gray-200'
-            } border shadow-sm`}
+                isDarkMode ? 'bg-gray-800/30 border-gray-700' : 'bg-white/70 border-gray-300'
+            } border shadow-md`}
             style={{
                 bottom: "15px",
                 transform: "translateX(-50%)",
@@ -26,11 +26,11 @@ const Footer = () => {
                     href={item.href}
                     aria-label={item.label}
                     className={`w-12 h-12 flex items-center justify-center rounded-full ${
-                        isDarkMode ? 'bg-gray-700/60 hover:bg-gray-600/60' : 'bg-white/60 hover:bg-gray-100/60'
+                        isDarkMode ? 'bg-gray-700/60 hover:bg-gray-600/60' : 'bg-white/80 hover:bg-gray-100/80'
                     } transition-colors duration-200`}
                 >
                     <svg
-                        className={`w-8 h-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}
+                        className={`w-8 h-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
                         viewBox="0 0 24 24"
                         fill="currentColor"
                     >
