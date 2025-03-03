@@ -17,22 +17,22 @@ const darkModeColors = [
 
 // Define pastel colors for light mode
 const lightModeColors = [
-    'rgba(173, 216, 230, 0.8)', // light blue
-    'rgba(255, 182, 193, 0.8)', // light pink
-    'rgba(152, 251, 152, 0.8)', // pale green
-    'rgba(221, 160, 221, 0.8)', // plum
-    'rgba(255, 218, 185, 0.8)', // peach
-    'rgba(255, 255, 224, 0.8)', // light yellow
-    'rgba(175, 238, 238, 0.8)', // pale turquoise
-    'rgba(255, 192, 203, 0.8)', // pink
-    'rgba(176, 196, 222, 0.8)', // light steel blue
+    'rgba(100, 149, 237, 0.8)', // cornflower blue
+    'rgba(255, 105, 180, 0.8)', // hot pink
+    'rgba(50, 205, 50, 0.8)',   // lime green
+    'rgba(147, 112, 219, 0.8)', // medium purple
+    'rgba(255, 165, 0, 0.8)',   // orange
+    'rgba(255, 215, 0, 0.8)',   // gold
+    'rgba(0, 206, 209, 0.8)',   // dark turquoise
+    'rgba(255, 20, 147, 0.8)',  // deep pink
+    'rgba(65, 105, 225, 0.8)',  // royal blue
 ];
 
 // Memoized Cell for performance
 const Cell: React.FC = memo(() => {
     const { isDarkMode } = useTheme();
     const colors = isDarkMode ? darkModeColors : lightModeColors;
-    const [bg, setBg] = useState(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)');
+    const [bg, setBg] = useState(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)');
     const [isHovered, setIsHovered] = useState(false);
     const timerRef = useRef<number | null>(null);
 
@@ -49,7 +49,7 @@ const Cell: React.FC = memo(() => {
     const handleMouseLeave = () => {
         setIsHovered(false);
         timerRef.current = window.setTimeout(() => {
-            setBg(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)');
+            setBg(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)');
             timerRef.current = null;
         }, 1000); // delay of 1 second before reverting
     };
@@ -60,7 +60,7 @@ const Cell: React.FC = memo(() => {
             style={{ 
                 background: bg, 
                 aspectRatio: '1 / 1',
-                boxShadow: isHovered ? `0 0 15px ${isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)'}` : 'none'
+                boxShadow: isHovered ? `0 0 15px ${isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)'}` : 'none'
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -76,7 +76,7 @@ const Custom3DView: React.FC = () => {
     return (
         <div
             className={`w-screen h-screen overflow-hidden relative ${
-                isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-gray-100 to-white'
+                isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-gray-50 to-white'
             }`}
             style={{ overscrollBehavior: 'none' }}
         >
