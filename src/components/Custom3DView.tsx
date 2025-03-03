@@ -118,24 +118,32 @@ const Custom3DView: React.FC = () => {
                 {squares.map((i) => (
                     <Cell key={i} />
                 ))}
-                {/* Letters with 3D perspective */}
-                {personaInfo.map((info, index) => (
-                    <button
-                        key={info.letter}
-                        className={`text-8xl font-bold ${
-                            isDarkMode ? 'text-white' : 'text-black'
-                        } hover:scale-110 transition-transform duration-200 absolute`}
-                        style={{
-                            top: `${20 + index * 10}%`,
-                            left: `${20 + index * 10}%`,
-                            transform: 'translateZ(20px)',
-                            textShadow: isDarkMode ? '0 0 10px rgba(255,255,255,0.8)' : '0 0 10px rgba(0,0,0,0.3)',
-                        }}
-                        onClick={() => handleLetterClick(info)}
-                    >
-                        {info.letter}
-                    </button>
-                ))}
+                {/* Letters group with 3D perspective */}
+                <div
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                        transform: 'translateZ(50px) scale(2)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                    }}
+                >
+                    {personaInfo.map((info) => (
+                        <button
+                            key={info.letter}
+                            className={`text-6xl font-bold ${
+                                isDarkMode ? 'text-white' : 'text-black'
+                            } hover:scale-110 transition-transform duration-200`}
+                            style={{
+                                textShadow: isDarkMode ? '0 0 10px rgba(255,255,255,0.8)' : '0 0 10px rgba(0,0,0,0.3)',
+                            }}
+                            onClick={() => handleLetterClick(info)}
+                        >
+                            {info.letter}
+                        </button>
+                    ))}
+                </div>
             </div>
             {/* Info popup */}
             {selectedInfo && (
