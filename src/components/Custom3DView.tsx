@@ -1,25 +1,27 @@
 // src/components/Custom3DGrid.tsx
 import React, { useState, useRef, memo } from 'react';
 
-// Define your custom neon colors
+// Define your custom neon colors with opacity
 const colors = [
-    'color(display-p3 0 1 1)',          // electric blue
-    'color(display-p3 1 0 1)',          // neon pink
-    'color(display-p3 0.5 1 0)',        // acid green
-    'color(display-p3 0.8 0 1)',        // bright purple
-    'color(display-p3 1 0.5 0)',        // neon orange
-    'color(display-p3 1 1 0)',          // neon yellow
-    'color(display-p3 0 1 0.5)',        // aqua
-    'color(display-p3 1 0 0.5)',        // hot pink
-    'color(display-p3 0.5 0 1)',        // electric indigo
+    'rgba(0, 255, 255, 0.8)',   // electric blue
+    'rgba(255, 0, 255, 0.8)',   // neon pink
+    'rgba(128, 255, 0, 0.8)',   // acid green
+    'rgba(204, 0, 255, 0.8)',   // bright purple
+    'rgba(255, 128, 0, 0.8)',   // neon orange
+    'rgba(255, 255, 0, 0.8)',   // neon yellow
+    'rgba(0, 255, 128, 0.8)',   // aqua
+    'rgba(255, 0, 128, 0.8)',   // hot pink
+    'rgba(128, 0, 255, 0.8)',   // electric indigo
 ];
 
 // Memoized Cell for performance
 const Cell: React.FC = memo(() => {
-    const [bg, setBg] = useState('white'); // initial white background
+    const [bg, setBg] = useState('rgba(255, 255, 255, 0.1)'); // initial semi-transparent white background
+    const [isHovered, setIsHovered] = useState(false);
     const timerRef = useRef<number | null>(null);
 
     const handleMouseEnter = () => {
+        setIsHovered(true);
         if (timerRef.current) {
             clearTimeout(timerRef.current);
             timerRef.current = null;
@@ -29,16 +31,21 @@ const Cell: React.FC = memo(() => {
     };
 
     const handleMouseLeave = () => {
+        setIsHovered(false);
         timerRef.current = window.setTimeout(() => {
-            setBg('white');
+            setBg('rgba(255, 255, 255, 0.1)');
             timerRef.current = null;
         }, 1000); // delay of 1 second before reverting
     };
 
     return (
         <div
-            className="w-full h-full transition-colors duration-500"
-            style={{ background: bg, aspectRatio: '1 / 1' }}
+            className={`w-full h-full transition-all duration-500 ${isHovered ? 'scale-110 z-10' : ''}`}
+            style={{ 
+                background: bg, 
+                aspectRatio: '1 / 1',
+                boxShadow: isHovered ? '0 0 15px rgba(255, 255, 255, 0.5)' : 'none'
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         />
@@ -51,22 +58,23 @@ const Custom3DView: React.FC = () => {
 
     return (
         <div
-            className="w-screen h-screen overflow-hidden relative"
+            className="w-screen h-screen overflow-hidden relative bg-gradient-to-br from-gray-900 to-black"
             style={{ overscrollBehavior: 'none' }}
         >
             {/* Container with 3D perspective */}
             <div
                 className="absolute top-1/2 left-1/2"
                 style={{
-                    // Use 450vmin so the container is square and fills most of the page
                     width: '450vmin',
                     height: '450vmin',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(50, 1fr)',
                     gridTemplateRows: 'repeat(50, 1fr)',
-                    gap: '0', // Removed gap between cells
+                    gap: '1px', // Added small gap for better definition
                     transform:
                         'translate(-50%, -50%) skewX(-48deg) skewY(14deg) scaleX(2) scale(0.3234375) rotate(0deg) translateZ(0)',
+                    perspective: '1000px',
+                    transformStyle: 'preserve-3d',
                 }}
             >
                 {squares.map((i) => (
