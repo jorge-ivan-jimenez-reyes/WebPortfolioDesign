@@ -8,8 +8,8 @@ interface PersonaInfo {
 }
 
 const personaInfo: PersonaInfo[] = [
-    { letter: 'G', info: 'Graphic Designer with a passion for creating visually stunning designs.' },
-    { letter: 'F', info: 'Frontend Developer skilled in React and modern web technologies.' },
+    { letter: 'J', info: 'Graphic Designer with a passion for creating visually stunning designs.' },
+    { letter: 'O', info: 'Frontend Developer skilled in React and modern web technologies.' },
     { letter: 'R', info: 'Responsive Design expert, ensuring optimal user experience across all devices.' },
     { letter: 'E', info: 'Enthusiastic learner, always staying up-to-date with the latest industry trends.' },
     { letter: 'S', info: 'Software Engineer with a strong foundation in computer science principles.' },
