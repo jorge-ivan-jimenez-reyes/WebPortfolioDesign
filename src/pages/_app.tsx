@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider, useTheme } from '../context/ThemeContext';
 import '../styles/globals.css';
+import { useEffect } from 'react';
 
 function ThemeToggle() {
     const { isDarkMode, toggleTheme } = useTheme();
@@ -26,11 +27,25 @@ function ThemeToggle() {
     );
 }
 
-function MyApp({ Component, pageProps }: AppProps) {
+function AppContent({ Component, pageProps }: AppProps) {
+    const { isDarkMode } = useTheme();
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDarkMode);
+    }, [isDarkMode]);
+
     return (
-        <ThemeProvider>
+        <div className={isDarkMode ? 'dark' : ''}>
             <Component {...pageProps} />
             <ThemeToggle />
+        </div>
+    );
+}
+
+function MyApp(props: AppProps) {
+    return (
+        <ThemeProvider>
+            <AppContent {...props} />
         </ThemeProvider>
     );
 }

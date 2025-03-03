@@ -11,19 +11,18 @@
   --secondary: #6b7280;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #60a5fa;
-    --secondary: #9ca3af;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --primary: #60a5fa;
+  --secondary: #9ca3af;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Inter', Arial, Helvetica, sans-serif;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 a {
@@ -61,8 +60,6 @@ a:hover {
   padding-bottom: 8px;
 }
 
-/* If "Jm" is a class name, prefix it with a dot.
-   Otherwise, if it’s intended to be a tag name, leave it as is. */
 .Jm {
   box-sizing: border-box;
 }
