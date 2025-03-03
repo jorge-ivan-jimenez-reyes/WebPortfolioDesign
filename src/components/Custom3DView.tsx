@@ -2,6 +2,20 @@
 import React, { useState, useRef, memo } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
+interface PersonaInfo {
+    letter: string;
+    info: string;
+}
+
+const personaInfo: PersonaInfo[] = [
+    { letter: 'G', info: 'Graphic Designer with a passion for creating visually stunning designs.' },
+    { letter: 'F', info: 'Frontend Developer skilled in React and modern web technologies.' },
+    { letter: 'R', info: 'Responsive Design expert, ensuring optimal user experience across all devices.' },
+    { letter: 'E', info: 'Enthusiastic learner, always staying up-to-date with the latest industry trends.' },
+    { letter: 'S', info: 'Software Engineer with a strong foundation in computer science principles.' },
+    { letter: 'H', info: 'HTML5 and CSS3 specialist, creating beautiful and functional web layouts.' },
+];
+
 // Define your custom neon colors with opacity for dark mode
 const darkModeColors = [
     'rgba(0, 255, 255, 0.8)',   // electric blue
@@ -70,8 +84,13 @@ const Cell: React.FC = memo(() => {
 
 const Custom3DView: React.FC = () => {
     const { isDarkMode } = useTheme();
+    const [selectedInfo, setSelectedInfo] = useState<PersonaInfo | null>(null);
     // Create an array for 2,500 squares (50 x 50 grid)
     const squares = Array.from({ length: 2500 }, (_, i) => i);
+
+    const handleLetterClick = (info: PersonaInfo) => {
+        setSelectedInfo(info);
+    };
 
     return (
         <div
@@ -99,7 +118,39 @@ const Custom3DView: React.FC = () => {
                 {squares.map((i) => (
                     <Cell key={i} />
                 ))}
+                {/* Letters with 3D perspective */}
+                {personaInfo.map((info, index) => (
+                    <button
+                        key={info.letter}
+                        className={`text-8xl font-bold ${
+                            isDarkMode ? 'text-white' : 'text-black'
+                        } hover:scale-110 transition-transform duration-200 absolute`}
+                        style={{
+                            top: `${20 + index * 10}%`,
+                            left: `${20 + index * 10}%`,
+                            transform: 'translateZ(20px)',
+                            textShadow: isDarkMode ? '0 0 10px rgba(255,255,255,0.8)' : '0 0 10px rgba(0,0,0,0.3)',
+                        }}
+                        onClick={() => handleLetterClick(info)}
+                    >
+                        {info.letter}
+                    </button>
+                ))}
             </div>
+            {/* Info popup */}
+            {selectedInfo && (
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md">
+                    <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                        {selectedInfo.info}
+                    </p>
+                    <button
+                        className="mt-2 text-sm text-blue-500 hover:text-blue-700"
+                        onClick={() => setSelectedInfo(null)}
+                    >
+                        Close
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
