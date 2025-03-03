@@ -1,17 +1,17 @@
 // src/components/Custom3DGrid.tsx
 import React, { useState, useRef, memo } from 'react';
 
-// Define your custom colors
+// Define your custom neon colors
 const colors = [
-    'color(display-p3 0.94 0.19 0.04)',   // red
-    'color(display-p3 0.083 0.75 0.283)',  // green
-    'color(display-p3 0.071 0.442 0.945)', // blue
-    'color(display-p3 1 0.87 0.05)',        // yellow
-    'color(display-p3 1 0.5 0.005)',        // orange
-    'color(display-p3 1 0.301961 0 / 1)',   // orange2
-    'color(display-p3 1 0.64 0.703)',       // pink1
-    'color(display-p3 0.856 1 0.205)',      // neon1
-    'color(display-p3 0 1 0.984)',          // neon2
+    'color(display-p3 0 1 1)',          // electric blue
+    'color(display-p3 1 0 1)',          // neon pink
+    'color(display-p3 0.5 1 0)',        // acid green
+    'color(display-p3 0.8 0 1)',        // bright purple
+    'color(display-p3 1 0.5 0)',        // neon orange
+    'color(display-p3 1 1 0)',          // neon yellow
+    'color(display-p3 0 1 0.5)',        // aqua
+    'color(display-p3 1 0 0.5)',        // hot pink
+    'color(display-p3 0.5 0 1)',        // electric indigo
 ];
 
 // Memoized Cell for performance
