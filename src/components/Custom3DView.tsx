@@ -1,8 +1,9 @@
 // src/components/Custom3DGrid.tsx
 import React, { useState, useRef, memo } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
-// Define your custom neon colors with opacity
-const colors = [
+// Define your custom neon colors with opacity for dark mode
+const darkModeColors = [
     'rgba(0, 255, 255, 0.8)',   // electric blue
     'rgba(255, 0, 255, 0.8)',   // neon pink
     'rgba(128, 255, 0, 0.8)',   // acid green
@@ -14,9 +15,24 @@ const colors = [
     'rgba(128, 0, 255, 0.8)',   // electric indigo
 ];
 
+// Define pastel colors for light mode
+const lightModeColors = [
+    'rgba(173, 216, 230, 0.8)', // light blue
+    'rgba(255, 182, 193, 0.8)', // light pink
+    'rgba(152, 251, 152, 0.8)', // pale green
+    'rgba(221, 160, 221, 0.8)', // plum
+    'rgba(255, 218, 185, 0.8)', // peach
+    'rgba(255, 255, 224, 0.8)', // light yellow
+    'rgba(175, 238, 238, 0.8)', // pale turquoise
+    'rgba(255, 192, 203, 0.8)', // pink
+    'rgba(176, 196, 222, 0.8)', // light steel blue
+];
+
 // Memoized Cell for performance
 const Cell: React.FC = memo(() => {
-    const [bg, setBg] = useState('rgba(255, 255, 255, 0.1)'); // initial semi-transparent white background
+    const { isDarkMode } = useTheme();
+    const colors = isDarkMode ? darkModeColors : lightModeColors;
+    const [bg, setBg] = useState(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)');
     const [isHovered, setIsHovered] = useState(false);
     const timerRef = useRef<number | null>(null);
 
@@ -33,7 +49,7 @@ const Cell: React.FC = memo(() => {
     const handleMouseLeave = () => {
         setIsHovered(false);
         timerRef.current = window.setTimeout(() => {
-            setBg('rgba(255, 255, 255, 0.1)');
+            setBg(isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)');
             timerRef.current = null;
         }, 1000); // delay of 1 second before reverting
     };
@@ -44,7 +60,7 @@ const Cell: React.FC = memo(() => {
             style={{ 
                 background: bg, 
                 aspectRatio: '1 / 1',
-                boxShadow: isHovered ? '0 0 15px rgba(255, 255, 255, 0.5)' : 'none'
+                boxShadow: isHovered ? `0 0 15px ${isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)'}` : 'none'
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -53,12 +69,15 @@ const Cell: React.FC = memo(() => {
 });
 
 const Custom3DView: React.FC = () => {
+    const { isDarkMode } = useTheme();
     // Create an array for 2,500 squares (50 x 50 grid)
     const squares = Array.from({ length: 2500 }, (_, i) => i);
 
     return (
         <div
-            className="w-screen h-screen overflow-hidden relative bg-gradient-to-br from-gray-900 to-black"
+            className={`w-screen h-screen overflow-hidden relative ${
+                isDarkMode ? 'bg-gradient-to-br from-gray-900 to-black' : 'bg-gradient-to-br from-gray-100 to-white'
+            }`}
             style={{ overscrollBehavior: 'none' }}
         >
             {/* Container with 3D perspective */}
