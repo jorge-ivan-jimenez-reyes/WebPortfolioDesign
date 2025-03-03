@@ -1,5 +1,5 @@
 // src/components/Custom3DGrid.tsx
-import React, { useState, useRef, memo } from 'react';
+import React, { useState, useRef, memo, useCallback, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 interface PersonaInfo {
@@ -13,8 +13,11 @@ const personaInfo: PersonaInfo[] = [
     { letter: 'R', info: 'Responsive Design expert, ensuring optimal user experience across all devices.' },
     { letter: 'G', info: 'Enthusiastic learner, always staying up-to-date with the latest industry trends.' },
     { letter: 'E', info: 'Software Engineer with a strong foundation in computer science principles.' },
-
 ];
+
+const EASTER_EGG_CLICKS = 4;
+const EASTER_EGG_TIMEOUT = 2000; // 2 seconds
+const EASTER_EGG_DISPLAY_TIME = 5000; // 5 seconds
 
 // Define your custom neon colors with opacity for dark mode
 const darkModeColors = [
@@ -85,12 +88,43 @@ const Cell: React.FC = memo(() => {
 const Custom3DView: React.FC = () => {
     const { isDarkMode } = useTheme();
     const [selectedInfo, setSelectedInfo] = useState<PersonaInfo | null>(null);
+    const [clickCounts, setClickCounts] = useState<{ [key: string]: number }>({});
+    const [showEasterEgg, setShowEasterEgg] = useState(false);
     // Create an array for 2,500 squares (50 x 50 grid)
     const squares = Array.from({ length: 2500 }, (_, i) => i);
 
-    const handleLetterClick = (info: PersonaInfo) => {
+    const handleLetterClick = useCallback((info: PersonaInfo) => {
         setSelectedInfo(info);
-    };
+
+        // Easter egg logic
+        const newClickCounts = { ...clickCounts };
+        newClickCounts[info.letter] = (newClickCounts[info.letter] || 0) + 1;
+        setClickCounts(newClickCounts);
+
+        if (newClickCounts[info.letter] === EASTER_EGG_CLICKS) {
+            setTimeout(() => {
+                setShowEasterEgg(true);
+            }, EASTER_EGG_TIMEOUT);
+        }
+
+        // Reset click count after 2 seconds
+        setTimeout(() => {
+            setClickCounts((prevCounts) => ({
+                ...prevCounts,
+                [info.letter]: 0,
+            }));
+        }, EASTER_EGG_TIMEOUT);
+    }, [clickCounts]);
+
+    useEffect(() => {
+        if (showEasterEgg) {
+            const timer = setTimeout(() => {
+                setShowEasterEgg(false);
+            }, EASTER_EGG_DISPLAY_TIME);
+
+            return () => clearTimeout(timer);
+        }
+    }, [showEasterEgg]);
 
     return (
         <div
@@ -157,6 +191,22 @@ const Custom3DView: React.FC = () => {
                     >
                         Close
                     </button>
+                </div>
+            )}
+            {/* Easter egg popup */}
+            {showEasterEgg && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-md text-center">
+                        <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            ¡Felicidades! Has encontrado el easter egg
+                        </h2>
+                        <p className={`text-lg mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            Aquí hay un dato curioso sobre mí:
+                        </p>
+                        <p className={`text-xl font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                            Me encanta programar mientras escucho música electrónica
+                        </p>
+                    </div>
                 </div>
             )}
         </div>
