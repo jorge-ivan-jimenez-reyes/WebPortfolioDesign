@@ -16,7 +16,7 @@ const Header = () => {
             <nav className="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
                 {/* Logo or site name */}
                 <div className="text-2xl font-bold tracking-tight">
-                    <Link href="/" className={`hover:${isDarkMode ? 'text-cyan-400' : 'text-blue-600'} transition duration-300`}>
+                    <Link href="/" className={`${isDarkMode ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700'} transition duration-300`}>
                         My Portfolio
                     </Link>
                 </div>
@@ -32,7 +32,11 @@ const Header = () => {
                         <li key={item}>
                             <Link 
                                 href={`/${item.toLowerCase()}`} 
-                                className={`block lg:inline-block hover:${isDarkMode ? 'text-cyan-400' : 'text-blue-600'} transition duration-300 px-3 py-2 rounded-md hover:${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`}
+                                className={`block lg:inline-block ${
+                                    isDarkMode 
+                                    ? 'text-gray-300 hover:text-cyan-400 hover:bg-gray-800' 
+                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-100'
+                                } transition duration-300 px-3 py-2 rounded-md`}
                             >
                                 {item}
                             </Link>
