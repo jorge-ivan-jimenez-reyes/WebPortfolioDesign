@@ -7,7 +7,7 @@ const Footer = () => {
 
     return (
         <div
-            className={`c-lesPJm-iezzKVe-css flex items-center justify-center gap-6 h-[70px] px-8 fixed z-10 left-1/2 rounded-full ${
+            className={`c-lesPJm-iezzKVe-css flex items-center justify-center gap-6 h-[60px] px-8 fixed z-10 left-1/2 rounded-full ${
                 isDarkMode ? 'bg-gray-800/40' : 'bg-white/40'
             } backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg`}
             style={{
