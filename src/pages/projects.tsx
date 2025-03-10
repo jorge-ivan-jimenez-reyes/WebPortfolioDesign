@@ -54,14 +54,20 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">My Projects</h1>
-        <ProjectList 
-          projects={projects}
-          isDarkMode={isDarkMode}
-          setObservedElement={setObservedElement}
-          observedElements={observedElements}
-        />
+      <main className="container mx-auto px-4 py-12">
+        <h1 className="text-5xl font-bold mb-6">My Projects</h1>
+        <p className="text-xl mb-12 max-w-2xl">
+          Explore a collection of my latest web and mobile development projects. 
+          Each project showcases different technologies and problem-solving approaches.
+        </p>
+        <div className="overflow-hidden">
+          <ProjectList 
+            projects={projects}
+            isDarkMode={isDarkMode}
+            setObservedElement={setObservedElement}
+            observedElements={observedElements}
+          />
+        </div>
       </main>
       <Footer />
     </div>
