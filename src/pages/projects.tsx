@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import Footer from '../components/Footer';
 
 const ProjectsPage = () => {
+  const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
   const { isDarkMode } = useTheme();
 
   const projects = [
@@ -23,13 +24,40 @@ const ProjectsPage = () => {
     },
   ];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    projectRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const setProjectRef = (el: HTMLDivElement | null, index: number) => {
+    projectRefs.current[index] = el;
+  };
+
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">My Projects</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <div key={index} className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div
+              key={index}
+              ref={(el) => setProjectRef(el, index)}
+              className={`p-6 rounded-lg shadow-md ${isDarkMode ? 'bg-gray-800' : 'bg-white'} opacity-0 transform translate-y-4 transition-all duration-300 ease-out fade-in`}
+            >
               <h2 className="text-2xl font-semibold mb-4">{project.title}</h2>
               <p className="mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2">

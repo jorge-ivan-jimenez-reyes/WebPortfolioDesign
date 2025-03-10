@@ -39,7 +39,7 @@ a:hover {
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
@@ -49,6 +49,10 @@ a:hover {
 
 .fade-up {
   animation: fadeInUp 0.8s ease forwards;
+}
+
+.fade-in {
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
 .c-lesPJm-iezzKVe-css {
@@ -69,4 +73,23 @@ a:hover {
   box-sizing: border-box;
   margin: 0;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/inter-var-latin.woff2') format('woff2');
+}
+
+/* Improve performance for animations */
+.fade-up {
+  will-change: transform, opacity;
 }

@@ -17,10 +17,29 @@ class MyDocument extends Document {
                     <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/file.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/window.svg" as="image" type="image/svg+xml" />
+                    {/* Preload Inter font */}
+                    <link
+                        rel="preload"
+                        href="/fonts/inter-var-latin.woff2"
+                        as="font"
+                        type="font/woff2"
+                        crossOrigin="anonymous"
+                    />
                 </Head>
                 <body>
+                    <div id="loading-indicator" style={{ display: 'none' }}>Loading...</div>
                     <Main />
                     <NextScript />
+                    <script dangerouslySetInnerHTML={{
+                        __html: `
+                            window.addEventListener('load', () => {
+                                document.getElementById('loading-indicator').style.display = 'none';
+                            });
+                            window.addEventListener('beforeunload', () => {
+                                document.getElementById('loading-indicator').style.display = 'block';
+                            });
+                        `
+                    }} />
                 </body>
             </Html>
         );
