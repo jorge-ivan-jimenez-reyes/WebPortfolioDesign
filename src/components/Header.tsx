@@ -1,16 +1,26 @@
 // src/components/Header.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTheme } from '../context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isDarkMode } = useTheme();
+    const { width } = useWindowSize();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    useEffect(() => {
+        if (width && width >= 1024) {
+            setIsMenuOpen(true);
+        } else {
+            setIsMenuOpen(false);
+        }
+    }, [width]);
 
     return (
         <motion.header
@@ -46,7 +56,7 @@ const Header = () => {
                 </motion.button>
                 {/* Navigation Links */}
                 <AnimatePresence>
-                    {(isMenuOpen || window.innerWidth >= 1024) && (
+                    {(isMenuOpen || (width && width >= 1024)) && (
                         <motion.ul
                             className="lg:flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 text-sm sm:text-base mt-4 lg:mt-0 w-full lg:w-auto"
                             initial={{ opacity: 0, y: -20 }}
