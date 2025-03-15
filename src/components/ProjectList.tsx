@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Project } from '@/types/Project';
 
 interface ProjectListProps {
@@ -9,83 +9,42 @@ interface ProjectListProps {
 }
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObservedElement, observedElements }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [expandedProject, setExpandedProject] = useState<number | null>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   if (!projects || !Array.isArray(projects)) {
     return <div className="text-center py-8 text-xl">No projects available</div>;
   }
 
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (scrollRef.current) {
-      e.preventDefault();
-      const scrollAmount = e.deltaY * 1.5;
-      const newScrollPosition = scrollRef.current.scrollLeft + scrollAmount;
-      scrollRef.current.scrollTo({
-        left: newScrollPosition,
-        behavior: 'smooth'
-      });
-      setScrollPosition(newScrollPosition);
-    }
-  }, []);
-
-  useEffect(() => {
-    const currentScrollRef = scrollRef.current;
-    if (currentScrollRef) {
-      currentScrollRef.addEventListener('wheel', handleWheel, { passive: false });
-    }
-
-    return () => {
-      if (currentScrollRef) {
-        currentScrollRef.removeEventListener('wheel', handleWheel);
-      }
-    };
-  }, [handleWheel]);
-
   const isProjectVisible = useCallback((projectId: number) => {
-    if (!isClient) return true; // Always return true for server-side rendering
+    if (typeof window === 'undefined') return true;
     const element = document.getElementById(`project-${projectId}`);
     return element && observedElements.has(element);
-  }, [observedElements, isClient]);
+  }, [observedElements]);
 
   const toggleProjectExpansion = (projectId: number) => {
     setExpandedProject(expandedProject === projectId ? null : projectId);
   };
 
   return (
-    <div className="relative">
-      <div 
-        ref={scrollRef}
-        className="flex overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory"
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        {projects.map((project, index) => (
+    <div className="relative overflow-y-auto max-h-[calc(100vh-200px)] pr-4">
+      <div className="space-y-8">
+        {projects.map((project) => (
           <div
-            key={`${project.id}-${isClient}`}
+            key={project.id}
             ref={setObservedElement}
-            className={`flex-shrink-0 w-80 mx-4 p-6 rounded-lg shadow-md snap-center transition-all duration-300 ease-out
+            className={`p-6 rounded-lg shadow-md transition-all duration-300 ease-out
               ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'}
               ${isProjectVisible(project.id) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-              ${expandedProject === project.id ? 'w-96 h-auto' : 'h-80'}`}
+              ${expandedProject === project.id ? 'h-auto' : ''}`}
             id={`project-${project.id}`}
-            style={{
-              transform: isClient ? `scale(${1 - Math.abs(index - scrollPosition / 320) * 0.1})` : 'scale(1)',
-              opacity: isClient ? 1 - Math.abs(index - scrollPosition / 320) * 0.5 : 1,
-            }}
           >
             <h2 className="text-2xl font-semibold mb-4">{project.title}</h2>
             <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>{project.type}</p>
             <p className={`mb-4 ${expandedProject === project.id ? '' : 'line-clamp-3'}`}>{project.description}</p>
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.technologies.map((tech, techIndex) => (
+              {project.technologies.map((tech, index) => (
                 <span
-                  key={`${tech}-${techIndex}`}
+                  key={index}
                   className={`px-2 py-1 text-xs rounded-full ${
                     isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-200 text-gray-700'
                   }`}
