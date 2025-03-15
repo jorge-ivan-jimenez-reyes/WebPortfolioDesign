@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Project } from '@/types/Project';
 
 interface ProjectListProps {
@@ -10,23 +10,26 @@ interface ProjectListProps {
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObservedElement, observedElements }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [visibleProjects, setVisibleProjects] = useState<Set<string>>(new Set());
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (scrollRef.current) {
-        e.preventDefault();
-        const scrollAmount = e.deltaY * 1.5; // Increase scroll speed
-        const newScrollPosition = scrollRef.current.scrollLeft + scrollAmount;
-        scrollRef.current.scrollTo({
-          left: newScrollPosition,
-          behavior: 'smooth'
-        });
-        setScrollPosition(newScrollPosition);
-      }
-    };
+  if (!projects || !Array.isArray(projects)) {
+    return <div>No projects available</div>;
+  }
 
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (scrollRef.current) {
+      e.preventDefault();
+      const scrollAmount = e.deltaY * 1.5; // Increase scroll speed
+      const newScrollPosition = scrollRef.current.scrollLeft + scrollAmount;
+      scrollRef.current.scrollTo({
+        left: newScrollPosition,
+        behavior: 'smooth'
+      });
+      setScrollPosition(newScrollPosition);
+    }
+  }, []);
+
+  useEffect(() => {
     const currentScrollRef = scrollRef.current;
     if (currentScrollRef) {
       currentScrollRef.addEventListener('wheel', handleWheel, { passive: false });
@@ -37,20 +40,13 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObse
         currentScrollRef.removeEventListener('wheel', handleWheel);
       }
     };
-  }, []);
+  }, [handleWheel]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const newVisibleProjects = new Set<string>();
-      projects.forEach((project) => {
-        const element = document.getElementById(`project-${project.id}`);
-        if (element && observedElements.has(element)) {
-          newVisibleProjects.add(project.id.toString());
-        }
-      });
-      setVisibleProjects(newVisibleProjects);
-    }
-  }, [projects, observedElements]);
+  const isProjectVisible = useCallback((projectId: number) => {
+    if (typeof window === 'undefined') return false;
+    const element = document.getElementById(`project-${projectId}`);
+    return element && observedElements.has(element);
+  }, [observedElements]);
 
   return (
     <div className="relative">
@@ -66,7 +62,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObse
             className={`flex-shrink-0 w-80 mx-4 p-6 rounded-lg shadow-md snap-center ${
               isDarkMode ? 'bg-gray-800' : 'bg-white'
             } opacity-0 transform translate-y-4 transition-all duration-300 ease-out ${
-              visibleProjects.has(project.id.toString()) ? 'fade-in' : ''
+              isProjectVisible(project.id) ? 'fade-in' : ''
             }`}
             id={`project-${project.id}`}
             style={{
