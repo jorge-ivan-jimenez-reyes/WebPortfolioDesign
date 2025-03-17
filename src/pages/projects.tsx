@@ -57,8 +57,6 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ initialProjects }) => {
   const { isDarkMode } = useTheme();
   const { observedElements, setObservedElement } = useIntersectionObserver();
 
-  const projects = useMemo(() => initialProjects, [initialProjects]);
-
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <ErrorBoundary>
@@ -69,12 +67,16 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ initialProjects }) => {
             Each project showcases different technologies and problem-solving approaches.
           </p>
           <div className="overflow-hidden">
-            <ProjectList 
-              projects={projects}
-              isDarkMode={isDarkMode}
-              setObservedElement={setObservedElement}
-              observedElements={observedElements}
-            />
+            {initialProjects ? (
+              <ProjectList 
+                projects={initialProjects}
+                isDarkMode={isDarkMode}
+                setObservedElement={setObservedElement}
+                observedElements={observedElements}
+              />
+            ) : (
+              <p>Loading projects...</p>
+            )}
           </div>
         </main>
       </ErrorBoundary>

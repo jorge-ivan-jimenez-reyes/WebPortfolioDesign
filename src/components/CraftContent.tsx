@@ -3,6 +3,7 @@ import ProjectList from "@/components/ProjectList";
 import Footer from "@/components/Footer";
 import { Project } from "@/types/Project";
 import { useTheme } from '@/context/ThemeContext';
+import useIntersectionObserver from '@/hooks/useIntersectionObserver';
 
 interface CraftContentProps {
   projects: Project[];
@@ -10,6 +11,7 @@ interface CraftContentProps {
 
 export default function CraftContent({ projects }: CraftContentProps) {
   const { isDarkMode } = useTheme();
+  const { observedElements, setObservedElement } = useIntersectionObserver();
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
@@ -18,7 +20,9 @@ export default function CraftContent({ projects }: CraftContentProps) {
         <p className="text-xl mb-8">Exploring innovative interaction designs and user experiences</p>
         <ProjectList 
           projects={projects} 
-          isDarkMode={isDarkMode} 
+          isDarkMode={isDarkMode}
+          setObservedElement={setObservedElement}
+          observedElements={observedElements}
         />
       </main>
       <Footer />

@@ -4,10 +4,12 @@ import { Project } from '@/types/Project';
 interface ProjectListProps {
   projects: Project[];
   isDarkMode: boolean;
+  setObservedElement: (element: Element | null) => void;
+  observedElements: Set<Element>;
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode }) => {
-  if (!projects || !Array.isArray(projects)) {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObservedElement, observedElements }) => {
+  if (!projects || !Array.isArray(projects) || projects.length === 0) {
     return <div className="text-center py-8 text-xl">No projects available</div>;
   }
 

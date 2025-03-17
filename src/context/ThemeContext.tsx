@@ -14,7 +14,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   useEffect(() => {
     setIsClient(true);
     const savedTheme = localStorage.getItem('theme');
-    setIsDarkMode(savedTheme === 'dark');
+    setIsDarkMode(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
   }, []);
 
   useEffect(() => {
@@ -28,8 +28,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setIsDarkMode((prevMode) => !prevMode);
   }, []);
 
+  const themeValue = isClient ? { isDarkMode, toggleTheme } : { isDarkMode: false, toggleTheme: () => {} };
+
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+    <ThemeContext.Provider value={themeValue}>
       {children}
     </ThemeContext.Provider>
   );
