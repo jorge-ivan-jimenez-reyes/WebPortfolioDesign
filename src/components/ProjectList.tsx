@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Project } from '@/types/Project';
 
 interface ProjectListProps {
@@ -15,6 +15,13 @@ const ProjectList: React.FC<ProjectListProps> = ({
   observedElements,
 }) => {
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const setProjectRef = useCallback((el: HTMLDivElement | null, index: number) => {
+    if (el && !observedElements.has(el)) {
+      projectRefs.current[index] = el;
+      setObservedElement(el);
+    }
+  }, [setObservedElement, observedElements]);
 
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, projects.length);
@@ -64,10 +71,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       {projects.map((project, index) => (
         <div
           key={project.id || index}
-          ref={(el) => {
-            projectRefs.current[index] = el;
-            setObservedElement(el);
-          }}
+          ref={(el) => setProjectRef(el, index)}
           className={`min-h-screen w-full flex items-center justify-center p-8 transition-all duration-700 ease-out ${
             isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
           }`}

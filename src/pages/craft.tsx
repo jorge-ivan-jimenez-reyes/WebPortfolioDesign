@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import ProjectList from "@/components/ProjectList";
 import { Project } from "@/types/Project";
 import { useTheme } from '@/context/ThemeContext';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 // Enhanced project data
 const projects: Project[] = [
@@ -68,11 +68,11 @@ export default function CraftPage() {
   const { isDarkMode } = useTheme();
   const [observedElements, setObservedElements] = useState<Set<Element>>(new Set());
 
-  const setObservedElement = (element: HTMLDivElement | null) => {
+  const setObservedElement = useCallback((element: HTMLDivElement | null) => {
     if (element) {
       setObservedElements(prev => new Set(prev).add(element));
     }
-  };
+  }, []);
 
   return (
     <Layout>
