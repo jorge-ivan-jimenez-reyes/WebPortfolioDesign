@@ -1,8 +1,6 @@
-import Layout from "@/components/Layout";
 import ProjectList from "@/components/ProjectList";
 import { Project } from "@/types/Project";
 import { useTheme } from '@/context/ThemeContext';
-import { useState, useCallback } from 'react';
 
 // Enhanced project data
 const projects: Project[] = [
@@ -66,28 +64,17 @@ const projects: Project[] = [
 
 export default function CraftPage() {
   const { isDarkMode } = useTheme();
-  const [observedElements, setObservedElements] = useState<Set<Element>>(new Set());
-
-  const setObservedElement = useCallback((element: HTMLDivElement | null) => {
-    if (element) {
-      setObservedElements(prev => new Set(prev).add(element));
-    }
-  }, []);
 
   return (
-    <Layout>
-      <main className="min-h-screen p-6 md:p-24">
-        <div className="max-w-7xl mx-auto mt-16">
-          <h1 className="text-4xl font-bold mb-8 text-center">Interaction Design Craft</h1>
-          <p className="text-xl mb-12 text-center">Exploring innovative interaction designs and user experiences</p>
-          <ProjectList 
-            projects={projects} 
-            isDarkMode={isDarkMode} 
-            setObservedElement={setObservedElement}
-            observedElements={observedElements}
-          />
-        </div>
-      </main>
-    </Layout>
+    <main className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-4xl font-bold mb-4">Interaction Design Craft</h1>
+        <p className="text-xl mb-8">Exploring innovative interaction designs and user experiences</p>
+        <ProjectList 
+          projects={projects} 
+          isDarkMode={isDarkMode} 
+        />
+      </div>
+    </main>
   );
 }
