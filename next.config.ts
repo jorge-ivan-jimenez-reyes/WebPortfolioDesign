@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config) => {
     // Enable code splitting
     config.optimization.splitChunks = {
       chunks: 'all',
@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
-      automaticNameDelimiter: '~',
       cacheGroups: {
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -33,8 +32,6 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  swcMinify: true,
-  optimizeFonts: true,
   poweredByHeader: false,
   compress: true,
   async headers() {

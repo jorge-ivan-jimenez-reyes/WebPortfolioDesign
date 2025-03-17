@@ -1,93 +1,103 @@
-import React, { useMemo } from 'react';
-import { GetServerSideProps } from 'next';
+import React from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import Footer from '@/components/Footer';
-import ProjectList from '@/components/ProjectList';
 import { Project } from '@/types/Project';
-import useIntersectionObserver from '@/hooks/useIntersectionObserver';
-import ErrorBoundary from '@/components/ErrorBoundary';
 
-// Single Responsibility Principle: Separate data fetching
-const getProjects = (): Project[] => {
-  // In a real application, this could be an API call
-  return [
-    {
-      id: 1,
-      title: "Portfolio Website",
-      description: "A responsive portfolio website built with Next.js and Tailwind CSS.",
-      technologies: ["Next.js", "React", "Tailwind CSS"],
-      type: "Web Development",
-    },
-    {
-      id: 2,
-      title: "E-commerce Platform",
-      description: "A full-stack e-commerce solution with user authentication and payment integration.",
-      technologies: ["Node.js", "Express", "MongoDB", "React"],
-      type: "Web Development",
-    },
-    {
-      id: 3,
-      title: "Weather App",
-      description: "A real-time weather application using geolocation and weather APIs.",
-      technologies: ["React Native", "Redux", "OpenWeatherMap API"],
-      type: "Mobile Development",
-    },
-    {
-      id: 4,
-      title: "Task Management System",
-      description: "A web-based project management tool with real-time updates and team collaboration features.",
-      technologies: ["Vue.js", "Laravel", "MySQL", "WebSockets"],
-      type: "Web Development",
-    },
-    {
-      id: 5,
-      title: "Fitness Tracker",
-      description: "A cross-platform mobile app for tracking workouts, nutrition, and health metrics.",
-      technologies: ["Flutter", "Dart", "Firebase", "HealthKit"],
-      type: "Mobile Development",
-    },
-  ];
-};
+const projects: Project[] = [
+  {
+    id: 1,
+    title: "Devouring Details",
+    description: "Remember your last moment of discovery?",
+    link: "https://devouringdetails.com",
+    year: "2025"
+  },
+  {
+    id: 2,
+    title: "Vercel.com",
+    description: "The Vercel homepage",
+    link: "https://vercel.com/home",
+    year: "2023"
+  },
+  {
+    id: 3,
+    title: "Web Interface Guidelines",
+    description: "A list of details that make a good web interface",
+    link: "https://interfaces.rauno.me",
+    year: "2023"
+  },
+  {
+    id: 4,
+    title: "Vesper",
+    description: "Peppermint and orange flavored dark theme for VSCode",
+    link: "https://github.com/raunofreiberg/vesper",
+    year: "2023"
+  },
+  {
+    id: 5,
+    title: "(Basic) Bookmarks",
+    description: "A home for your internet discoveries",
+    link: "https://bmrks.com",
+    year: "2023"
+  },
+  {
+    id: 6,
+    title: "⌘K",
+    description: "Fast, unstyled, composable command menu for React",
+    link: "https://cmdk.paco.me",
+    year: "2022"
+  },
+  {
+    id: 7,
+    title: "uiwtf",
+    description: "An experimental laboratory for user interfaces",
+    link: "https://uiw.tf",
+    year: "2021"
+  },
+  {
+    id: 8,
+    title: "Flow",
+    description: "Clear your mind through expressive writing",
+    link: "https://flow.rest",
+    year: "2021"
+  },
+  {
+    id: 9,
+    title: "UI Playbook",
+    description: "The documented collection of UI components",
+    link: "https://uiplaybook.dev",
+    year: "2020"
+  }
+];
 
-interface ProjectsPageProps {
-  initialProjects: Project[];
-}
-
-const ProjectsPage: React.FC<ProjectsPageProps> = ({ initialProjects }) => {
+const ProjectsPage: React.FC = () => {
   const { isDarkMode } = useTheme();
-  const { observedElements, setObservedElement } = useIntersectionObserver();
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
-      <ErrorBoundary>
-        <main className="container mx-auto px-4 py-12">
-          <h1 className="text-5xl font-bold mb-6">My Projects</h1>
-          <p className="text-xl mb-12 max-w-2xl">
-            Explore a collection of my latest web and mobile development projects. 
-            Each project showcases different technologies and problem-solving approaches.
-          </p>
-          <div className="overflow-hidden">
-            {initialProjects ? (
-              <ProjectList 
-                projects={initialProjects}
-                isDarkMode={isDarkMode}
-                setObservedElement={setObservedElement}
-                observedElements={observedElements}
-              />
-            ) : (
-              <p>Loading projects...</p>
-            )}
-          </div>
-        </main>
-      </ErrorBoundary>
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid gap-8">
+          {projects.map((project) => (
+            <a
+              key={project.id}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex flex-col p-6 rounded-lg transition-all duration-300 ${
+                isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex justify-between items-start mb-2">
+                <h2 className="text-xl font-bold">{project.title}</h2>
+                <span className="text-sm text-gray-500">{project.year}</span>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400">{project.description}</p>
+            </a>
+          ))}
+        </div>
+      </main>
       <Footer />
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const projects = getProjects();
-  return { props: { initialProjects: projects } };
 };
 
 export default ProjectsPage;

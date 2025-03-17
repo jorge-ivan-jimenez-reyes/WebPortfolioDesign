@@ -1,5 +1,4 @@
-import EssayLayout from "@/components/EssayLayout";
-import Image from "next/image";
+import EssayLayout from "../../../components/EssayLayout";
 
 // Sample table of contents
 const tableOfContents = [
@@ -21,7 +20,7 @@ const tableOfContents = [
   { id: "resources", title: "Resources" },
 ];
 
-export default function InteractionDesignPage() {
+const InteractionDesignPage: React.FC = () => {
   return (
     <EssayLayout
       title="Invisible Details of Interaction Design"
