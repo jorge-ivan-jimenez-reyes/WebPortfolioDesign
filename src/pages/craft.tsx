@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import ProjectList from "@/components/ProjectList";
 import { Project } from "@/types/Project";
+import { useTheme } from '@/context/ThemeContext';
+import { useState } from 'react';
 
 // Enhanced project data
 const projects: Project[] = [
@@ -62,9 +64,6 @@ const projects: Project[] = [
   },
 ];
 
-import { useTheme } from '@/context/ThemeContext';
-import { useState } from 'react';
-
 export default function CraftPage() {
   const { isDarkMode } = useTheme();
   const [observedElements, setObservedElements] = useState<Set<Element>>(new Set());
@@ -79,7 +78,7 @@ export default function CraftPage() {
     <Layout>
       <main className="min-h-screen p-6 md:p-24">
         <div className="max-w-7xl mx-auto mt-16">
-          <h1 className="text-4xl font-bold mb-8 text-center">Interaction Design Crafts</h1>
+          <h1 className="text-4xl font-bold mb-8 text-center">Interaction Design Craft</h1>
           <p className="text-xl mb-12 text-center">Exploring innovative interaction designs and user experiences</p>
           <ProjectList 
             projects={projects} 
