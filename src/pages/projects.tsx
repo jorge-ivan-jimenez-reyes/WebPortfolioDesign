@@ -71,10 +71,20 @@ const projects: Project[] = [
 
 const ProjectsPage: React.FC = () => {
   const { isDarkMode } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
-      <main className="container mx-auto px-4 py-12">
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <main className="container mx-auto px-4 py-12 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+        <h1 className="text-4xl font-bold mb-8">My Projects</h1>
         <div className="grid gap-8">
           {projects.map((project) => (
             <a
@@ -82,15 +92,13 @@ const ProjectsPage: React.FC = () => {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex flex-col p-6 rounded-lg transition-all duration-300 ${
-                isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-50'
-              }`}
+              className="flex flex-col p-6 rounded-lg transition-all duration-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <div className="flex justify-between items-start mb-2">
                 <h2 className="text-xl font-bold">{project.title}</h2>
-                <span className="text-sm text-gray-500">{project.year}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{project.year}</span>
               </div>
-              <p className="text-gray-600 dark:text-gray-400">{project.description}</p>
+              <p className="text-gray-600 dark:text-gray-300">{project.description}</p>
             </a>
           ))}
         </div>
