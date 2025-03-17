@@ -85,6 +85,8 @@ const Cell: React.FC = memo(() => {
     );
 });
 
+Cell.displayName = 'Cell';
+
 const Custom3DView: React.FC = () => {
     const { isDarkMode } = useTheme();
     const [selectedInfo, setSelectedInfo] = useState<PersonaInfo | null>(null);

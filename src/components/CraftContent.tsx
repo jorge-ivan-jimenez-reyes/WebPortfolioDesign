@@ -11,7 +11,6 @@ interface CraftContentProps {
 
 export default function CraftContent({ projects }: CraftContentProps) {
   const { isDarkMode } = useTheme();
-  const { observedElements, setObservedElement } = useIntersectionObserver();
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
