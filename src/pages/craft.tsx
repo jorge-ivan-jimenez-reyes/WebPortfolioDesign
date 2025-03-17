@@ -1,7 +1,6 @@
-import ProjectList from "@/components/ProjectList";
-import Footer from "@/components/Footer";
+import React from "react";
+import dynamic from 'next/dynamic';
 import { Project } from "@/types/Project";
-import { useTheme } from '@/context/ThemeContext';
 
 // Enhanced project data
 const projects: Project[] = [
@@ -63,20 +62,16 @@ const projects: Project[] = [
   },
 ];
 
-export default function CraftPage() {
-  const { isDarkMode } = useTheme();
-
-  return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-24">
-        <h1 className="text-4xl font-bold mb-4">Interaction Design Craft</h1>
-        <p className="text-xl mb-8">Exploring innovative interaction designs and user experiences</p>
-        <ProjectList 
-          projects={projects} 
-          isDarkMode={isDarkMode} 
-        />
-      </main>
-      <Footer />
-    </div>
-  );
+interface CraftContentProps {
+  projects: Project[];
 }
+
+const DynamicCraftContent = dynamic<CraftContentProps>(() => import('@/components/CraftContent'), {
+  ssr: false,
+});
+
+const CraftPage: React.FC = () => {
+  return <DynamicCraftContent projects={projects} />;
+};
+
+export default CraftPage;
