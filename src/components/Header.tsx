@@ -64,10 +64,10 @@ const Header = () => {
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
                         >
-                            {['Projects', 'Photos', 'Craft', 'About', 'Skills', 'Blog', 'Contact', 'Resume'].map((item) => (
+                            {['Projects', 'Photos', 'Crafts'].map((item) => (
                                 <motion.li key={item} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                     <Link 
-                                        href={`/${item.toLowerCase()}`} 
+                                        href={item === 'Crafts' ? '/crafts/craft' : `/${item.toLowerCase()}`}
                                         className={`block lg:inline-block ${
                                             isDarkMode 
                                             ? 'text-gray-300 hover:text-cyan-400 hover:bg-gray-800' 
