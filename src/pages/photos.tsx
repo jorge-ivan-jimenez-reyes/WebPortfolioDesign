@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { useTheme } from '../context/ThemeContext';
 import Footer from '../components/Footer';
 
@@ -22,10 +23,12 @@ const PhotosPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {photos.map((photo) => (
             <div key={photo.id} className="relative aspect-w-1 aspect-h-1">
-              <img
+              <Image
                 src={photo.src}
                 alt={photo.alt}
-                className="object-cover w-full h-full rounded-lg shadow-md"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg shadow-md"
               />
             </div>
           ))}

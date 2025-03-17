@@ -21,8 +21,6 @@ export default function CraftContent({ projects }: CraftContentProps) {
         <ProjectList 
           projects={projects} 
           isDarkMode={isDarkMode}
-          setObservedElement={setObservedElement}
-          observedElements={observedElements}
         />
       </main>
       <Footer />

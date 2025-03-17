@@ -48,4 +48,6 @@ const Layout = memo(({ children }: LayoutProps) => {
     );
 });
 
+Layout.displayName = 'Layout';
+
 export default memo(Layout);

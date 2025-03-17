@@ -213,4 +213,6 @@ const Custom3DView: React.FC = () => {
     );
 };
 
+Custom3DView.displayName = 'Custom3DView';
+
 export default Custom3DView;

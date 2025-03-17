@@ -1,14 +1,13 @@
 import React from 'react';
+import Image from 'next/image';
 import { Project } from '@/types/Project';
 
 interface ProjectListProps {
   projects: Project[];
   isDarkMode: boolean;
-  setObservedElement: (element: Element | null) => void;
-  observedElements: Set<Element>;
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObservedElement, observedElements }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode }) => {
   if (!projects || !Array.isArray(projects) || projects.length === 0) {
     return <div className="text-center py-8 text-xl">No projects available</div>;
   }
@@ -33,11 +32,14 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, isDarkMode, setObse
             />
           )}
           {project.imageSrc && (
-            <img
-              src={project.imageSrc}
-              alt={project.title}
-              className="w-full h-48 object-cover"
-            />
+            <div className="relative w-full h-48">
+              <Image
+                src={project.imageSrc}
+                alt={project.title}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           )}
           <div className="p-6">
             <h3 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
