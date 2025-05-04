@@ -1,5 +1,6 @@
 // src/components/Footer.tsx
 import React from 'react';
+import Link from 'next/link';
 import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
 
     return (
         <div
-            className={`c-lesPJm-iezzKVe-css flex items-center justify-center gap-6 h-[60px] px-8 fixed z-10 left-1/2 rounded-full ${
+            className={`c-lesPJm-iezzKVe-css flex items-center justify-center space-x-4 h-[60px] px-8 fixed z-10 left-1/2 rounded-full ${
                 isDarkMode ? 'bg-gray-800/40' : 'bg-white/40'
             } backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg`}
             style={{
@@ -22,10 +23,11 @@ const Footer = () => {
                 { href: "/projects", label: "Projects", icon: <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" /> },
                 { href: "/photos", label: "Photos", icon: <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /> }
             ].map((item, index) => (
-                <a
+                <Link
                     key={index}
                     href={item.href}
                     aria-label={item.label}
+                    prefetch={false}
                     className={`w-10 h-10 flex items-center justify-center rounded-full ${
                         isDarkMode ? 'bg-gray-700/60 hover:bg-gray-600' : 'bg-gray-100/80 hover:bg-white'
                     } transition-all duration-300 hover:-translate-y-1 hover:shadow-md group`}
@@ -41,7 +43,7 @@ const Footer = () => {
                     >
                         {item.icon}
                     </svg>
-                </a>
+                </Link>
             ))}
         </div>
     );

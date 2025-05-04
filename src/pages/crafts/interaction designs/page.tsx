@@ -97,3 +97,5 @@ const InteractionDesignPage: React.FC = () => {
     </EssayLayout>
   );
 }
+
+export default InteractionDesignPage;
