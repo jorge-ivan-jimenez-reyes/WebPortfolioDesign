@@ -42,11 +42,11 @@ const EASTER_EGG_DISPLAY_TIME = 5000; // 5 seconds
 
 // Define your custom neon colors with opacity for dark mode
 const darkModeColors = [
-  "rgba(0, 200, 255, 0.65)",   // Brighter Electric Blue
-  "rgba(255, 80, 200, 0.65)",  // Vivid Pink/Magenta
-  "rgba(80, 220, 120, 0.65)",  // Bright Mint Green
-  "rgba(160, 60, 255, 0.65)",  // Electric Purple
-  "rgba(255, 120, 40, 0.65)",  // Vibrant Orange
+  "rgba(0, 190, 240, 0.6)",   // Softer Electric Blue
+  "rgba(240, 70, 190, 0.6)",  // Softer Vivid Pink/Magenta
+  "rgba(70, 200, 110, 0.6)",  // Softer Bright Mint Green
+  "rgba(150, 50, 240, 0.6)",  // Softer Electric Purple
+  "rgba(240, 110, 30, 0.6)",  // Softer Vibrant Orange
 ];
 
 // Define pastel colors for light mode
@@ -63,17 +63,10 @@ const Cell: React.FC<{ index: number; total: number }> = memo(({ index, total })
   const { isDarkMode } = useTheme();
   const colors = isDarkMode ? darkModeColors : lightModeColors;
   const [bg, setBg] = useState(
-    isDarkMode ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.02)",
+    isDarkMode ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.02)",
   );
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<number | null>(null);
-
-  // Make some cells invisible
-  const shouldRender = index % 5 !== 0;
-  
-  if (!shouldRender) {
-    return <div className="cell-empty" />;
-  }
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -88,7 +81,7 @@ const Cell: React.FC<{ index: number; total: number }> = memo(({ index, total })
   const handleMouseLeave = () => {
     setIsHovered(false);
     timerRef.current = window.setTimeout(() => {
-      setBg(isDarkMode ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.02)");
+      setBg(isDarkMode ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.02)");
       timerRef.current = null;
     }, 1000); // delay of 1 second before reverting
   };
@@ -208,7 +201,7 @@ const Custom3DView: React.FC = () => {
           gridTemplateRows: "repeat(30, 1fr)",
           gap: "2px", // Slightly larger gap for better definition
           transform:
-            "translate(-50%, -50%) skewX(-42deg) skewY(12deg) scaleX(1.5) scale(0.35) rotate(0deg) translateZ(0)",
+            "translate(-50%, -50%) skewX(-48deg) skewY(16deg) scaleX(1.8) scale(0.35) rotate(0deg) translateZ(0)",
           perspective: "1200px",
           transformStyle: "preserve-3d",
         }}
@@ -221,23 +214,23 @@ const Custom3DView: React.FC = () => {
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           style={{
-            transform: "translateZ(50px) scale(1.8)",
+            transform: "translateZ(50px) scale(2.5)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            gap: "1rem",
+            gap: "1.5rem",
           }}
         >
           {personaInfo.map((info) => (
             <button
               key={info.letter}
-              className={`text-7xl font-bold ${
+              className={`text-8xl font-bold ${
                 isDarkMode ? "text-white" : "text-black"
               } hover:scale-110 transition-all duration-300 relative`}
               style={{
                 textShadow: isDarkMode
-                  ? "0 0 15px rgba(255,255,255,0.35)"
-                  : "0 0 15px rgba(0,0,0,0.2)",
+                  ? "0.03em 0.03em 0px #2c3e50, 0.06em 0.06em 0px #1a252f, 0 0 35px rgba(80, 180, 255, 0.75), 0 0 10px rgba(180, 220, 255, 0.6)"
+                  : "0.03em 0.03em 0px #d1d5db, 0.06em 0.06em 0px #9ca3af, 0 0 20px rgba(0, 0, 0, 0.15), 0 0 30px rgba(100, 149, 237, 0.15)",
                 letterSpacing: "0.05em",
               }}
               onClick={() => handleLetterClick(info)}
@@ -264,7 +257,7 @@ const Custom3DView: React.FC = () => {
             }`}
             style={{
               boxShadow: isDarkMode
-                ? "0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -4px rgba(0,0,0,0.3)"
+                ? "0 15px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.4)"
                 : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -295,7 +288,7 @@ const Custom3DView: React.FC = () => {
             }`}
             style={{
               boxShadow: isDarkMode
-                ? "0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -4px rgba(0,0,0,0.3)"
+                ? "0 15px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.4)"
                 : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             }}
           >
