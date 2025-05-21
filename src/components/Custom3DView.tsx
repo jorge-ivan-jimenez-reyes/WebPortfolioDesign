@@ -59,7 +59,7 @@ const lightModeColors = [
 ];
 
 // Memoized Cell for performance
-const Cell: React.FC<{ index: number; total: number }> = memo(({ index, total }) => {
+const Cell: React.FC = memo(() => {
   const { isDarkMode } = useTheme();
   const colors = isDarkMode ? darkModeColors : lightModeColors;
   const [bg, setBg] = useState(
@@ -207,7 +207,7 @@ const Custom3DView: React.FC = () => {
         }}
       >
         {squares.map((i) => (
-          <Cell key={i} index={i} total={squares.length} />
+          <Cell key={i} />
         ))}
         
         {/* Letters group with 3D perspective */}
