@@ -280,10 +280,10 @@ const Architecture = () => {
           {/* Call to Action */}
           <div className="mt-16 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-              Ready to Build Scalable Architecture?
+              Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-              Let's design a robust, scalable architecture that will power your business for years to come.
+              Let&apos;s design a robust, scalable architecture that will power your business for years to come.
             </p>
             <div className="space-x-4">
               <button 

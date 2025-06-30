@@ -28,8 +28,8 @@ const UPPostgraduatePortalProject = () => {
               Universidad Panamericana Postgraduate Portal
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Academic Management Platform with Integrated Event Management System
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              A comprehensive management platform for Universidad Panamericana&apos;s postgraduate programs, streamlining academic operations and enhancing student experience.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

@@ -107,7 +107,7 @@ const Experience = () => {
               style={{ backgroundColor: 'var(--border)' }}
             ></div>
 
-            {experiences.map((experience, index) => (
+            {experiences.map((experience) => (
               <div key={experience.id} className="relative mb-16 ml-16">
                 {/* Timeline dot */}
                 <div 
@@ -229,7 +229,7 @@ const Experience = () => {
           {/* Call to Action */}
           <div className="mt-16 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-              Let's Build Something Amazing Together
+              Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Ready to bring my expertise to your next project and help scale your technology solutions.

@@ -28,8 +28,8 @@ const AdobePartnerClubProject = () => {
               Adobe Partner Club Platform
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Interactive Platform for Adobe Partners with Member Management & Collaboration Tools
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              A comprehensive partner platform built for Adobe&apos;s ecosystem, featuring user management, resource sharing, and collaborative tools.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

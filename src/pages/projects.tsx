@@ -318,8 +318,12 @@ const ProjectsPage: React.FC = () => {
                   className={`block group relative cursor-pointer transition-all duration-500 ${
                     hoveredProject === project.id ? 'scale-[1.02]' : ''
                   }`}
-                  onMouseEnter={() => setHoveredProject(project.id)}
-                  onMouseLeave={() => setHoveredProject(null)}
+                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                    e.currentTarget.style.borderLeft = '4px solid var(--accent)';
+                  }}
+                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                    e.currentTarget.style.borderLeft = 'none';
+                  }}
                 >
                   
                   {/* Project Row */}

@@ -179,7 +179,7 @@ const Achievements = () => {
           {/* Call to Action */}
           <div className="mt-16 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-              Ready for New Challenges
+              Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Always looking for opportunities to grow and make an impact through technology.

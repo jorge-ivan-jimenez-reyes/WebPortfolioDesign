@@ -218,6 +218,12 @@ const MultitenantSaaSProject = () => {
               </Link>
             </div>
           </div>
+
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+              Let&apos;s Build Something Amazing Together
+            </h2>
+          </div>
         </div>
       </div>
 

@@ -28,8 +28,8 @@ const AstroLandingProject = () => {
               Astro Landing Page
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8" style={{ color: 'var(--text-secondary)' }}>
-              High-Performance Landing Page with Optimal SEO & Lightning-Fast Loading
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              Ultra-fast landing page built with Astro, achieving near-perfect performance scores and lightning-fast load times.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -193,6 +193,12 @@ const AstroLandingProject = () => {
                 Start Your Project
               </Link>
             </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+              Let&apos;s Build Something Amazing Together
+            </h2>
           </div>
         </div>
       </div>
