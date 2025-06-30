@@ -175,7 +175,7 @@ const AISocialMediaProject = () => {
               Ready to Build Something Amazing?
             </h2>
             <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Let's discuss how I can help architect your next scalable platform.
+              Let&apos;s discuss how I can help architect your next scalable platform.
             </p>
             <div className="space-x-4">
               <Link href="/projects" className="inline-block px-6 py-3 rounded-lg transition-colors duration-300" style={{

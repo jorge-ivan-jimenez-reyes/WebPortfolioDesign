@@ -189,7 +189,7 @@ const Achievements = () => {
                 className="px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
                 style={{ backgroundColor: 'var(--accent)', color: 'white' }}
               >
-                Let's Connect
+                Let&apos;s Connect
               </button>
               <button 
                 className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"

@@ -137,7 +137,7 @@ const AngularCorporateProject = () => {
                   Performance Optimization
                 </h3>
                 <p style={{ color: 'var(--text-secondary)' }}>
-                  Leveraged Angular's OnPush change detection strategy, lazy loading modules, and trackBy functions 
+                  Leveraged Angular&apos;s OnPush change detection strategy, lazy loading modules, and trackBy functions 
                   to optimize performance and ensure smooth user interactions.
                 </p>
               </div>
@@ -198,7 +198,7 @@ const AngularCorporateProject = () => {
               Need a Professional Corporate Website?
             </h2>
             <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Let's create a stunning corporate presence that converts visitors into customers.
+              Let&apos;s create a stunning corporate presence that converts visitors into customers.
             </p>
             <div className="space-x-4">
               <Link href="/projects" className="inline-block px-6 py-3 rounded-lg transition-colors duration-300" style={{

@@ -56,7 +56,7 @@ const AdobePartnerClubProject = () => {
               <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
                 Developed an interactive platform for Adobe partners built with Next.js, featuring comprehensive 
                 member management, resource sharing, and collaboration tools. The platform serves as a central 
-                hub for Adobe's partner ecosystem to connect, share resources, and collaborate on projects.
+                hub for Adobe&apos;s partner ecosystem to connect, share resources, and collaborate on projects.
               </p>
               <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 Successfully onboarded 200+ active partners and created a thriving community space 

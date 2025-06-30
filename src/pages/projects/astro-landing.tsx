@@ -55,7 +55,7 @@ const AstroLandingProject = () => {
               </h2>
               <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
                 Built a high-performance landing page using Astro, focusing on optimal SEO and lightning-fast loading times. 
-                The project leverages Astro's static site generation capabilities to deliver exceptional performance 
+                The project leverages Astro&apos;s static site generation capabilities to deliver exceptional performance 
                 while maintaining modern design principles.
               </p>
               <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
@@ -177,7 +177,7 @@ const AstroLandingProject = () => {
               Need a High-Performance Landing Page?
             </h2>
             <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Let's create a lightning-fast, SEO-optimized landing page for your business.
+              Let&apos;s create a lightning-fast, SEO-optimized landing page for your business.
             </p>
             <div className="space-x-4">
               <Link href="/projects" className="inline-block px-6 py-3 rounded-lg transition-colors duration-300" style={{

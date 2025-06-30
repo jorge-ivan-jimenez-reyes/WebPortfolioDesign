@@ -177,7 +177,7 @@ const Custom3DView: React.FC = () => {
     [clickCounts],
   );
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  const handleMouseMove = useCallback(() => {
     // No actualizar mousePosition para mantener el grid estático
   }, []);
 
