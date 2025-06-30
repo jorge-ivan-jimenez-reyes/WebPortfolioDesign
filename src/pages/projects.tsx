@@ -180,7 +180,7 @@ const Projects = () => {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`min-h-screen wireframe-container ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Background Grid */}
       <div 
         className="fixed inset-0 opacity-20"
@@ -195,27 +195,25 @@ const Projects = () => {
               PROJECTS
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              A showcase of innovative solutions spanning architecture design, full-stack development, and frontend excellence.
+              A showcase of innovative solutions spanning <span className="sketch-highlight">architecture design</span>, <span className="sketch-highlight">full-stack development</span>, and <span className="sketch-highlight">frontend excellence</span>.
             </p>
           </div>
 
           {/* Category Filter */}
           <div className="flex justify-center mb-16">
-            <div className={`flex p-2 rounded-2xl ${
+            <div className={`flex p-2 rounded-2xl sketch-border ${
               isDarkMode ? 'bg-gray-900/30' : 'bg-gray-100/50'
-            } backdrop-blur-sm border ${
-              isDarkMode ? 'border-gray-800/50' : 'border-gray-200/50'
-            }`}>
+            } backdrop-blur-sm`}>
               {categories.map((category) => (
                 <button
                   key={category.key}
                   onClick={() => setSelectedCategory(category.key as 'all' | 'frontend' | 'fullstack' | 'architecture')}
-                  className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-3 ${
+                  className={`sketch-button px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-3 ${
                     selectedCategory === category.key
                       ? 'text-white shadow-lg'
                       : isDarkMode
-                        ? 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                        : 'text-gray-600 hover:text-black hover:bg-gray-200/50'
+                        ? 'text-gray-400 hover:text-white'
+                        : 'text-gray-600 hover:text-black'
                   }`}
                   style={{
                     backgroundColor: selectedCategory === category.key ? 'var(--accent)' : 'transparent'
@@ -256,16 +254,16 @@ const Projects = () => {
             </p>
             <div className="space-x-4">
               <button 
-                className="px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                className="sketch-button px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
                 style={{ backgroundColor: 'var(--accent)', color: 'white' }}
               >
-                Start a Project
+                Start a Project ✨
               </button>
               <button 
-                className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"
+                className="sketch-button px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
                 style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
               >
-                Get In Touch
+                Get In Touch 👋
               </button>
             </div>
           </div>

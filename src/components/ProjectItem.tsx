@@ -36,16 +36,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
     <div className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]">
       <Link href={`/projects/${project.slug}`}>
         <div 
-          className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
-          style={{
-            borderLeft: 'none'
-          }}
-          onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
-            e.currentTarget.style.borderLeft = '4px solid var(--accent)';
-          }}
-          onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
-            e.currentTarget.style.borderLeft = 'none';
-          }}
+          className={`sketch-card flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
         >
           
           {/* Number */}
@@ -172,7 +163,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
           {/* Arrow */}
           <div className="flex-shrink-0 ml-6">
             <span 
-              className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
+              className="sketch-arrow text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
               style={{ color: 'var(--text-muted)' }}
             >
               ↗
