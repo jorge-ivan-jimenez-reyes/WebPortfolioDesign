@@ -1,200 +1,271 @@
 import React from 'react';
-import Layout from '../components/Layout';
 import { useTheme } from '../context/ThemeContext';
+import Footer from '../components/Footer';
 
 const Blog = () => {
   const { isDarkMode } = useTheme();
 
   const blogPosts = [
     {
+      id: 1,
       title: "Microservices Architecture: Lessons Learned",
       excerpt: "Key insights from migrating a monolithic application to microservices architecture, including common pitfalls and best practices.",
       date: "December 15, 2023",
       readTime: "8 min read",
       category: "Architecture",
-      tags: ["Microservices", "Architecture", "DevOps"]
+      tags: ["Microservices", "Architecture", "DevOps"],
+      featured: true
     },
     {
+      id: 2,
       title: "Building Resilient Cloud Infrastructure",
       excerpt: "How to design fault-tolerant systems using AWS services, implementing circuit breakers, and handling graceful degradation.",
       date: "November 28, 2023",
       readTime: "12 min read",
       category: "Cloud",
-      tags: ["AWS", "Infrastructure", "Resilience"]
+      tags: ["AWS", "Infrastructure", "Resilience"],
+      featured: true
     },
     {
+      id: 3,
       title: "Leading Technical Teams: A Developer's Journey",
       excerpt: "Transitioning from individual contributor to technical leader, sharing strategies for effective team management and mentoring.",
       date: "October 22, 2023",
       readTime: "6 min read",
       category: "Leadership",
-      tags: ["Leadership", "Management", "Career"]
+      tags: ["Leadership", "Management", "Career"],
+      featured: false
     },
     {
+      id: 4,
       title: "Modern DevOps Practices for Startups",
       excerpt: "Implementing CI/CD pipelines, infrastructure as code, and monitoring solutions for fast-growing startups.",
       date: "September 10, 2023",
       readTime: "10 min read",
       category: "DevOps",
-      tags: ["DevOps", "CI/CD", "Startups"]
+      tags: ["DevOps", "CI/CD", "Startups"],
+      featured: false
     },
     {
+      id: 5,
       title: "React Performance Optimization Guide",
       excerpt: "Advanced techniques for optimizing React applications, including code splitting, memoization, and bundle analysis.",
       date: "August 5, 2023",
       readTime: "15 min read",
       category: "Development",
-      tags: ["React", "Performance", "JavaScript"]
+      tags: ["React", "Performance", "JavaScript"],
+      featured: true
     },
     {
+      id: 6,
       title: "Database Design for Scale",
       excerpt: "Strategies for designing databases that can handle millions of users, including sharding, replication, and query optimization.",
       date: "July 18, 2023",
       readTime: "11 min read",
       category: "Database",
-      tags: ["Database", "Scale", "Performance"]
+      tags: ["Database", "Scale", "Performance"],
+      featured: false
     }
   ];
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      Architecture: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-      Cloud: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      Leadership: 'bg-green-500/20 text-green-400 border-green-500/30',
-      DevOps: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-      Development: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-      Database: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+  // Background grid animation
+  const backgroundGrid = {
+    backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
+    backgroundSize: '25px 25px',
+    animation: 'moveGrid 25s linear infinite',
+  };
+
+  const getCategoryIcon = (category: string) => {
+    const icons = {
+      Architecture: '🏗️',
+      Cloud: '☁️',
+      Leadership: '👑',
+      DevOps: '⚙️',
+      Development: '💻',
+      Database: '🗄️'
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+    return icons[category as keyof typeof icons] || '📝';
   };
 
   return (
-    <Layout>
-      <div className={`min-h-screen py-20 px-8 ${
-        isDarkMode 
-          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white' 
-          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900'
-      }`}>
-        <div className="max-w-6xl mx-auto">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Background Grid */}
+      <div 
+        className="fixed inset-0 opacity-20"
+        style={backgroundGrid}
+      ></div>
+
+      <div className="relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
-              Technical Blog
+            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ color: '#15253B' }}>
+              BLOG
             </h1>
-            <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-3xl mx-auto`}>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Insights, tutorials, and thoughts on software architecture, development practices, and technology leadership.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Blog Posts List */}
+          <div className="space-y-6">
             {blogPosts.map((post, index) => (
-              <article
-                key={index}
-                className={`group cursor-pointer transition-all duration-300 hover:scale-105 ${
-                  isDarkMode 
-                    ? 'bg-gray-800/50 border border-gray-700/50 hover:bg-gray-700/50' 
-                    : 'bg-white/70 border border-gray-200/50 hover:bg-white/90'
-                } backdrop-blur-md shadow-lg rounded-xl overflow-hidden`}
+              <div
+                key={post.id}
+                className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]"
               >
-                {/* Article Header */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getCategoryColor(post.category)}`}>
-                      {post.category}
-                    </span>
-                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  <h2 className={`text-xl font-bold mb-3 group-hover:text-purple-500 transition-colors duration-300 ${
-                    isDarkMode ? 'text-white' : 'text-gray-900'
-                  }`}>
-                    {post.title}
-                  </h2>
-
-                  <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {post.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className={`px-2 py-1 rounded text-xs ${
-                          isDarkMode 
-                            ? 'bg-gray-700/50 text-gray-300' 
-                            : 'bg-gray-200/50 text-gray-600'
-                        }`}
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {post.date}
-                  </div>
-                </div>
-
-                {/* Read More Footer */}
-                <div className={`px-6 py-4 border-t ${
-                  isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'
-                }`}>
-                  <div className="flex items-center justify-between">
-                    <span className={`text-sm font-medium group-hover:text-purple-500 transition-colors duration-300 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
-                      Read More
-                    </span>
-                    <svg 
-                      className={`w-4 h-4 group-hover:text-purple-500 group-hover:translate-x-1 transition-all duration-300 ${
-                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                      }`}
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
+                {/* Blog Post Row */}
+                <div 
+                  className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
+                  style={{
+                    borderLeft: 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderLeft = '4px solid var(--accent)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderLeft = 'none';
+                  }}
+                >
+                  
+                  {/* Number */}
+                  <div className="flex-shrink-0 mr-8">
+                    <span 
+                      className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                      {String(index + 1).padStart(2, '0')}.
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-grow min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                      {/* Main Info */}
+                      <div className="flex-grow min-w-0 mb-4 lg:mb-0 lg:pr-8">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-2xl">{getCategoryIcon(post.category)}</span>
+                          <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                            {post.title}
+                          </h3>
+                          {post.featured && (
+                            <span 
+                              className="px-3 py-1 rounded-full text-xs font-semibold"
+                              style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+                            >
+                              Featured
+                            </span>
+                          )}
+                          <span 
+                            className="px-3 py-1 rounded-full text-xs font-semibold"
+                            style={{ 
+                              backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                              color: 'var(--text-secondary)',
+                              border: '1px solid var(--border)'
+                            }}
+                          >
+                            {post.category}
+                          </span>
+                        </div>
+                        
+                        <p className="text-sm md:text-base leading-relaxed mb-3" style={{ color: 'var(--text-secondary)' }}>
+                          {post.excerpt}
+                        </p>
+
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-2">
+                          {post.tags.slice(0, 3).map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className="px-2 py-1 rounded text-xs"
+                              style={{ 
+                                backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                                color: 'var(--text-muted)',
+                                border: '1px solid var(--border)'
+                              }}
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex flex-col lg:items-end text-sm">
+                        <div className="flex items-center gap-4 lg:flex-col lg:items-end lg:gap-2">
+                          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                            {new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                          </span>
+                          <span style={{ color: 'var(--text-secondary)' }}>
+                            {post.readTime}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex-shrink-0 ml-6">
+                    <span 
+                      className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      ↗
+                    </span>
                   </div>
                 </div>
-              </article>
+
+                {/* Separator */}
+                {index < blogPosts.length - 1 && (
+                  <div 
+                    className="h-px mx-6 transition-all duration-500"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                )}
+              </div>
             ))}
           </div>
 
-          <div className={`mt-16 text-center p-8 rounded-xl ${
-            isDarkMode 
-              ? 'bg-gray-800/30 border border-gray-700/30' 
-              : 'bg-white/50 border border-gray-200/30'
-          } backdrop-blur-md`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
               Subscribe to My Newsletter
             </h2>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Get the latest articles and insights delivered directly to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className={`flex-1 px-4 py-3 rounded-lg border ${
-                  isDarkMode 
-                    ? 'bg-gray-800/50 border-gray-600 text-white placeholder-gray-400' 
-                    : 'bg-white/50 border-gray-300 text-gray-900 placeholder-gray-500'
-                } backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-500`}
-              />
-              <button className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                isDarkMode
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-purple-600 hover:bg-purple-700 text-white'
-              } shadow-lg hover:shadow-xl hover:-translate-y-1`}>
-                Subscribe
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-8">
+               <input
+                 type="email"
+                 placeholder="Enter your email"
+                 className="flex-1 px-4 py-3 rounded-lg border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 style={{
+                   backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                   borderColor: 'var(--border)',
+                   color: 'var(--text-primary)'
+                 }}
+               />
+               <button 
+                 className="px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                 style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+               >
+                 Subscribe
+               </button>
+             </div>
+            <div className="space-x-4">
+              <button 
+                className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+              >
+                View All Posts
               </button>
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+
+      <Footer />
+    </div>
   );
 };
 

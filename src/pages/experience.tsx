@@ -1,12 +1,13 @@
 import React from 'react';
-import Layout from '../components/Layout';
 import { useTheme } from '../context/ThemeContext';
+import Footer from '../components/Footer';
 
 const Experience = () => {
   const { isDarkMode } = useTheme();
 
   const experiences = [
     {
+      id: 1,
       role: "Senior Solution Architect",
       company: "TechCorp Global",
       period: "2023 - Present",
@@ -15,11 +16,14 @@ const Experience = () => {
       technologies: ["AWS", "Kubernetes", "Microservices", "Terraform", "Docker"],
       achievements: [
         "Reduced infrastructure costs by 40% through optimized cloud architecture",
-        "Led migration of 15+ services to cloud-native architecture",
+        "Led migration of 15+ services to cloud-native architecture", 
         "Established DevOps best practices across 5 development teams"
-      ]
+      ],
+      impact: "40% cost reduction",
+      status: "current"
     },
     {
+      id: 2,
       role: "Full Stack Team Lead",
       company: "InnovateSoft",
       period: "2021 - 2023",
@@ -30,9 +34,12 @@ const Experience = () => {
         "Delivered 12+ projects on time and within budget",
         "Improved code quality metrics by 60% through implementation of best practices",
         "Mentored 5 junior developers to mid-level positions"
-      ]
+      ],
+      impact: "60% quality improvement",
+      status: "completed"
     },
     {
+      id: 3,
       role: "Full Stack Developer",
       company: "StartupXYZ",
       period: "2019 - 2021",
@@ -43,9 +50,12 @@ const Experience = () => {
         "Built 3 major features that increased user engagement by 35%",
         "Optimized application performance resulting in 50% faster load times",
         "Implemented automated testing reducing bugs by 70%"
-      ]
+      ],
+      impact: "35% engagement increase",
+      status: "completed"
     },
     {
+      id: 4,
       role: "Junior Developer",
       company: "TechStart Solutions",
       period: "2018 - 2019",
@@ -56,131 +66,200 @@ const Experience = () => {
         "Successfully completed 8+ client projects",
         "Learned and applied modern development frameworks",
         "Collaborated effectively in agile development environments"
-      ]
+      ],
+      impact: "8+ projects delivered",
+      status: "completed"
     }
   ];
 
+  // Background grid animation
+  const backgroundGrid = {
+    backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
+    backgroundSize: '25px 25px',
+    animation: 'moveGrid 25s linear infinite',
+  };
+
   return (
-    <Layout>
-      <div className={`min-h-screen py-20 px-8 ${
-        isDarkMode 
-          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white' 
-          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900'
-      }`}>
-        <div className="max-w-4xl mx-auto">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Background Grid */}
+      <div 
+        className="fixed inset-0 opacity-20"
+        style={backgroundGrid}
+      ></div>
+
+      <div className="relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-green-500 to-blue-600 bg-clip-text text-transparent">
-              Professional Experience
+            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ color: '#15253B' }}>
+              EXPERIENCE
             </h1>
-            <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-3xl mx-auto`}>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               My journey from junior developer to solution architect, building scalable solutions and leading high-performing teams.
             </p>
           </div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className={`absolute left-8 top-0 bottom-0 w-0.5 ${
-              isDarkMode ? 'bg-gray-700' : 'bg-gray-300'
-            }`}></div>
-
-            {experiences.map((exp, index) => (
-              <div key={index} className="relative mb-12 ml-16">
-                {/* Timeline dot */}
-                <div className={`absolute -left-10 top-6 w-4 h-4 rounded-full ${
-                  index === 0 
-                    ? 'bg-green-500' 
-                    : isDarkMode ? 'bg-gray-600' : 'bg-gray-400'
-                } border-4 ${isDarkMode ? 'border-gray-900' : 'border-white'}`}></div>
-
-                <div className={`p-8 rounded-xl ${
-                  isDarkMode 
-                    ? 'bg-gray-800/50 border border-gray-700/50' 
-                    : 'bg-white/70 border border-gray-200/50'
-                } backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105`}>
+          {/* Experience List */}
+          <div className="space-y-6">
+            {experiences.map((experience, index) => (
+              <div
+                key={experience.id}
+                className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+              >
+                {/* Experience Row */}
+                <div 
+                  className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
+                  style={{
+                    borderLeft: 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderLeft = '4px solid var(--accent)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderLeft = 'none';
+                  }}
+                >
                   
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                    <div>
-                      <h3 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                        {exp.role}
-                      </h3>
-                      <p className="text-blue-500 font-semibold text-lg">
-                        {exp.company}
-                      </p>
-                    </div>
-                    <div className="text-right mt-2 md:mt-0">
-                      <p className={`font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                        {exp.period}
-                      </p>
-                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                        {exp.location}
-                      </p>
+                  {/* Number */}
+                  <div className="flex-shrink-0 mr-8">
+                    <span 
+                      className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      {String(index + 1).padStart(2, '0')}.
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-grow min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                      {/* Main Info */}
+                      <div className="flex-grow min-w-0 mb-6 lg:mb-0 lg:pr-8">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                            {experience.role}
+                          </h3>
+                          <span 
+                            className="px-3 py-1 rounded-full text-xs font-semibold"
+                            style={{ 
+                              backgroundColor: experience.status === 'current' ? '#10b981' : 'var(--accent)', 
+                              color: 'white' 
+                            }}
+                          >
+                            {experience.status === 'current' ? 'Current' : 'Completed'}
+                          </span>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <p className="text-lg font-semibold" style={{ color: '#15253B' }}>
+                            {experience.company}
+                          </p>
+                          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                            {experience.period} • {experience.location}
+                          </p>
+                        </div>
+
+                        <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+                          {experience.description}
+                        </p>
+
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {experience.technologies.map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="px-2 py-1 rounded text-xs font-medium"
+                              style={{ 
+                                backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                                color: 'var(--text-secondary)',
+                                border: '1px solid var(--border)'
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Achievements */}
+                        <div>
+                          <h4 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                            Key Achievements:
+                          </h4>
+                          <ul className="space-y-1">
+                            {experience.achievements.slice(0, 2).map((achievement, achIndex) => (
+                              <li key={achIndex} className="flex items-start text-sm" style={{ color: 'var(--text-secondary)' }}>
+                                <span className="text-[#15253B] mr-2 mt-1">•</span>
+                                {achievement}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex flex-col lg:items-end text-sm">
+                        <div className="flex items-center gap-4 lg:flex-col lg:items-end lg:gap-2">
+                          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                            {experience.period.split(' - ')[0]}
+                          </span>
+                          <span style={{ color: 'var(--text-secondary)' }}>
+                            {experience.impact}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <p className={`mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
-                    {exp.description}
-                  </p>
-
-                  <div className="mb-6">
-                    <h4 className={`font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                      Key Achievements:
-                    </h4>
-                    <ul className="space-y-2">
-                      {exp.achievements.map((achievement, achIndex) => (
-                        <li key={achIndex} className={`flex items-start ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                          <span className="text-green-500 mr-2 mt-1">•</span>
-                          {achievement}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className={`font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                      Technologies:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {exp.technologies.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            isDarkMode 
-                              ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' 
-                              : 'bg-blue-100 text-blue-700 border border-blue-200'
-                          }`}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                  {/* Arrow */}
+                  <div className="flex-shrink-0 ml-6">
+                    <span 
+                      className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      ↗
+                    </span>
                   </div>
                 </div>
+
+                {/* Separator */}
+                {index < experiences.length - 1 && (
+                  <div 
+                    className="h-px mx-6 transition-all duration-500"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                )}
               </div>
             ))}
           </div>
 
-          <div className={`mt-16 text-center p-8 rounded-xl ${
-            isDarkMode 
-              ? 'bg-gray-800/30 border border-gray-700/30' 
-              : 'bg-white/50 border border-gray-200/30'
-          } backdrop-blur-md`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
               Let's Build Something Amazing Together
             </h2>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Ready to bring my expertise to your next project and help scale your technology solutions.
             </p>
-            <button className={`px-8 py-3 rounded-lg font-medium transition-all duration-300 ${
-              isDarkMode
-                ? 'bg-green-600 hover:bg-green-700 text-white'
-                : 'bg-green-600 hover:bg-green-700 text-white'
-            } shadow-lg hover:shadow-xl hover:-translate-y-1`}>
-              Get In Touch
-            </button>
+            <div className="space-x-4">
+              <button 
+                className="px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+              >
+                Get In Touch
+              </button>
+              <button 
+                className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+              >
+                View Projects
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </Layout>
+
+      <Footer />
+    </div>
   );
 };
 

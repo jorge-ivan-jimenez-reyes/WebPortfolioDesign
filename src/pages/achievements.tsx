@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '../components/Layout';
 import { useTheme } from '../context/ThemeContext';
+import Footer from '../components/Footer';
 
 const Achievements = () => {
   const { isDarkMode } = useTheme();
@@ -10,116 +10,200 @@ const Achievements = () => {
       title: "AWS Solutions Architect Professional",
       description: "Advanced certification in designing scalable cloud architectures",
       year: "2023",
-      type: "Certification"
+      type: "Certification",
+      impact: "Enhanced cloud expertise"
     },
     {
       title: "Led Migration to Microservices",
       description: "Successfully migrated monolithic application serving 1M+ users to microservices architecture",
       year: "2023",
-      type: "Technical Achievement"
+      type: "Technical Achievement",
+      impact: "300% performance improvement"
     },
     {
       title: "Team Lead - 15 Developers",
       description: "Led a cross-functional team of 15 developers across 3 different projects",
       year: "2022",
-      type: "Leadership"
+      type: "Leadership",
+      impact: "5 successful project deliveries"
     },
     {
       title: "99.9% Uptime Achievement",
       description: "Implemented monitoring and alerting systems achieving 99.9% uptime for critical services",
       year: "2022",
-      type: "Technical Achievement"
+      type: "Technical Achievement",
+      impact: "Zero critical outages"
     },
     {
       title: "Full Stack Developer Certification",
-      description: "Completed advanced full-stack development program",
+      description: "Completed advanced full-stack development program with distinction",
       year: "2021",
-      type: "Certification"
+      type: "Certification",
+      impact: "Advanced technical skills"
     },
     {
       title: "Open Source Contributor",
-      description: "Active contributor to multiple open source projects with 500+ stars",
+      description: "Active contributor to multiple open source projects with 500+ stars and community impact",
       year: "2020-Present",
-      type: "Community"
+      type: "Community",
+      impact: "500+ GitHub stars"
     }
   ];
 
+  // Background grid animation
+  const backgroundGrid = {
+    backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
+    backgroundSize: '25px 25px',
+    animation: 'moveGrid 25s linear infinite',
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'Certification': return '🎓';
+      case 'Technical Achievement': return '⚡';
+      case 'Leadership': return '👑';
+      case 'Community': return '🌟';
+      default: return '🏆';
+    }
+  };
+
   return (
-    <Layout>
-      <div className={`min-h-screen py-20 px-8 ${
-        isDarkMode 
-          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white' 
-          : 'bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-900'
-      }`}>
-        <div className="max-w-6xl mx-auto">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Background Grid */}
+      <div 
+        className="fixed inset-0 opacity-20"
+        style={backgroundGrid}
+      ></div>
+
+      <div className="relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-              Achievements
+            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ color: '#15253B' }}>
+              ACHIEVEMENTS
             </h1>
-            <p className={`text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-3xl mx-auto`}>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               Professional milestones and accomplishments that define my journey from developer to solution architect.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Achievements List */}
+          <div className="space-y-6">
             {achievements.map((achievement, index) => (
               <div
-                key={index}
-                className={`p-6 rounded-xl transition-all duration-300 hover:scale-105 ${
-                  isDarkMode 
-                    ? 'bg-gray-800/50 border border-gray-700/50 hover:bg-gray-700/50' 
-                    : 'bg-white/70 border border-gray-200/50 hover:bg-white/90'
-                } backdrop-blur-md shadow-lg`}
+                key={achievement.title}
+                className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]"
               >
-                <div className={`text-sm font-medium mb-2 px-3 py-1 rounded-full inline-block ${
-                  achievement.type === 'Certification' 
-                    ? 'bg-blue-500/20 text-blue-400'
-                    : achievement.type === 'Leadership'
-                    ? 'bg-purple-500/20 text-purple-400'
-                    : achievement.type === 'Technical Achievement'
-                    ? 'bg-green-500/20 text-green-400'
-                    : 'bg-orange-500/20 text-orange-400'
-                }`}>
-                  {achievement.type}
+                {/* Achievement Row */}
+                <div 
+                  className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
+                  style={{
+                    borderLeft: 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderLeft = '4px solid var(--accent)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderLeft = 'none';
+                  }}
+                >
+                  
+                  {/* Number */}
+                  <div className="flex-shrink-0 mr-8">
+                    <span 
+                      className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      {String(index + 1).padStart(2, '0')}.
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-grow min-w-0">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                      {/* Title and Description */}
+                      <div className="flex-grow min-w-0 mb-4 lg:mb-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-2xl">{getTypeIcon(achievement.type)}</span>
+                          <h3 className="text-xl md:text-2xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                            {achievement.title}
+                          </h3>
+                          <span 
+                            className="px-3 py-1 rounded-full text-xs font-semibold"
+                            style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+                          >
+                            {achievement.type}
+                          </span>
+                        </div>
+                        <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                          {achievement.description}
+                        </p>
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex flex-col lg:items-end text-sm">
+                        <div className="flex items-center gap-4 lg:flex-col lg:items-end lg:gap-2">
+                          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                            {achievement.year}
+                          </span>
+                          <span style={{ color: 'var(--text-secondary)' }}>
+                            {achievement.impact}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex-shrink-0 ml-6">
+                    <span 
+                      className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      ↗
+                    </span>
+                  </div>
                 </div>
-                
-                <h3 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {achievement.title}
-                </h3>
-                
-                <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
-                  {achievement.description}
-                </p>
-                
-                <div className={`text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  {achievement.year}
-                </div>
+
+                {/* Separator */}
+                {index < achievements.length - 1 && (
+                  <div 
+                    className="h-px mx-6 transition-all duration-500"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                )}
               </div>
             ))}
           </div>
 
-          <div className={`mt-16 text-center p-8 rounded-xl ${
-            isDarkMode 
-              ? 'bg-gray-800/30 border border-gray-700/30' 
-              : 'bg-white/50 border border-gray-200/30'
-          } backdrop-blur-md`}>
-            <h2 className={`text-2xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
               Ready for New Challenges
             </h2>
-            <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
               Always looking for opportunities to grow and make an impact through technology.
             </p>
-            <button className={`px-8 py-3 rounded-lg font-medium transition-all duration-300 ${
-              isDarkMode
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
-            } shadow-lg hover:shadow-xl hover:-translate-y-1`}>
-              Let's Connect
-            </button>
+            <div className="space-x-4">
+              <button 
+                className="px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+              >
+                Let's Connect
+              </button>
+              <button 
+                className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+              >
+                View Projects
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </Layout>
+
+      <Footer />
+    </div>
   );
 };
 
