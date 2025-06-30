@@ -229,7 +229,7 @@ const Custom3DView: React.FC = () => {
           <div
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             style={{
-              transform: 'translateZ(100px) scale(2.2) translateX(-50px) translateY(-80px)',
+              transform: 'translateZ(100px) scale(2.2) translateX(-100px) translateY(-50px)',
               zIndex: 100,
             }}
           >
