@@ -200,6 +200,10 @@ const AstroLandingProject = () => {
               Let&apos;s Build Something Amazing Together
             </h2>
           </div>
+
+          <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            Ready to bring our expertise to your next project and help scale your technology solutions.
+          </p>
         </div>
       </div>
 

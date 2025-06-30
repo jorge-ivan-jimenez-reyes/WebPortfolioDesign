@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { useTheme } from '../context/ThemeContext';
 import Footer from '../components/Footer';
-import Link from 'next/link';
 
 interface Project {
   id: number;
@@ -13,95 +13,90 @@ interface Project {
   impact: string;
   status: 'completed' | 'in-progress' | 'maintenance';
   featured: boolean;
-  slug?: string; // Add slug for navigation
+  slug?: string;
 }
 
 const projects: Project[] = [
-  // ARCHITECTURE PROJECTS
   {
     id: 1,
-    title: "AI-Powered Social Media Platform Architecture",
-    description: "Scalable social media platform with AI-generated content, using AWS Cognito for authentication and EC2 with load balancing for high availability.",
-    technologies: ["AWS Cognito", "EC2", "Application Load Balancer", "Lambda", "S3", "RDS", "CloudFront"],
+    title: "AI-Powered Social Media Platform",
+    description: "Scalable social platform with AI content moderation, real-time messaging, and intelligent feed algorithms using AWS services.",
+    technologies: ["AWS", "React", "Node.js", "PostgreSQL", "Redis", "Docker", "Kubernetes"],
     category: "architecture",
     year: "2024",
-    impact: "Supports 100K+ concurrent users",
+    impact: "1M+ users",
     status: "in-progress",
     featured: true,
     slug: "ai-social-media-platform"
   },
   {
     id: 2,
-    title: "Microservices E-commerce Platform",
-    description: "Event-driven microservices architecture for high-traffic e-commerce with auto-scaling, API Gateway, and distributed caching.",
-    technologies: ["AWS EKS", "API Gateway", "EventBridge", "ElastiCache", "RDS Aurora", "CloudWatch"],
-    category: "architecture",
-    year: "2024",
-    impact: "99.9% uptime, 500% scalability",
-    status: "completed",
-    featured: true,
-    slug: "microservices-ecommerce"
-  },
-  {
-    id: 3,
-    title: "Real-time Analytics Data Lake",
-    description: "Serverless data processing pipeline with real-time analytics, handling petabytes of data with cost-optimized storage and processing.",
-    technologies: ["AWS Kinesis", "Lambda", "S3 Data Lake", "Athena", "Glue", "QuickSight", "EMR"],
-    category: "architecture",
-    year: "2024",
-    impact: "Processes 10TB+ daily data",
-    status: "completed",
-    featured: true,
-    slug: "analytics-data-lake"
-  },
-  {
-    id: 4,
-    title: "Multi-tenant SaaS Infrastructure",
-    description: "Secure, isolated multi-tenant architecture with tenant-specific data segregation, monitoring, and compliance automation.",
-    technologies: ["AWS Organizations", "Control Tower", "Transit Gateway", "WAF", "Config", "CloudTrail"],
-    category: "architecture",
-    year: "2023",
-    impact: "1000+ enterprise tenants",
-    status: "maintenance",
-    featured: false,
-    slug: "multitenant-saas"
-  },
-
-  // FULL-STACK PROJECTS
-  {
-    id: 5,
-    title: "ConnectUP - Academic Management Platform",
-    description: "Comprehensive platform for managing engineering academies, professors, schedules, classes, and subjects with optimized academic workflows.",
-    technologies: ["Django", "React", "MySQL", "AWS", "Kubernetes", "Docker", "Redis"],
+    title: "ConnectUP - Academic Management",
+    description: "Comprehensive platform for managing engineering academies, professors, schedules, and classes with monolithic architecture.",
+    technologies: ["Django", "React", "MySQL", "AWS", "Kubernetes", "Docker"],
     category: "fullstack",
     year: "2023",
-    impact: "500+ professors, 10K+ students",
+    impact: "500+ students",
     status: "completed",
     featured: true,
     slug: "connectup"
   },
   {
-    id: 6,
-    title: "Universidad Panamericana Postgraduate Portal",
-    description: "Microsite for managing postgraduate programs, academic projects, and schools with integrated coffee break management system and email services.",
-    technologies: ["Express.js", "React", "Node.js", "IIS", "SQL Server", "Nodemailer"],
+    id: 3,
+    title: "Microservices E-commerce Platform",
+    description: "Distributed e-commerce system with independent services for catalog, orders, payments, and user management.",
+    technologies: ["Node.js", "React", "MongoDB", "Redis", "Docker", "AWS"],
+    category: "architecture",
+    year: "2023",
+    impact: "10K+ transactions",
+    status: "completed",
+    featured: true,
+    slug: "microservices-ecommerce"
+  },
+  {
+    id: 4,
+    title: "Real-time Analytics Data Lake",
+    description: "High-performance data lake architecture for processing and analyzing real-time business metrics and user behavior.",
+    technologies: ["AWS", "Apache Kafka", "Elasticsearch", "Python", "Spark"],
+    category: "architecture",
+    year: "2023",
+    impact: "TB+ data processed",
+    status: "completed",
+    featured: true,
+    slug: "analytics-data-lake"
+  },
+  {
+    id: 5,
+    title: "Universidad Panamericana Portal",
+    description: "Academic management platform for postgraduate programs with coffee break management and email services.",
+    technologies: ["Express.js", "React", "Node.js", "SQL Server", "IIS"],
     category: "fullstack",
     year: "2023",
-    impact: "50+ postgraduate programs",
+    impact: "50+ programs",
     status: "maintenance",
     featured: false,
     slug: "up-postgraduate-portal"
   },
-
-  // FRONTEND PROJECTS
+  {
+    id: 6,
+    title: "Multi-tenant SaaS Infrastructure",
+    description: "Scalable SaaS platform architecture supporting multiple tenants with isolated data and customizable features.",
+    technologies: ["AWS", "Node.js", "PostgreSQL", "Redis", "Docker"],
+    category: "architecture",
+    year: "2022",
+    impact: "100+ tenants",
+    status: "maintenance",
+    featured: false,
+    slug: "multitenant-saas"
+  },
   {
     id: 7,
     title: "Astro Landing Page",
-    description: "High-performance landing page built with Astro for optimal SEO and lightning-fast loading times with modern design principles.",
-    technologies: ["Astro", "TypeScript", "Tailwind CSS", "Vite", "Vercel"],
+    description: "High-performance landing page built with Astro framework achieving optimal SEO and lightning-fast loading times.",
+    technologies: ["Astro", "TypeScript", "Tailwind CSS", "Vite"],
     category: "frontend",
     year: "2024",
-    impact: "98+ Lighthouse score",
+    impact: "98 PageSpeed",
     status: "completed",
     featured: false,
     slug: "astro-landing"
@@ -109,11 +104,11 @@ const projects: Project[] = [
   {
     id: 8,
     title: "Angular Corporate Landing",
-    description: "Enterprise-grade landing page with Angular featuring advanced animations, responsive design, and optimized performance.",
-    technologies: ["Angular", "TypeScript", "Angular Material", "RxJS", "SCSS"],
+    description: "Professional corporate website with modern design, responsive layout, and optimized performance using Angular.",
+    technologies: ["Angular", "TypeScript", "SCSS", "RxJS"],
     category: "frontend",
-    year: "2023",
-    impact: "40% conversion increase",
+    year: "2024",
+    impact: "50% faster load",
     status: "completed",
     featured: false,
     slug: "angular-corporate"
@@ -121,11 +116,11 @@ const projects: Project[] = [
   {
     id: 9,
     title: "Stoyco Management Dashboard",
-    description: "Business operations dashboard for Stoyco with real-time data visualization, inventory management, and analytics reporting.",
-    technologies: ["Angular", "Chart.js", "Angular Material", "TypeScript", "Bootstrap"],
+    description: "Business operations dashboard for Stoyco with comprehensive analytics, reporting, and management tools.",
+    technologies: ["React", "TypeScript", "Chart.js", "Node.js"],
     category: "frontend",
     year: "2023",
-    impact: "30% operational efficiency",
+    impact: "40% efficiency",
     status: "completed",
     featured: false,
     slug: "stoyco-dashboard"
@@ -133,25 +128,21 @@ const projects: Project[] = [
   {
     id: 10,
     title: "Adobe Partner Club Platform",
-    description: "Interactive platform for Adobe partners built with Next.js featuring member management, resources, and collaboration tools.",
-    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL"],
+    description: "Comprehensive partner platform for Adobe ecosystem with user management, resource sharing, and collaboration tools.",
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
     category: "frontend",
     year: "2024",
-    impact: "200+ active partners",
+    impact: "200+ partners",
     status: "completed",
     featured: false,
     slug: "adobe-partner-club"
   }
 ];
 
-const ProjectsPage: React.FC = () => {
+const Projects = () => {
   const { isDarkMode } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'frontend' | 'fullstack' | 'architecture'>('all');
   const [visibleProjects, setVisibleProjects] = useState<Project[]>([]);
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [animatedElements, setAnimatedElements] = useState<{[key: string]: boolean}>({});
-  const [typingText, setTypingText] = useState<{[key: number]: string}>({});
-  const [showCursor, setShowCursor] = useState<{[key: number]: boolean}>({});
 
   const categories = [
     { key: 'all', label: 'All', count: projects.length },
@@ -160,75 +151,12 @@ const ProjectsPage: React.FC = () => {
     { key: 'frontend', label: 'Frontend', count: projects.filter(p => p.category === 'frontend').length },
   ];
 
-  // Helper function to check if an element should be animated
-  const isElementAnimated = (projectId: number, element: string) => {
-    return animatedElements[`${projectId}-${element}`] || false;
-  };
-
-  // Typewriter effect for titles
-  const typeWriterEffect = (projectId: number, text: string, delay: number) => {
-    setTypingText(prev => ({ ...prev, [projectId]: '' }));
-    setShowCursor(prev => ({ ...prev, [projectId]: true }));
-    
-    setTimeout(() => {
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= text.length) {
-          setTypingText(prev => ({ 
-            ...prev, 
-            [projectId]: text.slice(0, currentIndex) 
-          }));
-          currentIndex++;
-        } else {
-          clearInterval(typingInterval);
-          // Hide cursor after typing is complete
-          setTimeout(() => {
-            setShowCursor(prev => ({ ...prev, [projectId]: false }));
-          }, 1000);
-        }
-      }, 50); // 50ms between each character
-    }, delay);
-  };
-
   useEffect(() => {
     const filtered = selectedCategory === 'all' 
       ? projects 
       : projects.filter(p => p.category === selectedCategory);
     
     setVisibleProjects(filtered);
-    setAnimatedElements({});
-    setTypingText({});
-    setShowCursor({});
-    
-    // Animate each project and its elements sequentially
-    filtered.forEach((project, projectIndex) => {
-      const baseDelay = projectIndex * 800; // Delay between projects
-      
-      // Sequential animation for each element
-      const animationSequence = [
-        { element: 'number', delay: baseDelay + 100 },
-        { 
-          element: 'title', 
-          delay: baseDelay + 300,
-          callback: () => typeWriterEffect(project.id, project.title, baseDelay + 400)
-        },
-        { element: 'badge', delay: baseDelay + 600 + (project.title.length * 50) },
-        { element: 'description', delay: baseDelay + 900 + (project.title.length * 50) },
-        { element: 'tech', delay: baseDelay + 1200 + (project.title.length * 50) },
-        { element: 'year', delay: baseDelay + 1500 + (project.title.length * 50) },
-        { element: 'line', delay: baseDelay + 1800 + (project.title.length * 50) }
-      ];
-
-      animationSequence.forEach(({ element, delay, callback }) => {
-        setTimeout(() => {
-          setAnimatedElements(prev => ({
-            ...prev,
-            [`${project.id}-${element}`]: true
-          }));
-          if (callback) callback();
-        }, delay);
-      });
-    });
   }, [selectedCategory]);
 
   const getCategoryIcon = (category: string) => {
@@ -240,36 +168,31 @@ const ProjectsPage: React.FC = () => {
     return icons[category as keyof typeof icons] || '💻';
   };
 
-  return (
-    <div className={`w-screen min-h-screen relative overflow-hidden ${
-      isDarkMode ? 'bg-gray-900' : 'bg-white'
-    }`}>
-      
-      {/* Notebook-style Grid Background */}
-      <div className="absolute inset-0 opacity-40">
-        <div 
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: `
-              linear-gradient(var(--grid-color) 1px, transparent 1px),
-              linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)
-            `,
-            backgroundSize: '25px 25px',
-            animation: 'gridMove 25s linear infinite'
-          }}
-        />
-      </div>
+  // Background grid animation
+  const backgroundGrid = {
+    backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
+    backgroundSize: '25px 25px',
+    animation: 'moveGrid 25s linear infinite',
+  };
 
-      {/* Main Content */}
-      <div className="relative z-10 px-6 py-16">
-        <div className="max-w-6xl mx-auto">
-          
-          {/* Title */}
+  return (
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Background Grid */}
+      <div 
+        className="fixed inset-0 opacity-20"
+        style={backgroundGrid}
+      ></div>
+
+      <div className="relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight" style={{ color: '#15253B' }}>
+            <h1 className="text-4xl md:text-6xl font-black mb-6" style={{ color: '#15253B' }}>
               PROJECTS
             </h1>
-            <div className="w-24 h-1 mx-auto" style={{ backgroundColor: 'var(--accent)' }}></div>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              A showcase of innovative solutions spanning architecture design, full-stack development, and frontend excellence.
+            </p>
           </div>
 
           {/* Category Filter */}
@@ -282,7 +205,7 @@ const ProjectsPage: React.FC = () => {
               {categories.map((category) => (
                 <button
                   key={category.key}
-                  onClick={() => setSelectedCategory(category.key as any)}
+                  onClick={() => setSelectedCategory(category.key as 'all' | 'frontend' | 'fullstack' | 'architecture')}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-3 ${
                     selectedCategory === category.key
                       ? 'text-white shadow-lg'
@@ -308,347 +231,167 @@ const ProjectsPage: React.FC = () => {
           </div>
 
           {/* Projects List */}
-          <div className="space-y-1">
-            {visibleProjects.map((project, index) => {
-              
-              return (
-                <Link 
-                  href={`/projects/${project.slug}`}
-                  key={project.id}
-                  className={`block group relative cursor-pointer transition-all duration-500 ${
-                    hoveredProject === project.id ? 'scale-[1.02]' : ''
-                  }`}
-                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                    e.currentTarget.style.borderLeft = '4px solid var(--accent)';
-                  }}
-                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                    e.currentTarget.style.borderLeft = 'none';
-                  }}
-                >
-                  
-                  {/* Project Row */}
-                  <div className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 ${
-                    hoveredProject === project.id 
-                      ? isDarkMode 
-                        ? 'bg-gray-900/50' 
-                        : 'bg-gray-50/80'
-                      : 'hover:bg-gray-900/20 hover:bg-gray-50/40'
-                  }`}
-                  style={{
-                    borderLeft: hoveredProject === project.id ? '4px solid var(--accent)' : 'none'
-                  }}>
+          <div className="space-y-6">
+            {visibleProjects.map((project, index) => (
+              <div
+                key={project.id}
+                className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]"
+              >
+                <Link href={`/projects/${project.slug}`}>
+                  <div 
+                    className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
+                    style={{
+                      borderLeft: 'none'
+                    }}
+                    onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
+                      e.currentTarget.style.borderLeft = '4px solid var(--accent)';
+                    }}
+                    onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
+                      e.currentTarget.style.borderLeft = 'none';
+                    }}
+                  >
                     
-                    {/* Left: Number + Content */}
-                    <div className="flex items-start space-x-8 flex-1">
-                      
-                      {/* Project Number */}
-                      <div className={`text-4xl font-black ${
-                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                      } min-w-[60px] transition-colors duration-300 ${
-                        isElementAnimated(project.id, 'number') 
-                          ? 'animate-typewriter-number' 
-                          : 'opacity-0 transform scale-0'
-                      }`}
-                      style={{
-                        color: hoveredProject === project.id ? 'var(--accent)' : undefined
-                      }}>
+                    {/* Number */}
+                    <div className="flex-shrink-0 mr-8">
+                      <span 
+                        className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
+                        style={{ color: 'var(--text-muted)' }}
+                      >
                         {String(index + 1).padStart(2, '0')}.
-                      </div>
-                      
-                      {/* Project Info */}
-                      <div className="flex-1">
-                        
-                        {/* Title + Category */}
-                        <div className="flex items-center space-x-4 mb-2">
-                          <div className={`${
-                            isElementAnimated(project.id, 'title')
-                              ? 'animate-typewriter-title'
-                              : 'opacity-0 w-0 overflow-hidden'
-                          }`}>
-                            <h3 className={`text-2xl md:text-3xl font-bold ${
-                              isDarkMode ? 'text-white' : 'text-black'
-                            } transition-colors duration-300 whitespace-nowrap`}
-                            style={{
-                              color: hoveredProject === project.id ? 'var(--accent)' : undefined
-                            }}>
-                              {typingText[project.id] || ''}
-                              {showCursor[project.id] && (
-                                <span className="inline-block ml-1 animate-blink" style={{ color: 'var(--accent)' }}>
-                                  |
-                                </span>
-                              )}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-grow min-w-0">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                        {/* Main Info */}
+                        <div className="flex-grow min-w-0 mb-6 lg:mb-0 lg:pr-8">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-xl">{getCategoryIcon(project.category)}</span>
+                            <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                              {project.title}
                             </h3>
+                            {project.featured && (
+                              <span 
+                                className="px-3 py-1 rounded-full text-xs font-semibold"
+                                style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+                              >
+                                Featured
+                              </span>
+                            )}
+                            <span 
+                              className="px-3 py-1 rounded-full text-xs font-semibold"
+                              style={{ 
+                                backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                                color: 'var(--text-secondary)',
+                                border: '1px solid var(--border)'
+                              }}
+                            >
+                              {project.status === 'in-progress' ? 'In Progress' : 
+                               project.status === 'maintenance' ? 'Maintenance' : 'Completed'}
+                            </span>
                           </div>
                           
-                          {project.featured && (
-                            <span className={`text-white px-3 py-1 rounded-full text-xs font-semibold ${
-                              isElementAnimated(project.id, 'badge')
-                                ? 'animate-typewriter-badge'
-                                : 'opacity-0 scale-0 rotate-180'
-                            }`}
-                            style={{ backgroundColor: 'var(--accent)' }}>
-                              Featured
-                            </span>
-                          )}
-                        </div>
-                        
-                        {/* Description */}
-                        <div className={`${
-                          isElementAnimated(project.id, 'description')
-                            ? 'animate-typewriter-text'
-                            : 'opacity-0 max-h-0 overflow-hidden'
-                        }`}>
-                          <p className={`text-base ${
-                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                          } mb-3 leading-relaxed max-w-3xl`}>
+                          <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
                             {project.description}
                           </p>
-                        </div>
-                        
-                        {/* Tech Stack */}
-                        <div className={`flex items-center space-x-3 ${
-                          isElementAnimated(project.id, 'tech')
-                            ? 'animate-typewriter-tech'
-                            : 'opacity-0 transform -translate-x-8'
-                        }`}>
-                          <span className={`text-sm ${
-                            isDarkMode ? 'text-gray-500' : 'text-gray-500'
-                          }`}>
-                            {getCategoryIcon(project.category)}
-                          </span>
-                          <div className="flex flex-wrap gap-2">
+
+                          {/* Technologies */}
+                          <div className="flex flex-wrap gap-2 mb-4">
                             {project.technologies.slice(0, 4).map((tech, techIndex) => (
                               <span
                                 key={techIndex}
-                                className={`text-sm ${
-                                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                                }`}
+                                className="px-2 py-1 rounded text-xs font-medium"
+                                style={{ 
+                                  backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                                  color: 'var(--text-secondary)',
+                                  border: '1px solid var(--border)'
+                                }}
                               >
-                                {tech}{techIndex < Math.min(project.technologies.length, 4) - 1 ? ' •' : ''}
+                                {tech}
                               </span>
                             ))}
                             {project.technologies.length > 4 && (
-                              <span className={`text-sm ${
-                                isDarkMode ? 'text-gray-500' : 'text-gray-500'
-                              }`}>
+                              <span
+                                className="px-2 py-1 rounded text-xs font-medium"
+                                style={{ 
+                                  backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                                  color: 'var(--text-secondary)',
+                                  border: '1px solid var(--border)'
+                                }}
+                              >
                                 +{project.technologies.length - 4} more
                               </span>
                             )}
                           </div>
                         </div>
+
+                        {/* Meta Info */}
+                        <div className="flex flex-col lg:items-end text-sm">
+                          <div className="flex items-center gap-4 lg:flex-col lg:items-end lg:gap-2">
+                            <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                              {project.year}
+                            </span>
+                            <span style={{ color: 'var(--text-secondary)' }}>
+                              {project.impact}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    
-                    {/* Right: Year + Arrow */}
-                    <div className={`flex items-center space-x-6 ${
-                      isElementAnimated(project.id, 'year')
-                        ? 'animate-typewriter-right'
-                        : 'opacity-0 transform translate-x-8'
-                    }`}>
-                      <div className="text-right">
-                        <div className={`text-xl font-bold ${
-                          isDarkMode ? 'text-white' : 'text-black'
-                        }`}>
-                          [{project.year}]
-                        </div>
-                        <div className={`text-sm ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                        }`}>
-                          {project.impact}
-                        </div>
-                      </div>
-                      
-                      {/* Arrow */}
-                      <div className={`text-2xl transition-all duration-300 ${
-                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                      }`}
-                      style={{
-                        color: hoveredProject === project.id ? 'var(--accent)' : undefined,
-                        transform: hoveredProject === project.id ? 'translateX(8px)' : 'translateX(0)'
-                      }}>
+
+                    {/* Arrow */}
+                    <div className="flex-shrink-0 ml-6">
+                      <span 
+                        className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
+                        style={{ color: 'var(--text-muted)' }}
+                      >
                         ↗
-                      </div>
+                      </span>
                     </div>
                   </div>
-                  
-                  {/* Separator Line */}
-                  {index < visibleProjects.length - 1 && (
-                    <div className={`h-px mx-6 ${
-                      isDarkMode ? 'bg-gray-800' : 'bg-gray-200'
-                    } transition-all duration-300 ${
-                      isElementAnimated(project.id, 'line')
-                        ? 'animate-typewriter-line'
-                        : 'w-0 opacity-0'
-                    }`}
-                    style={{
-                      backgroundColor: hoveredProject === project.id ? 'var(--hover-border)' : undefined
-                    }}></div>
-                  )}
                 </Link>
-              );
-            })}
+
+                {/* Separator */}
+                {index < visibleProjects.length - 1 && (
+                  <div 
+                    className="h-px mx-6 transition-all duration-500"
+                    style={{ backgroundColor: 'var(--border)' }}
+                  ></div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Call to Action */}
+          <div className="mt-16 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+              Let&apos;s Build Something Amazing Together
+            </h2>
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+              Ready to bring your ideas to life with cutting-edge technology and innovative solutions.
+            </p>
+            <div className="space-x-4">
+              <button 
+                className="px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105"
+                style={{ backgroundColor: 'var(--accent)', color: 'white' }}
+              >
+                Start a Project
+              </button>
+              <button 
+                className="px-8 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105"
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+              >
+                Get In Touch
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <Footer />
-
-      <style jsx>{`
-        @keyframes typewriter {
-          0% {
-            opacity: 0;
-            transform: translateY(15px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes typewriter-number {
-          0% {
-            opacity: 0;
-            transform: scale(0.8) translateY(10px);
-          }
-          60% {
-            transform: scale(1.05) translateY(0);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
-        }
-
-        @keyframes typewriter-title {
-          0% {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-          }
-          100% {
-            opacity: 1;
-            width: 100%;
-          }
-        }
-
-        @keyframes typewriter-text {
-          0% {
-            opacity: 0;
-            max-height: 0;
-            transform: translateY(10px);
-          }
-          100% {
-            opacity: 1;
-            max-height: 100px;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes typewriter-tech {
-          0% {
-            opacity: 0;
-            transform: translateX(-15px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes typewriter-right {
-          0% {
-            opacity: 0;
-            transform: translateX(15px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes typewriter-badge {
-          0% {
-            opacity: 0;
-            transform: scale(0) rotate(-10deg);
-          }
-          80% {
-            transform: scale(1.1) rotate(2deg);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-          }
-        }
-
-        @keyframes typewriter-line {
-          0% {
-            width: 0;
-            opacity: 0;
-          }
-          100% {
-            width: 100%;
-            opacity: 1;
-          }
-        }
-
-        @keyframes blink {
-          0%, 50% {
-            opacity: 1;
-          }
-          51%, 100% {
-            opacity: 0;
-          }
-        }
-
-        .animate-typewriter {
-          animation: typewriter 0.8s ease-out forwards;
-        }
-
-        .animate-typewriter-number {
-          animation: typewriter-number 1s ease-out forwards;
-        }
-
-        .animate-typewriter-title {
-          animation: typewriter-title 1.5s ease-out forwards;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-
-        .animate-typewriter-text {
-          animation: typewriter-text 1s ease-out forwards;
-        }
-
-        .animate-typewriter-tech {
-          animation: typewriter-tech 0.8s ease-out forwards;
-        }
-
-        .animate-typewriter-right {
-          animation: typewriter-right 0.8s ease-out forwards;
-        }
-
-        .animate-typewriter-badge {
-          animation: typewriter-badge 0.6s ease-out forwards;
-        }
-
-        .animate-typewriter-line {
-          animation: typewriter-line 1s ease-out forwards;
-        }
-
-        .animate-blink {
-          animation: blink 1s infinite;
-        }
-
-        @keyframes gridMove {
-          0% {
-            transform: translate(0, 0);
-          }
-          100% {
-            transform: translate(25px, 25px);
-          }
-        }
-      `}</style>
     </div>
   );
 };
 
-export default ProjectsPage;
+export default Projects;

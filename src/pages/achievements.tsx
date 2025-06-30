@@ -182,7 +182,7 @@ const Achievements = () => {
               Let&apos;s Build Something Amazing Together
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-              Always looking for opportunities to grow and make an impact through technology.
+              Ready to take on new challenges and continue making an impact in the tech industry.
             </p>
             <div className="space-x-4">
               <button 

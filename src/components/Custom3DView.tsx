@@ -151,7 +151,6 @@ const Custom3DView: React.FC = () => {
   const [selectedInfo, setSelectedInfo] = useState<PersonaInfo | null>(null);
   const [clickCounts, setClickCounts] = useState<{ [key: string]: number }>({});
   const [showEasterEgg, setShowEasterEgg] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
 
   const handleLetterClick = useCallback(
@@ -179,7 +178,6 @@ const Custom3DView: React.FC = () => {
   );
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
     // No actualizar mousePosition para mantener el grid estático
   }, []);
 
@@ -192,9 +190,6 @@ const Custom3DView: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [showEasterEgg]);
-
-  // Grid configuration
-  const gridSize = 20;
 
   // Create grid array (60x60 like Rauno)
   const gridItems = Array.from({ length: 3600 }, (_, i) => i);

@@ -54,7 +54,7 @@ const UPPostgraduatePortalProject = () => {
                 Project Overview
               </h2>
               <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
-                Joined an existing project to provide ongoing support and feature enhancements for Universidad Panamericana's 
+                Joined an existing project to provide ongoing support and feature enhancements for Universidad Panamericana&apos;s 
                 postgraduate portal. The platform manages academic projects, school programs, and postgraduate offerings 
                 with an integrated coffee break management system.
               </p>

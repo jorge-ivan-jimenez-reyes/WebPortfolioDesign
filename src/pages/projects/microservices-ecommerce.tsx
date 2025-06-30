@@ -174,8 +174,8 @@ const MicroservicesEcommerceProject = () => {
             <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
               Need Scalable E-commerce Solutions?
             </h2>
-            <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-              Let's architect a platform that grows with your business.
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+              Ready to bring our expertise to your next project and help scale your technology solutions.
             </p>
             <div className="space-x-4">
               <Link href="/projects" className="inline-block px-6 py-3 rounded-lg transition-colors duration-300" style={{
