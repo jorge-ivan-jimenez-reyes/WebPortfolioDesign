@@ -17,13 +17,12 @@ class MyDocument extends Document {
                     <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/file.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/window.svg" as="image" type="image/svg+xml" />
-                    {/* Preload Inter font */}
+                    {/* Google Fonts - Inter */}
+                    <link rel="preconnect" href="https://fonts.googleapis.com" />
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                     <link
-                        rel="preload"
-                        href="/fonts/inter-var-latin.woff2"
-                        as="font"
-                        type="font/woff2"
-                        crossOrigin="anonymous"
+                        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+                        rel="stylesheet"
                     />
                 </Head>
                 <body>
