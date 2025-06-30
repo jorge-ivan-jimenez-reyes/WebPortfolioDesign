@@ -273,29 +273,39 @@ const Custom3DView: React.FC = () => {
             <div
               className="flex justify-center items-center gap-5 p-7"
             >
-              {personaInfo.map((info) => (
+              {personaInfo.map((info, index) => (
                 <button
                   key={info.letter}
-                  className="text-7xl font-bold hover:scale-110 transition-all duration-300 relative"
+                  className="text-7xl font-excalidraw hover:scale-110 transition-all duration-300 relative excalidraw-letter"
                   style={{
                     color: '#15253B',
-                    letterSpacing: "0.05em",
-                    textShadow: 'none',
+                    letterSpacing: "0.08em",
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)',
                     background: 'none',
                     border: 'none',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    opacity: 0.9
+                    padding: '0.7rem',
+                    borderRadius: '12px',
+                    opacity: 0.95,
+                    fontWeight: '600',
+                    textRendering: 'optimizeLegibility',
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale',
+                    transform: 'perspective(1000px) rotateX(5deg) rotateY(-2deg)',
+                    filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.15))'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.opacity = '1';
-                    e.currentTarget.style.transform = 'scale(1.1)';
+                    e.currentTarget.style.transform = 'perspective(1000px) rotateX(8deg) rotateY(-3deg) scale(1.15)';
                     e.currentTarget.style.color = '#1e3a5f';
+                    e.currentTarget.style.textShadow = '3px 3px 6px rgba(0,0,0,0.2), 0 0 12px rgba(30, 58, 95, 0.3)';
+                    e.currentTarget.style.filter = 'drop-shadow(4px 4px 8px rgba(0,0,0,0.25))';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '0.9';
-                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.opacity = '0.95';
+                    e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg) rotateY(-2deg) scale(1)';
                     e.currentTarget.style.color = '#15253B';
+                    e.currentTarget.style.textShadow = '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)';
+                    e.currentTarget.style.filter = 'drop-shadow(3px 3px 6px rgba(0,0,0,0.15))';
                   }}
                   onClick={() => handleLetterClick(info)}
                 >

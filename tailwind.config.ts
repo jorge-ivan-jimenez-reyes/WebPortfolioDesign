@@ -6,6 +6,14 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-
+  theme: {
+    extend: {
+      fontFamily: {
+        'excalidraw': ['Kalam', 'Caveat', 'Architects Daughter', 'Comic Neue', 'Permanent Marker', 'cursive'],
+        'handwritten': ['Caveat', 'Kalam', 'Architects Daughter', 'cursive'],
+        'sketch': ['Architects Daughter', 'Kalam', 'cursive'],
+      },
+    },
+  },
   plugins: [],
 } satisfies Config;
