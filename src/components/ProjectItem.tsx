@@ -51,7 +51,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
           {/* Number */}
           <div className="flex-shrink-0 mr-8">
             <span 
-              ref={numberInView.ref}
+              ref={numberInView.ref as React.RefCallback<HTMLSpanElement>}
               className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
               style={{ color: 'var(--text-muted)' }}
             >
@@ -72,7 +72,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-xl">{getCategoryIcon(project.category)}</span>
                   <h3 
-                    ref={titleInView.ref}
+                    ref={titleInView.ref as React.RefCallback<HTMLHeadingElement>}
                     className="text-xl md:text-2xl font-bold" 
                     style={{ color: 'var(--text-primary)' }}
                   >
@@ -105,7 +105,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
                 </div>
                 
                 <p 
-                  ref={textInView.ref}
+                  ref={textInView.ref as React.RefCallback<HTMLParagraphElement>}
                   className="text-sm md:text-base leading-relaxed mb-4" 
                   style={{ color: 'var(--text-secondary)' }}
                 >
@@ -119,7 +119,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, index, getCategoryIc
 
                 {/* Technologies */}
                 <div 
-                  ref={techInView.ref}
+                  ref={techInView.ref as React.RefCallback<HTMLDivElement>}
                   className="flex flex-wrap gap-2 mb-4"
                   style={{
                     opacity: techInView.isInView ? 1 : 0,

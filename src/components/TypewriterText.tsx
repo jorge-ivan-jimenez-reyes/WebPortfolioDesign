@@ -54,16 +54,8 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   return (
     <span className={className} style={style}>
       {displayedText}
-      {shouldStart && !isComplete && (
-        <span 
-          className="typewriter-cursor"
-          style={{
-            color: 'var(--accent)',
-            animation: 'blink 1s infinite'
-          }}
-        >
-          |
-        </span>
+      {shouldStart && !isComplete && currentIndex < text.length && (
+        <span className="typewriter-cursor" />
       )}
     </span>
   );
