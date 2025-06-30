@@ -120,6 +120,8 @@ const ProjectsPage: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'frontend' | 'fullstack' | 'architecture'>('all');
   const [visibleProjects, setVisibleProjects] = useState<Project[]>([]);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [animatedElements, setAnimatedElements] = useState<{[key: string]: boolean}>({});
 
   const categories = [
     { key: 'all', label: 'All', count: projects.length },
@@ -128,16 +130,53 @@ const ProjectsPage: React.FC = () => {
     { key: 'frontend', label: 'Frontend', count: projects.filter(p => p.category === 'frontend').length },
   ];
 
+  // Helper function to check if an element should be animated
+  const isElementAnimated = (projectId: number, element: string) => {
+    return animatedElements[`${projectId}-${element}`] || false;
+  };
+
   useEffect(() => {
     const filtered = selectedCategory === 'all' 
       ? projects 
       : projects.filter(p => p.category === selectedCategory);
     
-    setVisibleProjects([]);
-    setTimeout(() => {
-      setVisibleProjects(filtered);
-    }, 150);
+    setVisibleProjects(filtered);
+    setAnimatedElements({});
+    
+    // Animate each project and its elements sequentially
+    filtered.forEach((project, projectIndex) => {
+      const baseDelay = projectIndex * 800; // Delay between projects
+      
+      // Sequential animation for each element
+      const animationSequence = [
+        { element: 'number', delay: baseDelay + 100 },
+        { element: 'title', delay: baseDelay + 300 },
+        { element: 'badge', delay: baseDelay + 600 },
+        { element: 'description', delay: baseDelay + 900 },
+        { element: 'tech', delay: baseDelay + 1200 },
+        { element: 'year', delay: baseDelay + 1500 },
+        { element: 'line', delay: baseDelay + 1800 }
+      ];
+
+      animationSequence.forEach(({ element, delay }) => {
+        setTimeout(() => {
+          setAnimatedElements(prev => ({
+            ...prev,
+            [`${project.id}-${element}`]: true
+          }));
+        }, delay);
+      });
+    });
   }, [selectedCategory]);
+
+  const getCategoryIcon = (category: string) => {
+    const icons = {
+      architecture: '🏗️',
+      fullstack: '⚡',
+      frontend: '🎨'
+    };
+    return icons[category as keyof typeof icons] || '💻';
+  };
 
   return (
     <div className={`w-screen min-h-screen relative overflow-hidden ${
@@ -163,10 +202,10 @@ const ProjectsPage: React.FC = () => {
 
       {/* Main Content */}
       <div className="relative z-10 px-6 py-16">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           
           {/* Title */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <h1 className={`text-5xl md:text-7xl font-black mb-6 ${
               isDarkMode ? 'text-white' : 'text-black'
             } tracking-tight`}>
@@ -207,132 +246,174 @@ const ProjectsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visibleProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className={`group relative overflow-hidden rounded-xl transition-all duration-500 hover:scale-105 ${
-                  project.featured ? 'lg:col-span-2 xl:col-span-1' : ''
-                } ${
-                  isDarkMode 
-                    ? 'bg-gray-900/50 border border-gray-800/50 hover:border-[#15253B]/40' 
-                    : 'bg-white border border-gray-200/50 hover:border-[#15253B]/40'
-                } backdrop-blur-sm shadow-lg hover:shadow-xl cursor-pointer`}
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  animation: 'projectSlideIn 0.6s ease-out forwards'
-                }}
-              >
-                
-                {/* Featured Badge */}
-                {project.featured && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="bg-[#15253B] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-                      Featured
-                    </div>
-                  </div>
-                )}
-
-                {/* Subtle Category Indicator */}
-                <div className="h-0.5 bg-[#15253B]/30"></div>
-
-                {/* Content */}
-                <div className="p-6">
+          {/* Projects List */}
+          <div className="space-y-1">
+            {visibleProjects.map((project, index) => {
+              
+              return (
+                <div
+                  key={project.id}
+                  className={`group relative cursor-pointer transition-all duration-500 ${
+                    hoveredProject === project.id ? 'scale-[1.02]' : ''
+                  }`}
+                  onMouseEnter={() => setHoveredProject(project.id)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
                   
-                  {/* Category Badge */}
-                  <div className="mb-4">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                      isDarkMode 
-                        ? 'bg-[#15253B]/20 text-[#15253B] border border-[#15253B]/30' 
-                        : 'bg-[#15253B]/10 text-[#15253B] border border-[#15253B]/20'
-                    }`}>
-                      {project.category.toUpperCase()}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className={`text-xl font-bold mb-3 ${
-                    isDarkMode ? 'text-white' : 'text-gray-900'
-                  } group-hover:text-[#15253B] transition-colors duration-300`}>
-                    {project.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className={`text-sm mb-4 ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                  } leading-relaxed`}>
-                    {project.description}
-                  </p>
-
-                  {/* Impact */}
-                  <div className={`mb-4 p-3 rounded-lg ${
-                    isDarkMode ? 'bg-gray-800/50' : 'bg-gray-50'
-                  } border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'} border-l-2 border-l-[#15253B]/40`}>
-                    <div className={`text-xs font-medium mb-1 ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                      IMPACT
-                    </div>
-                    <div className={`text-sm font-semibold ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
-                    }`}>
-                      {project.impact}
-                    </div>
-                  </div>
-
-                  {/* Technologies */}
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className={`px-2 py-1 rounded text-xs font-medium ${
-                            isDarkMode 
-                              ? 'bg-gray-800/50 text-gray-300 border border-gray-700/50' 
-                              : 'bg-gray-100 text-gray-600 border border-gray-200'
-                          } hover:border-[#15253B]/30 transition-colors duration-200`}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 3 && (
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          isDarkMode ? 'bg-gray-700/50 text-gray-400' : 'bg-gray-200 text-gray-500'
+                  {/* Project Row */}
+                  <div className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 ${
+                    hoveredProject === project.id 
+                      ? isDarkMode 
+                        ? 'bg-gray-900/50 border-l-4 border-l-[#15253B]' 
+                        : 'bg-gray-50/80 border-l-4 border-l-[#15253B]'
+                      : 'hover:bg-gray-900/20 hover:bg-gray-50/40'
+                  }`}>
+                    
+                    {/* Left: Number + Content */}
+                    <div className="flex items-start space-x-8 flex-1">
+                      
+                      {/* Project Number */}
+                      <div className={`text-4xl font-black ${
+                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                      } min-w-[60px] transition-colors duration-300 ${
+                        hoveredProject === project.id ? 'text-[#15253B]' : ''
+                      } ${
+                        isElementAnimated(project.id, 'number') 
+                          ? 'animate-typewriter-number' 
+                          : 'opacity-0 transform scale-0'
+                      }`}>
+                        {String(index + 1).padStart(2, '0')}.
+                      </div>
+                      
+                      {/* Project Info */}
+                      <div className="flex-1">
+                        
+                        {/* Title + Category */}
+                        <div className="flex items-center space-x-4 mb-2">
+                          <div className={`${
+                            isElementAnimated(project.id, 'title')
+                              ? 'animate-typewriter-title'
+                              : 'opacity-0 w-0 overflow-hidden'
+                          }`}>
+                            <h3 className={`text-2xl md:text-3xl font-bold ${
+                              isDarkMode ? 'text-white' : 'text-black'
+                            } transition-colors duration-300 ${
+                              hoveredProject === project.id ? 'text-[#15253B]' : ''
+                            } whitespace-nowrap`}>
+                              {project.title}
+                              {isElementAnimated(project.id, 'title') && (
+                                <span className={`inline-block ml-1 ${
+                                  isDarkMode ? 'text-[#15253B]' : 'text-[#15253B]'
+                                } animate-blink`}>
+                                  |
+                                </span>
+                              )}
+                            </h3>
+                          </div>
+                          
+                          {project.featured && (
+                            <span className={`bg-[#15253B] text-white px-3 py-1 rounded-full text-xs font-semibold ${
+                              isElementAnimated(project.id, 'badge')
+                                ? 'animate-typewriter-badge'
+                                : 'opacity-0 scale-0 rotate-180'
+                            }`}>
+                              Featured
+                            </span>
+                          )}
+                        </div>
+                        
+                        {/* Description */}
+                        <div className={`${
+                          isElementAnimated(project.id, 'description')
+                            ? 'animate-typewriter-text'
+                            : 'opacity-0 max-h-0 overflow-hidden'
                         }`}>
-                          +{project.technologies.length - 3}
-                        </span>
-                      )}
+                          <p className={`text-base ${
+                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                          } mb-3 leading-relaxed max-w-3xl`}>
+                            {project.description}
+                          </p>
+                        </div>
+                        
+                        {/* Tech Stack */}
+                        <div className={`flex items-center space-x-3 ${
+                          isElementAnimated(project.id, 'tech')
+                            ? 'animate-typewriter-tech'
+                            : 'opacity-0 transform -translate-x-8'
+                        }`}>
+                          <span className={`text-sm ${
+                            isDarkMode ? 'text-gray-500' : 'text-gray-500'
+                          }`}>
+                            {getCategoryIcon(project.category)}
+                          </span>
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.slice(0, 4).map((tech, techIndex) => (
+                              <span
+                                key={techIndex}
+                                className={`text-sm ${
+                                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                }`}
+                              >
+                                {tech}{techIndex < Math.min(project.technologies.length, 4) - 1 ? ' •' : ''}
+                              </span>
+                            ))}
+                            {project.technologies.length > 4 && (
+                              <span className={`text-sm ${
+                                isDarkMode ? 'text-gray-500' : 'text-gray-500'
+                              }`}>
+                                +{project.technologies.length - 4} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Right: Year + Arrow */}
+                    <div className={`flex items-center space-x-6 ${
+                      isElementAnimated(project.id, 'year')
+                        ? 'animate-typewriter-right'
+                        : 'opacity-0 transform translate-x-8'
+                    }`}>
+                      <div className="text-right">
+                        <div className={`text-xl font-bold ${
+                          isDarkMode ? 'text-white' : 'text-black'
+                        }`}>
+                          [{project.year}]
+                        </div>
+                        <div className={`text-sm ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                          {project.impact}
+                        </div>
+                      </div>
+                      
+                      {/* Arrow */}
+                      <div className={`text-2xl transition-all duration-300 ${
+                        hoveredProject === project.id 
+                          ? 'text-[#15253B] transform translate-x-2' 
+                          : isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                      }`}>
+                        ↗
+                      </div>
                     </div>
                   </div>
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between">
-                    <div className={`text-xs font-medium ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                      {project.year}
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      project.status === 'completed' 
-                        ? isDarkMode 
-                          ? 'bg-green-900/30 text-green-400 border border-green-800/50'
-                          : 'bg-green-100 text-green-700 border border-green-200'
-                        : project.status === 'in-progress'
-                        ? isDarkMode
-                          ? 'bg-yellow-900/30 text-yellow-400 border border-yellow-800/50'
-                          : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
-                        : isDarkMode
-                          ? 'bg-[#15253B]/30 text-blue-400 border border-[#15253B]/50'
-                          : 'bg-blue-100 text-blue-700 border border-blue-200'
-                    }`}>
-                      {project.status === 'completed' ? 'Done' : 
-                       project.status === 'in-progress' ? 'Active' : 'Live'}
-                    </div>
-                  </div>
+                  
+                  {/* Separator Line */}
+                  {index < visibleProjects.length - 1 && (
+                    <div className={`h-px mx-6 ${
+                      isDarkMode ? 'bg-gray-800' : 'bg-gray-200'
+                    } transition-all duration-300 ${
+                      hoveredProject === project.id ? 'bg-[#15253B]/30' : ''
+                    } ${
+                      isElementAnimated(project.id, 'line')
+                        ? 'animate-typewriter-line'
+                        : 'w-0 opacity-0'
+                    }`}></div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -340,15 +421,148 @@ const ProjectsPage: React.FC = () => {
       <Footer />
 
       <style jsx>{`
-        @keyframes projectSlideIn {
+        @keyframes typewriter {
           0% {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(15px);
           }
           100% {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+
+        @keyframes typewriter-number {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+          }
+          60% {
+            transform: scale(1.05) translateY(0);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        @keyframes typewriter-title {
+          0% {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+          }
+          100% {
+            opacity: 1;
+            width: 100%;
+          }
+        }
+
+        @keyframes typewriter-text {
+          0% {
+            opacity: 0;
+            max-height: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            max-height: 100px;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes typewriter-tech {
+          0% {
+            opacity: 0;
+            transform: translateX(-15px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes typewriter-right {
+          0% {
+            opacity: 0;
+            transform: translateX(15px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes typewriter-badge {
+          0% {
+            opacity: 0;
+            transform: scale(0) rotate(-10deg);
+          }
+          80% {
+            transform: scale(1.1) rotate(2deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+
+        @keyframes typewriter-line {
+          0% {
+            width: 0;
+            opacity: 0;
+          }
+          100% {
+            width: 100%;
+            opacity: 1;
+          }
+        }
+
+        @keyframes blink {
+          0%, 50% {
+            opacity: 1;
+          }
+          51%, 100% {
+            opacity: 0;
+          }
+        }
+
+        .animate-typewriter {
+          animation: typewriter 0.8s ease-out forwards;
+        }
+
+        .animate-typewriter-number {
+          animation: typewriter-number 1s ease-out forwards;
+        }
+
+        .animate-typewriter-title {
+          animation: typewriter-title 1.5s ease-out forwards;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .animate-typewriter-text {
+          animation: typewriter-text 1s ease-out forwards;
+        }
+
+        .animate-typewriter-tech {
+          animation: typewriter-tech 0.8s ease-out forwards;
+        }
+
+        .animate-typewriter-right {
+          animation: typewriter-right 0.8s ease-out forwards;
+        }
+
+        .animate-typewriter-badge {
+          animation: typewriter-badge 0.6s ease-out forwards;
+        }
+
+        .animate-typewriter-line {
+          animation: typewriter-line 1s ease-out forwards;
+        }
+
+        .animate-blink {
+          animation: blink 1s infinite;
         }
 
         @keyframes gridMove {
