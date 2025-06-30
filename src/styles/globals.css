@@ -5,40 +5,88 @@
 
 /* Define CSS custom properties for elegant dark theme */
 :root {
+  /* Main App Colors */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
   --primary: #15253B;
-  --secondary: #6b7280;
-  --accent: #15253B;
-  --card-bg: #f8fafc;
+  --primary-light: #1e3a5f;
+  --primary-dark: #0f1a28;
+  
+  /* Text Colors */
+  --text-primary: #000000;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  
+  /* Surface Colors */
+  --surface: #ffffff;
+  --surface-secondary: #f8fafc;
+  --surface-tertiary: #f1f5f9;
+  
+  /* Border Colors */
   --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  
+  /* Accent Colors */
+  --accent: #15253B;
+  --accent-hover: #1e3a5f;
+  
+  /* Grid and Effects */
+  --grid-color: rgba(21, 37, 59, 0.12);
+  
+  /* Interactive States */
+  --hover-bg: #f8fafc;
+  --hover-border: rgba(21, 37, 59, 0.3);
 }
 
 .dark {
-  --background: #000000;
+  /* Main App Colors */
+  --background: #0f172a;
   --foreground: #ffffff;
-  --primary: #15253B;
-  --secondary: #64748b;
-  --accent: #15253B;
-  --card-bg: #0f172a;
-  --border: #1e293b;
+  --primary: #3b82f6;  /* Blue for better contrast */
+  --primary-light: #60a5fa;
+  --primary-dark: #2563eb;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  
+  /* Surface Colors */
+  --surface: #1e293b;
+  --surface-secondary: #334155;
+  --surface-tertiary: #475569;
+  
+  /* Border Colors */
+  --border: #334155;
+  --border-light: #475569;
+  
+  /* Accent Colors */
+  --accent: #3b82f6;  /* Blue accent for dark mode */
+  --accent-hover: #60a5fa;
+  
+  /* Grid and Effects */
+  --grid-color: rgba(59, 130, 246, 0.15);  /* Blue grid for dark mode */
+  
+  /* Interactive States */
+  --hover-bg: #1e293b;
+  --hover-border: rgba(59, 130, 246, 0.4);
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text-primary);
   background: var(--background);
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 a {
-  color: var(--primary);
+  color: var(--accent);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: var(--secondary);
+  color: var(--accent-hover);
 }
 
 /* Animation for fading up */

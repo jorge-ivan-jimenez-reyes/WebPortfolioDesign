@@ -4,14 +4,17 @@ import { useTheme } from '../context/ThemeContext';
 const ThemeToggle = memo(function ThemeToggle() {
     const { isDarkMode, toggleTheme } = useTheme();
 
-    const buttonClasses = `fixed bottom-4 right-4 p-3 rounded-full z-50 transition-colors duration-200 shadow-lg ${
-        isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-yellow-400'
-    }`;
-
     return (
         <button
             onClick={toggleTheme}
-            className={buttonClasses}
+            className={`fixed bottom-4 right-4 p-3 rounded-full z-50 transition-all duration-300 shadow-lg ${
+                isDarkMode ? 'bg-yellow-400 text-gray-900 hover:bg-yellow-300' : 'hover:scale-110'
+            }`}
+            style={{
+                backgroundColor: isDarkMode ? '#fbbf24' : 'var(--surface-secondary)',
+                color: isDarkMode ? '#111827' : 'var(--accent)',
+                border: `2px solid ${isDarkMode ? '#fbbf24' : 'var(--accent)'}`
+            }}
             aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
         >
             {isDarkMode ? (

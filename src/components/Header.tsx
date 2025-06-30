@@ -24,11 +24,16 @@ const Header = () => {
 
   return (
     <motion.header
-      className={`${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} shadow-lg fixed w-full z-50`}
+      className="shadow-lg fixed w-full z-50"
+      style={{
+        backgroundColor: 'var(--surface)',
+        color: 'var(--text-primary)',
+        borderBottom: `1px solid var(--border)`
+      }}
       initial={false}
       animate={{
-        backgroundColor: isDarkMode ? "#111827" : "#ffffff",
-        color: isDarkMode ? "#ffffff" : "#111827",
+        backgroundColor: isDarkMode ? "var(--surface)" : "var(--surface)",
+        color: isDarkMode ? "var(--text-primary)" : "var(--text-primary)",
       }}
       transition={{ duration: 0.3 }}
     >
@@ -41,7 +46,8 @@ const Header = () => {
         >
           <Link
             href="/"
-            className={`${isDarkMode ? "text-cyan-400 hover:text-cyan-300" : "text-blue-600 hover:text-blue-700"} transition duration-300`}
+            className="transition duration-300 hover:opacity-80"
+            style={{ color: 'var(--accent)' }}
           >
             My Portfolio
           </Link>
@@ -52,6 +58,7 @@ const Header = () => {
           onClick={toggleMenu}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          style={{ color: 'var(--text-primary)' }}
         >
           <svg
             className="w-6 h-6"
@@ -86,11 +93,19 @@ const Header = () => {
                 >
                   <Link
                     href={`/${item.toLowerCase()}`}
-                    className={`block lg:inline-block ${
-                      isDarkMode
-                        ? "text-gray-300 hover:text-cyan-400 hover:bg-gray-800"
-                        : "text-gray-700 hover:text-blue-600 hover:bg-gray-100"
-                    } transition duration-300 px-3 py-2 rounded-md`}
+                    className="block lg:inline-block transition duration-300 px-3 py-2 rounded-md"
+                    style={{
+                      color: 'var(--text-secondary)',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'var(--accent)';
+                      e.currentTarget.style.backgroundColor = 'var(--hover-bg)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'var(--text-secondary)';
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
                     {item}
                   </Link>

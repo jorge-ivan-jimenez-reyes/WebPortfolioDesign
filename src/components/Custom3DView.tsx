@@ -280,14 +280,26 @@ const Custom3DView: React.FC = () => {
               {personaInfo.map((info) => (
                 <button
                   key={info.letter}
-                  className={`text-7xl font-bold ${
-                    isDarkMode ? "text-white" : "text-black"
-                  } hover:scale-110 transition-all duration-300 relative`}
+                  className="text-7xl font-bold hover:scale-110 transition-all duration-300 relative"
                   style={{
-                    textShadow: isDarkMode
-                      ? "0.03em 0.03em 0px #2c3e50, 0.06em 0.06em 0px #1a252f, 0 0 25px rgba(80, 180, 255, 0.5)"
-                      : "0.03em 0.03em 0px #d1d5db, 0.06em 0.06em 0px #9ca3af, 0 0 15px rgba(0, 0, 0, 0.1)",
+                    color: '#15253B',
                     letterSpacing: "0.05em",
+                    textShadow: 'none',
+                    background: 'none',
+                    border: 'none',
+                    padding: '0.5rem',
+                    borderRadius: '8px',
+                    opacity: 0.9
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                    e.currentTarget.style.color = '#1e3a5f';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '0.9';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.color = '#15253B';
                   }}
                   onClick={() => handleLetterClick(info)}
                 >

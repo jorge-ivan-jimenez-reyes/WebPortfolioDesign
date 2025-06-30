@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import Footer from '../components/Footer';
+import Link from 'next/link';
 
 interface Project {
   id: number;
@@ -12,107 +13,134 @@ interface Project {
   impact: string;
   status: 'completed' | 'in-progress' | 'maintenance';
   featured: boolean;
+  slug?: string; // Add slug for navigation
 }
 
 const projects: Project[] = [
+  // ARCHITECTURE PROJECTS
   {
     id: 1,
-    title: "Cloud-Native E-commerce Platform",
-    description: "Enterprise-scale microservices architecture serving 1M+ daily users with auto-scaling capabilities.",
-    technologies: ["AWS", "Kubernetes", "Event Sourcing", "CQRS", "Redis", "PostgreSQL"],
+    title: "AI-Powered Social Media Platform Architecture",
+    description: "Scalable social media platform with AI-generated content, using AWS Cognito for authentication and EC2 with load balancing for high availability.",
+    technologies: ["AWS Cognito", "EC2", "Application Load Balancer", "Lambda", "S3", "RDS", "CloudFront"],
     category: "architecture",
-    year: "2023",
-    impact: "300% performance improvement",
-    status: "completed",
-    featured: true
+    year: "2024",
+    impact: "Supports 100K+ concurrent users",
+    status: "in-progress",
+    featured: true,
+    slug: "ai-social-media-platform"
   },
   {
     id: 2,
-    title: "Real-time Analytics Infrastructure",
-    description: "High-throughput data processing platform processing 100TB+ daily data with sub-second analytics.",
-    technologies: ["Apache Kafka", "Apache Spark", "ClickHouse", "Docker", "Terraform"],
+    title: "Microservices E-commerce Platform",
+    description: "Event-driven microservices architecture for high-traffic e-commerce with auto-scaling, API Gateway, and distributed caching.",
+    technologies: ["AWS EKS", "API Gateway", "EventBridge", "ElastiCache", "RDS Aurora", "CloudWatch"],
     category: "architecture",
-    year: "2023",
-    impact: "1M events/second throughput",
-    status: "in-progress",
-    featured: true
+    year: "2024",
+    impact: "99.9% uptime, 500% scalability",
+    status: "completed",
+    featured: true,
+    slug: "microservices-ecommerce"
   },
   {
     id: 3,
-    title: "Multi-tenant SaaS Architecture",
-    description: "Secure, scalable architecture for B2B SaaS with 1000+ enterprise tenants and hybrid isolation.",
-    technologies: ["Node.js", "MongoDB", "JWT", "API Gateway", "Load Balancers"],
+    title: "Real-time Analytics Data Lake",
+    description: "Serverless data processing pipeline with real-time analytics, handling petabytes of data with cost-optimized storage and processing.",
+    technologies: ["AWS Kinesis", "Lambda", "S3 Data Lake", "Athena", "Glue", "QuickSight", "EMR"],
     category: "architecture",
-    year: "2022",
-    impact: "1000+ active tenants",
-    status: "maintenance",
-    featured: true
+    year: "2024",
+    impact: "Processes 10TB+ daily data",
+    status: "completed",
+    featured: true,
+    slug: "analytics-data-lake"
   },
   {
     id: 4,
-    title: "AI-Powered Project Management Suite",
-    description: "Complete project management platform with AI recommendations and machine learning insights.",
-    technologies: ["React", "Node.js", "GraphQL", "PostgreSQL", "TypeScript", "Python"],
-    category: "fullstack",
-    year: "2022",
-    impact: "35% productivity increase",
-    status: "completed",
-    featured: false
+    title: "Multi-tenant SaaS Infrastructure",
+    description: "Secure, isolated multi-tenant architecture with tenant-specific data segregation, monitoring, and compliance automation.",
+    technologies: ["AWS Organizations", "Control Tower", "Transit Gateway", "WAF", "Config", "CloudTrail"],
+    category: "architecture",
+    year: "2023",
+    impact: "1000+ enterprise tenants",
+    status: "maintenance",
+    featured: false,
+    slug: "multitenant-saas"
   },
+
+  // FULL-STACK PROJECTS
   {
     id: 5,
-    title: "Real-time Collaboration Platform",
-    description: "Slack-like communication platform with WebRTC video calls and comprehensive file sharing.",
-    technologies: ["Vue.js", "Express.js", "Socket.io", "WebRTC", "MongoDB"],
+    title: "ConnectUP - Academic Management Platform",
+    description: "Comprehensive platform for managing engineering academies, professors, schedules, classes, and subjects with optimized academic workflows.",
+    technologies: ["Django", "React", "MySQL", "AWS", "Kubernetes", "Docker", "Redis"],
     category: "fullstack",
-    year: "2021",
-    impact: "500+ daily active users",
-    status: "maintenance",
-    featured: false
+    year: "2023",
+    impact: "500+ professors, 10K+ students",
+    status: "completed",
+    featured: true,
+    slug: "connectup"
   },
   {
     id: 6,
-    title: "E-learning Management System",
-    description: "Comprehensive LMS with adaptive learning paths, video streaming, and advanced analytics.",
-    technologies: ["React", "Django", "PostgreSQL", "Redis", "FFmpeg"],
+    title: "Universidad Panamericana Postgraduate Portal",
+    description: "Microsite for managing postgraduate programs, academic projects, and schools with integrated coffee break management system and email services.",
+    technologies: ["Express.js", "React", "Node.js", "IIS", "SQL Server", "Nodemailer"],
     category: "fullstack",
-    year: "2021",
-    impact: "10,000+ students onboarded",
-    status: "completed",
-    featured: false
+    year: "2023",
+    impact: "50+ postgraduate programs",
+    status: "maintenance",
+    featured: false,
+    slug: "up-postgraduate-portal"
   },
+
+  // FRONTEND PROJECTS
   {
     id: 7,
-    title: "Interactive Data Visualization Dashboard",
-    description: "Complex dashboard with D3.js visualizations, real-time updates, and advanced filtering.",
-    technologies: ["React", "D3.js", "Chart.js", "TypeScript", "Tailwind CSS"],
+    title: "Astro Landing Page",
+    description: "High-performance landing page built with Astro for optimal SEO and lightning-fast loading times with modern design principles.",
+    technologies: ["Astro", "TypeScript", "Tailwind CSS", "Vite", "Vercel"],
     category: "frontend",
-    year: "2020",
-    impact: "60% faster data analysis",
+    year: "2024",
+    impact: "98+ Lighthouse score",
     status: "completed",
-    featured: false
+    featured: false,
+    slug: "astro-landing"
   },
   {
     id: 8,
-    title: "Progressive Web App for Retail",
-    description: "Mobile-first PWA with service workers, offline capabilities, and push notifications.",
-    technologies: ["React", "PWA", "Service Workers", "IndexedDB"],
+    title: "Angular Corporate Landing",
+    description: "Enterprise-grade landing page with Angular featuring advanced animations, responsive design, and optimized performance.",
+    technologies: ["Angular", "TypeScript", "Angular Material", "RxJS", "SCSS"],
     category: "frontend",
-    year: "2020",
-    impact: "50% mobile engagement boost",
+    year: "2023",
+    impact: "40% conversion increase",
     status: "completed",
-    featured: false
+    featured: false,
+    slug: "angular-corporate"
   },
   {
     id: 9,
-    title: "Component Design System",
-    description: "Reusable UI component library with Storybook documentation adopted across 5+ teams.",
-    technologies: ["React", "Storybook", "Styled Components", "Jest"],
+    title: "Stoyco Management Dashboard",
+    description: "Business operations dashboard for Stoyco with real-time data visualization, inventory management, and analytics reporting.",
+    technologies: ["Angular", "Chart.js", "Angular Material", "TypeScript", "Bootstrap"],
     category: "frontend",
-    year: "2019",
-    impact: "40% faster development",
-    status: "maintenance",
-    featured: false
+    year: "2023",
+    impact: "30% operational efficiency",
+    status: "completed",
+    featured: false,
+    slug: "stoyco-dashboard"
+  },
+  {
+    id: 10,
+    title: "Adobe Partner Club Platform",
+    description: "Interactive platform for Adobe partners built with Next.js featuring member management, resources, and collaboration tools.",
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL"],
+    category: "frontend",
+    year: "2024",
+    impact: "200+ active partners",
+    status: "completed",
+    featured: false,
+    slug: "adobe-partner-club"
   }
 ];
 
@@ -214,19 +242,17 @@ const ProjectsPage: React.FC = () => {
 
   return (
     <div className={`w-screen min-h-screen relative overflow-hidden ${
-      isDarkMode ? 'bg-black' : 'bg-white'
+      isDarkMode ? 'bg-gray-900' : 'bg-white'
     }`}>
       
       {/* Notebook-style Grid Background */}
       <div className="absolute inset-0 opacity-40">
         <div 
-          className={`absolute inset-0 ${
-            isDarkMode ? 'opacity-30' : 'opacity-40'
-          }`}
+          className="absolute inset-0 opacity-40"
           style={{
             backgroundImage: `
-              linear-gradient(${isDarkMode ? 'rgba(21, 37, 59, 0.2)' : 'rgba(21, 37, 59, 0.12)'} 1px, transparent 1px),
-              linear-gradient(90deg, ${isDarkMode ? 'rgba(21, 37, 59, 0.2)' : 'rgba(21, 37, 59, 0.12)'} 1px, transparent 1px)
+              linear-gradient(var(--grid-color) 1px, transparent 1px),
+              linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)
             `,
             backgroundSize: '25px 25px',
             animation: 'gridMove 25s linear infinite'
@@ -240,12 +266,10 @@ const ProjectsPage: React.FC = () => {
           
           {/* Title */}
           <div className="text-center mb-16">
-            <h1 className={`text-5xl md:text-7xl font-black mb-6 ${
-              isDarkMode ? 'text-white' : 'text-black'
-            } tracking-tight`}>
+            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight" style={{ color: '#15253B' }}>
               PROJECTS
             </h1>
-            <div className="w-24 h-1 mx-auto bg-[#15253B]"></div>
+            <div className="w-24 h-1 mx-auto" style={{ backgroundColor: 'var(--accent)' }}></div>
           </div>
 
           {/* Category Filter */}
@@ -261,11 +285,14 @@ const ProjectsPage: React.FC = () => {
                   onClick={() => setSelectedCategory(category.key as any)}
                   className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-3 ${
                     selectedCategory === category.key
-                      ? 'bg-[#15253B] text-white shadow-lg'
+                      ? 'text-white shadow-lg'
                       : isDarkMode
                         ? 'text-gray-400 hover:text-white hover:bg-gray-800/50'
                         : 'text-gray-600 hover:text-black hover:bg-gray-200/50'
                   }`}
+                  style={{
+                    backgroundColor: selectedCategory === category.key ? 'var(--accent)' : 'transparent'
+                  }}
                 >
                   <span>{category.label}</span>
                   <span className={`text-sm px-2 py-1 rounded-full ${
@@ -285,9 +312,10 @@ const ProjectsPage: React.FC = () => {
             {visibleProjects.map((project, index) => {
               
               return (
-                <div
+                <Link 
+                  href={`/projects/${project.slug}`}
                   key={project.id}
-                  className={`group relative cursor-pointer transition-all duration-500 ${
+                  className={`block group relative cursor-pointer transition-all duration-500 ${
                     hoveredProject === project.id ? 'scale-[1.02]' : ''
                   }`}
                   onMouseEnter={() => setHoveredProject(project.id)}
@@ -298,10 +326,13 @@ const ProjectsPage: React.FC = () => {
                   <div className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 ${
                     hoveredProject === project.id 
                       ? isDarkMode 
-                        ? 'bg-gray-900/50 border-l-4 border-l-[#15253B]' 
-                        : 'bg-gray-50/80 border-l-4 border-l-[#15253B]'
+                        ? 'bg-gray-900/50' 
+                        : 'bg-gray-50/80'
                       : 'hover:bg-gray-900/20 hover:bg-gray-50/40'
-                  }`}>
+                  }`}
+                  style={{
+                    borderLeft: hoveredProject === project.id ? '4px solid var(--accent)' : 'none'
+                  }}>
                     
                     {/* Left: Number + Content */}
                     <div className="flex items-start space-x-8 flex-1">
@@ -310,12 +341,13 @@ const ProjectsPage: React.FC = () => {
                       <div className={`text-4xl font-black ${
                         isDarkMode ? 'text-gray-600' : 'text-gray-400'
                       } min-w-[60px] transition-colors duration-300 ${
-                        hoveredProject === project.id ? 'text-[#15253B]' : ''
-                      } ${
                         isElementAnimated(project.id, 'number') 
                           ? 'animate-typewriter-number' 
                           : 'opacity-0 transform scale-0'
-                      }`}>
+                      }`}
+                      style={{
+                        color: hoveredProject === project.id ? 'var(--accent)' : undefined
+                      }}>
                         {String(index + 1).padStart(2, '0')}.
                       </div>
                       
@@ -331,14 +363,13 @@ const ProjectsPage: React.FC = () => {
                           }`}>
                             <h3 className={`text-2xl md:text-3xl font-bold ${
                               isDarkMode ? 'text-white' : 'text-black'
-                            } transition-colors duration-300 ${
-                              hoveredProject === project.id ? 'text-[#15253B]' : ''
-                            } whitespace-nowrap`}>
+                            } transition-colors duration-300 whitespace-nowrap`}
+                            style={{
+                              color: hoveredProject === project.id ? 'var(--accent)' : undefined
+                            }}>
                               {typingText[project.id] || ''}
                               {showCursor[project.id] && (
-                                <span className={`inline-block ml-1 ${
-                                  isDarkMode ? 'text-[#15253B]' : 'text-[#15253B]'
-                                } animate-blink`}>
+                                <span className="inline-block ml-1 animate-blink" style={{ color: 'var(--accent)' }}>
                                   |
                                 </span>
                               )}
@@ -346,11 +377,12 @@ const ProjectsPage: React.FC = () => {
                           </div>
                           
                           {project.featured && (
-                            <span className={`bg-[#15253B] text-white px-3 py-1 rounded-full text-xs font-semibold ${
+                            <span className={`text-white px-3 py-1 rounded-full text-xs font-semibold ${
                               isElementAnimated(project.id, 'badge')
                                 ? 'animate-typewriter-badge'
                                 : 'opacity-0 scale-0 rotate-180'
-                            }`}>
+                            }`}
+                            style={{ backgroundColor: 'var(--accent)' }}>
                               Featured
                             </span>
                           )}
@@ -424,10 +456,12 @@ const ProjectsPage: React.FC = () => {
                       
                       {/* Arrow */}
                       <div className={`text-2xl transition-all duration-300 ${
-                        hoveredProject === project.id 
-                          ? 'text-[#15253B] transform translate-x-2' 
-                          : isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                      }`}>
+                        isDarkMode ? 'text-gray-600' : 'text-gray-400'
+                      }`}
+                      style={{
+                        color: hoveredProject === project.id ? 'var(--accent)' : undefined,
+                        transform: hoveredProject === project.id ? 'translateX(8px)' : 'translateX(0)'
+                      }}>
                         ↗
                       </div>
                     </div>
@@ -438,14 +472,15 @@ const ProjectsPage: React.FC = () => {
                     <div className={`h-px mx-6 ${
                       isDarkMode ? 'bg-gray-800' : 'bg-gray-200'
                     } transition-all duration-300 ${
-                      hoveredProject === project.id ? 'bg-[#15253B]/30' : ''
-                    } ${
                       isElementAnimated(project.id, 'line')
                         ? 'animate-typewriter-line'
                         : 'w-0 opacity-0'
-                    }`}></div>
+                    }`}
+                    style={{
+                      backgroundColor: hoveredProject === project.id ? 'var(--hover-border)' : undefined
+                    }}></div>
                   )}
-                </div>
+                </Link>
               );
             })}
           </div>
