@@ -122,6 +122,8 @@ const ProjectsPage: React.FC = () => {
   const [visibleProjects, setVisibleProjects] = useState<Project[]>([]);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [animatedElements, setAnimatedElements] = useState<{[key: string]: boolean}>({});
+  const [typingText, setTypingText] = useState<{[key: number]: string}>({});
+  const [showCursor, setShowCursor] = useState<{[key: number]: boolean}>({});
 
   const categories = [
     { key: 'all', label: 'All', count: projects.length },
@@ -135,6 +137,31 @@ const ProjectsPage: React.FC = () => {
     return animatedElements[`${projectId}-${element}`] || false;
   };
 
+  // Typewriter effect for titles
+  const typeWriterEffect = (projectId: number, text: string, delay: number) => {
+    setTypingText(prev => ({ ...prev, [projectId]: '' }));
+    setShowCursor(prev => ({ ...prev, [projectId]: true }));
+    
+    setTimeout(() => {
+      let currentIndex = 0;
+      const typingInterval = setInterval(() => {
+        if (currentIndex <= text.length) {
+          setTypingText(prev => ({ 
+            ...prev, 
+            [projectId]: text.slice(0, currentIndex) 
+          }));
+          currentIndex++;
+        } else {
+          clearInterval(typingInterval);
+          // Hide cursor after typing is complete
+          setTimeout(() => {
+            setShowCursor(prev => ({ ...prev, [projectId]: false }));
+          }, 1000);
+        }
+      }, 50); // 50ms between each character
+    }, delay);
+  };
+
   useEffect(() => {
     const filtered = selectedCategory === 'all' 
       ? projects 
@@ -142,6 +169,8 @@ const ProjectsPage: React.FC = () => {
     
     setVisibleProjects(filtered);
     setAnimatedElements({});
+    setTypingText({});
+    setShowCursor({});
     
     // Animate each project and its elements sequentially
     filtered.forEach((project, projectIndex) => {
@@ -150,20 +179,25 @@ const ProjectsPage: React.FC = () => {
       // Sequential animation for each element
       const animationSequence = [
         { element: 'number', delay: baseDelay + 100 },
-        { element: 'title', delay: baseDelay + 300 },
-        { element: 'badge', delay: baseDelay + 600 },
-        { element: 'description', delay: baseDelay + 900 },
-        { element: 'tech', delay: baseDelay + 1200 },
-        { element: 'year', delay: baseDelay + 1500 },
-        { element: 'line', delay: baseDelay + 1800 }
+        { 
+          element: 'title', 
+          delay: baseDelay + 300,
+          callback: () => typeWriterEffect(project.id, project.title, baseDelay + 400)
+        },
+        { element: 'badge', delay: baseDelay + 600 + (project.title.length * 50) },
+        { element: 'description', delay: baseDelay + 900 + (project.title.length * 50) },
+        { element: 'tech', delay: baseDelay + 1200 + (project.title.length * 50) },
+        { element: 'year', delay: baseDelay + 1500 + (project.title.length * 50) },
+        { element: 'line', delay: baseDelay + 1800 + (project.title.length * 50) }
       ];
 
-      animationSequence.forEach(({ element, delay }) => {
+      animationSequence.forEach(({ element, delay, callback }) => {
         setTimeout(() => {
           setAnimatedElements(prev => ({
             ...prev,
             [`${project.id}-${element}`]: true
           }));
+          if (callback) callback();
         }, delay);
       });
     });
@@ -300,8 +334,8 @@ const ProjectsPage: React.FC = () => {
                             } transition-colors duration-300 ${
                               hoveredProject === project.id ? 'text-[#15253B]' : ''
                             } whitespace-nowrap`}>
-                              {project.title}
-                              {isElementAnimated(project.id, 'title') && (
+                              {typingText[project.id] || ''}
+                              {showCursor[project.id] && (
                                 <span className={`inline-block ml-1 ${
                                   isDarkMode ? 'text-[#15253B]' : 'text-[#15253B]'
                                 } animate-blink`}>
