@@ -89,16 +89,16 @@ const Cell: React.FC<{ index: number; gridCols: number }> = ({ index, gridCols }
 
   return (
     <div
-      className={`transition-all duration-300 ${isHovered ? "z-20" : ""}`}
+      className={`transition-all duration-200 ${isHovered ? "z-20" : ""}`}
       data-cell-index={index}
       style={{
         background: bg,
         aspectRatio: "1 / 1",
         boxShadow: isHovered
-          ? `0 0 20px ${bg}, 0 0 40px ${bg.replace('0.6', '0.3')}`
+          ? `0 0 15px ${bg}`
           : "none",
-        borderRadius: isHovered ? "4px" : "0px",
-        transform: isHovered ? "scale(1.1)" : "scale(1)",
+        borderRadius: isHovered ? "2px" : "0px",
+        transform: isHovered ? "scale(1.05)" : "scale(1)",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -106,12 +106,53 @@ const Cell: React.FC<{ index: number; gridCols: number }> = ({ index, gridCols }
   );
 };
 
+// Floating video configuration
+interface FloatingVideo {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  position: { top: string; left: string; rotate: string };
+}
+
+const floatingVideos: FloatingVideo[] = [
+  {
+    id: 'video1',
+    title: 'Solution Architecture',
+    description: 'Designing scalable cloud architectures',
+    href: '/architecture',
+    position: { top: '15%', left: '10%', rotate: '-8deg' }
+  },
+  {
+    id: 'video2', 
+    title: 'Full Stack Development',
+    description: 'Building modern web applications',
+    href: '/projects',
+    position: { top: '20%', left: '75%', rotate: '12deg' }
+  },
+  {
+    id: 'video3',
+    title: 'DevOps & Infrastructure',
+    description: 'Automating deployment pipelines',
+    href: '/experience',
+    position: { top: '70%', left: '15%', rotate: '6deg' }
+  },
+  {
+    id: 'video4',
+    title: 'Technical Leadership',
+    description: 'Leading development teams',
+    href: '/achievements',
+    position: { top: '65%', left: '70%', rotate: '-15deg' }
+  }
+];
+
 const Custom3DView: React.FC = () => {
   const { isDarkMode } = useTheme();
   const [selectedInfo, setSelectedInfo] = useState<PersonaInfo | null>(null);
   const [clickCounts, setClickCounts] = useState<{ [key: string]: number }>({});
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
 
   const handleLetterClick = useCallback(
     (info: PersonaInfo) => {
@@ -257,7 +298,104 @@ const Custom3DView: React.FC = () => {
           </div>
         </div>
 
-        
+        {/* Floating Videos */}
+        {floatingVideos.map((video) => (
+          <div
+            key={video.id}
+            className="fixed z-30 cursor-pointer"
+            style={{
+              top: video.position.top,
+              left: video.position.left,
+              transform: `rotate(${video.position.rotate})`,
+            }}
+            onMouseEnter={() => setHoveredVideo(video.id)}
+            onMouseLeave={() => setHoveredVideo(null)}
+            onClick={() => window.location.href = video.href}
+          >
+            <div
+              className={`relative transition-all duration-500 hover:scale-105 ${
+                hoveredVideo === video.id ? 'z-40' : ''
+              }`}
+              style={{
+                width: '200px',
+                height: '120px',
+              }}
+            >
+              {/* Video Container */}
+              <div
+                className={`w-full h-full rounded-lg overflow-hidden border-2 transition-all duration-500 ${
+                  isDarkMode 
+                    ? 'border-gray-700/50 bg-gray-900/80' 
+                    : 'border-gray-300/50 bg-white/80'
+                } backdrop-blur-sm shadow-xl`}
+                style={{
+                  filter: hoveredVideo === video.id ? 'none' : 'grayscale(100%)',
+                }}
+              >
+                {/* Simulated Video Content */}
+                <div className={`w-full h-full relative ${
+                  hoveredVideo === video.id 
+                    ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500' 
+                    : 'bg-gradient-to-br from-gray-400 to-gray-600'
+                } transition-all duration-500`}>
+                  
+                  {/* Play Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className={`w-12 h-12 rounded-full ${
+                      hoveredVideo === video.id
+                        ? 'bg-white/20 border-2 border-white/50'
+                        : 'bg-black/20 border-2 border-white/30'
+                    } flex items-center justify-center transition-all duration-300`}>
+                      <svg
+                        className={`w-6 h-6 ml-1 ${
+                          hoveredVideo === video.id ? 'text-white' : 'text-gray-300'
+                        }`}
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Video Info Overlay */}
+                  <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t ${
+                    isDarkMode 
+                      ? 'from-black/80 to-transparent' 
+                      : 'from-white/80 to-transparent'
+                  } transition-opacity duration-300 ${
+                    hoveredVideo === video.id ? 'opacity-100' : 'opacity-70'
+                  }`}>
+                    <h3 className={`text-sm font-semibold ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    } leading-tight`}>
+                      {video.title}
+                    </h3>
+                    <p className={`text-xs ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    } mt-1 leading-tight`}>
+                      {video.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hover Tooltip */}
+              {hoveredVideo === video.id && (
+                <div className={`absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-md text-xs font-medium ${
+                  isDarkMode 
+                    ? 'bg-gray-900/90 text-white border border-gray-700/50' 
+                    : 'bg-white/90 text-gray-900 border border-gray-200/50'
+                } backdrop-blur-sm shadow-lg transition-opacity duration-200`}>
+                  Click to explore
+                  <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 ${
+                    isDarkMode ? 'border-t-gray-900/90' : 'border-t-white/90'
+                  } border-l-transparent border-r-transparent`}></div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
         
         {/* Info popup */}
         {selectedInfo && (

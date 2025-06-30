@@ -1,4 +1,6 @@
 /* src/styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -80,14 +82,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Optimize font loading */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-var-latin.woff2') format('woff2');
-}
+/* Font loading optimized - Import moved to top of file */
 
 /* Improve performance for animations */
 .fade-up {

@@ -8,13 +8,13 @@ const Footer = () => {
 
     return (
         <div
-            className={`c-lesPJm-iezzKVe-css flex items-center justify-between h-[70px] px-8 fixed z-10 left-1/2 rounded-full ${
+            className={`c-lesPJm-iezzKVe-css flex items-center justify-between h-[70px] px-6 fixed z-10 left-1/2 rounded-full ${
                 isDarkMode ? 'bg-gray-900/20' : 'bg-white/20'
             } backdrop-blur-md border ${isDarkMode ? 'border-gray-700/30' : 'border-gray-200/30'} shadow-lg`}
             style={{
                 bottom: "30px",
                 transform: "translateX(-50%)",
-                width: "280px",
+                width: "420px",
             }}
         >
             {[
@@ -24,16 +24,6 @@ const Footer = () => {
                     icon: (
                         <path 
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" 
-                            strokeWidth="2"
-                        />
-                    )
-                },
-                { 
-                    href: "/craft", 
-                    label: "Craft", 
-                    icon: (
-                        <path 
-                            d="M12 2l3.09 6.26L22 9l-5.91 5.91L17.82 21 12 17.27 6.18 21l1.73-6.09L2 9l6.91-1.74L12 2z" 
                             strokeWidth="2"
                         />
                     )
@@ -50,13 +40,47 @@ const Footer = () => {
                     )
                 },
                 { 
-                    href: "/photos", 
-                    label: "Photos", 
+                    href: "/achievements", 
+                    label: "Achievements", 
+                    icon: (
+                        <g strokeWidth="2">
+                            <path d="M6 9l6 6 6-6"/>
+                            <path d="M12 3v9"/>
+                            <circle cx="12" cy="21" r="1"/>
+                        </g>
+                    )
+                },
+                { 
+                    href: "/experience", 
+                    label: "Experience", 
+                    icon: (
+                        <g strokeWidth="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                        </g>
+                    )
+                },
+                { 
+                    href: "/blog", 
+                    label: "Blog", 
+                    icon: (
+                        <g strokeWidth="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </g>
+                    )
+                },
+                { 
+                    href: "/architecture", 
+                    label: "Solution Architecture", 
                     icon: (
                         <g strokeWidth="2">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="9" cy="9" r="2"/>
-                            <path d="m21 15-3.086-3.086a2 2 0 00-2.828 0L6 21"/>
+                            <rect x="7" y="7" width="3" height="9"/>
+                            <rect x="14" y="7" width="3" height="5"/>
                         </g>
                     )
                 }
@@ -66,14 +90,15 @@ const Footer = () => {
                     href={item.href}
                     aria-label={item.label}
                     prefetch={false}
-                    className={`w-12 h-12 flex items-center justify-center rounded-full ${
+                    className={`w-10 h-10 flex items-center justify-center rounded-full ${
                         isDarkMode 
                             ? 'hover:bg-gray-800/40' 
                             : 'hover:bg-white/40'
-                    } transition-all duration-300 hover:-translate-y-1 group`}
+                    } transition-all duration-300 hover:-translate-y-1 group relative`}
+                    title={item.label}
                 >
                     <svg
-                        className={`w-6 h-6 ${
+                        className={`w-5 h-5 ${
                             isDarkMode 
                                 ? 'text-gray-300 group-hover:text-white' 
                                 : 'text-gray-600 group-hover:text-gray-900'
