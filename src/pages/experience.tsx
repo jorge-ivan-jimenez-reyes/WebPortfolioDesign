@@ -99,119 +99,121 @@ const Experience = () => {
             </p>
           </div>
 
-          {/* Experience List */}
-          <div className="space-y-6">
+          {/* Timeline */}
+          <div className="relative max-w-4xl mx-auto">
+            {/* Timeline line */}
+            <div 
+              className="absolute left-8 top-0 bottom-0 w-0.5"
+              style={{ backgroundColor: 'var(--border)' }}
+            ></div>
+
             {experiences.map((experience, index) => (
-              <div
-                key={experience.id}
-                className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02]"
-              >
-                {/* Experience Row */}
+              <div key={experience.id} className="relative mb-16 ml-16">
+                {/* Timeline dot */}
                 <div 
-                  className={`flex items-center justify-between py-8 px-6 rounded-lg transition-all duration-300 hover:bg-gray-900/20 hover:bg-gray-50/40`}
+                  className={`absolute -left-10 top-8 w-4 h-4 rounded-full border-4 transition-all duration-300`}
+                  style={{ 
+                    backgroundColor: experience.status === 'current' ? '#10b981' : 'var(--accent)',
+                    borderColor: isDarkMode ? 'var(--background)' : 'white'
+                  }}
+                ></div>
+
+                {/* Experience Card */}
+                <div 
+                  className="group relative cursor-pointer transition-all duration-500 hover:scale-[1.02] p-8 rounded-lg"
                   style={{
-                    borderLeft: 'none'
+                    backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
+                    border: '1px solid var(--border)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderLeft = '4px solid var(--accent)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderLeft = 'none';
+                    e.currentTarget.style.borderLeft = '1px solid var(--border)';
                   }}
                 >
                   
-                  {/* Number */}
-                  <div className="flex-shrink-0 mr-8">
-                    <span 
-                      className="text-4xl font-black transition-colors duration-300 group-hover:text-[#15253B]"
-                      style={{ color: 'var(--text-muted)' }}
-                    >
-                      {String(index + 1).padStart(2, '0')}.
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-grow min-w-0">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                      {/* Main Info */}
-                      <div className="flex-grow min-w-0 mb-6 lg:mb-0 lg:pr-8">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                            {experience.role}
-                          </h3>
-                          <span 
-                            className="px-3 py-1 rounded-full text-xs font-semibold"
-                            style={{ 
-                              backgroundColor: experience.status === 'current' ? '#10b981' : 'var(--accent)', 
-                              color: 'white' 
-                            }}
-                          >
-                            {experience.status === 'current' ? 'Current' : 'Completed'}
-                          </span>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <p className="text-lg font-semibold" style={{ color: '#15253B' }}>
-                            {experience.company}
-                          </p>
-                          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                            {experience.period} • {experience.location}
-                          </p>
-                        </div>
-
-                        <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
-                          {experience.description}
-                        </p>
-
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {experience.technologies.map((tech, techIndex) => (
-                            <span
-                              key={techIndex}
-                              className="px-2 py-1 rounded text-xs font-medium"
-                              style={{ 
-                                backgroundColor: isDarkMode ? 'var(--surface-secondary)' : 'var(--surface-secondary)',
-                                color: 'var(--text-secondary)',
-                                border: '1px solid var(--border)'
-                              }}
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Achievements */}
-                        <div>
-                          <h4 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                            Key Achievements:
-                          </h4>
-                          <ul className="space-y-1">
-                            {experience.achievements.slice(0, 2).map((achievement, achIndex) => (
-                              <li key={achIndex} className="flex items-start text-sm" style={{ color: 'var(--text-secondary)' }}>
-                                <span className="text-[#15253B] mr-2 mt-1">•</span>
-                                {achievement}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                  {/* Header */}
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                          {experience.role}
+                        </h3>
+                        <span 
+                          className="px-3 py-1 rounded-full text-xs font-semibold"
+                          style={{ 
+                            backgroundColor: experience.status === 'current' ? '#10b981' : 'var(--accent)', 
+                            color: 'white' 
+                          }}
+                        >
+                          {experience.status === 'current' ? 'Current' : 'Completed'}
+                        </span>
                       </div>
+                      
+                      <div className="mb-3">
+                        <p className="text-xl font-semibold" style={{ color: '#15253B' }}>
+                          {experience.company}
+                        </p>
+                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          {experience.period} • {experience.location}
+                        </p>
+                      </div>
+                    </div>
 
-                      {/* Meta Info */}
-                      <div className="flex flex-col lg:items-end text-sm">
-                        <div className="flex items-center gap-4 lg:flex-col lg:items-end lg:gap-2">
-                          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
-                            {experience.period.split(' - ')[0]}
-                          </span>
-                          <span style={{ color: 'var(--text-secondary)' }}>
-                            {experience.impact}
-                          </span>
-                        </div>
+                    <div className="text-right mt-2 md:mt-0">
+                      <div className="text-lg font-bold" style={{ color: 'var(--accent)' }}>
+                        {experience.impact}
+                      </div>
+                      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        Impact
                       </div>
                     </div>
                   </div>
 
-                  {/* Arrow */}
-                  <div className="flex-shrink-0 ml-6">
+                  {/* Description */}
+                  <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
+                    {experience.description}
+                  </p>
+
+                  {/* Technologies */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>
+                      Technologies:
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {experience.technologies.map((tech, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className="px-3 py-1 rounded-full text-sm font-medium"
+                          style={{ 
+                            backgroundColor: 'var(--accent)',
+                            color: 'white'
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Achievements */}
+                  <div>
+                    <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-primary)' }}>
+                      Key Achievements:
+                    </h4>
+                    <ul className="space-y-2">
+                      {experience.achievements.map((achievement, achIndex) => (
+                        <li key={achIndex} className="flex items-start text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          <span className="text-[#15253B] mr-3 mt-1 text-lg">•</span>
+                          {achievement}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Arrow indicator */}
+                  <div className="absolute top-8 right-6">
                     <span 
                       className="text-2xl transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#15253B]"
                       style={{ color: 'var(--text-muted)' }}
@@ -220,14 +222,6 @@ const Experience = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Separator */}
-                {index < experiences.length - 1 && (
-                  <div 
-                    className="h-px mx-6 transition-all duration-500"
-                    style={{ backgroundColor: 'var(--border)' }}
-                  ></div>
-                )}
               </div>
             ))}
           </div>
