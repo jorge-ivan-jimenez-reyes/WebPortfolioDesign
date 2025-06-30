@@ -17,22 +17,14 @@ class MyDocument extends Document {
                     <link rel="preload" href="/globe.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/file.svg" as="image" type="image/svg+xml" />
                     <link rel="preload" href="/window.svg" as="image" type="image/svg+xml" />
-                    {/* Google Fonts - Inter */}
+                    {/* Google Fonts preconnects */}
                     <link rel="preconnect" href="https://fonts.googleapis.com" />
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                    
+                    {/* All Google Fonts - Combined for optimal loading */}
                     <link
-                        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+                        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kalam:wght@300;400;600;700&family=Caveat:wght@400;500;600;700&family=Architects+Daughter:wght@400&family=Comic+Neue:wght@300;400;700&family=Permanent+Marker&display=swap"
                         rel="stylesheet"
-                    />
-                    {/* Primary Excalidraw-style fonts with optimized weights */}
-                    <link 
-                        href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;600;700&family=Caveat:wght@400;500;600;700&family=Architects+Daughter:wght@400&display=swap" 
-                        rel="stylesheet" 
-                    />
-                    {/* Fallback handwritten fonts */}
-                    <link 
-                        href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&family=Permanent+Marker&display=swap" 
-                        rel="stylesheet" 
                     />
                     {/* Preload primary font for JORGE letters */}
                     <link 

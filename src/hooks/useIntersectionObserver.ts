@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useIntersectionObserver = () => {
+interface AnimationOptions {
+  type?: 'fade-in' | 'typewriter' | 'typewriter-number' | 'typewriter-title' | 'typewriter-badge' | 'typewriter-text' | 'typewriter-tech' | 'typewriter-right' | 'typewriter-line';
+  delay?: number;
+  threshold?: number;
+}
+
+const useIntersectionObserver = (options: AnimationOptions = {}) => {
+  const { type = 'fade-in', delay = 0, threshold = 0.1 } = options;
   const [observedElements, setObservedElements] = useState<Set<Element>>(new Set());
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -9,11 +16,17 @@ const useIntersectionObserver = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
+            if (delay > 0) {
+              setTimeout(() => {
+                entry.target.classList.add(`animate-${type}`);
+              }, delay);
+            } else {
+              entry.target.classList.add(`animate-${type}`);
+            }
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold }
     );
 
     return () => {
@@ -21,7 +34,7 @@ const useIntersectionObserver = () => {
         observer.current.disconnect();
       }
     };
-  }, []);
+  }, [type, delay, threshold]);
 
   const setObservedElement = (element: Element | null) => {
     if (element && !observedElements.has(element)) {

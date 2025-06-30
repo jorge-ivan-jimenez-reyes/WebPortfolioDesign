@@ -273,7 +273,7 @@ const Custom3DView: React.FC = () => {
             <div
               className="flex justify-center items-center gap-5 p-7"
             >
-              {personaInfo.map((info, index) => (
+              {personaInfo.map((info) => (
                 <button
                   key={info.letter}
                   className="text-7xl font-excalidraw hover:scale-110 transition-all duration-300 relative excalidraw-letter"
