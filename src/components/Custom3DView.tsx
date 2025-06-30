@@ -1,5 +1,5 @@
 // src/components/Custom3DView.tsx
-import React, { useState, useRef, memo, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 interface PersonaInfo {
@@ -37,34 +37,36 @@ const personaInfo: PersonaInfo[] = [
 ];
 
 const EASTER_EGG_CLICKS = 4;
-const EASTER_EGG_TIMEOUT = 2000; // 2 seconds
-const EASTER_EGG_DISPLAY_TIME = 5000; // 5 seconds
+const EASTER_EGG_TIMEOUT = 2000;
+const EASTER_EGG_DISPLAY_TIME = 5000;
 
-// Define your custom neon colors with opacity for dark mode
 const darkModeColors = [
-  "rgba(0, 190, 240, 0.6)",   // Softer Electric Blue
-  "rgba(240, 70, 190, 0.6)",  // Softer Vivid Pink/Magenta
-  "rgba(70, 200, 110, 0.6)",  // Softer Bright Mint Green
-  "rgba(150, 50, 240, 0.6)",  // Softer Electric Purple
-  "rgba(240, 110, 30, 0.6)",  // Softer Vibrant Orange
+  "rgba(0, 190, 240, 0.6)",
+  "rgba(240, 70, 190, 0.6)",
+  "rgba(70, 200, 110, 0.6)",
+  "rgba(150, 50, 240, 0.6)",
+  "rgba(240, 110, 30, 0.6)",
+  "rgba(255, 215, 0, 0.6)",
+  "rgba(255, 20, 147, 0.6)",
+  "rgba(0, 255, 255, 0.6)",
 ];
 
-// Define pastel colors for light mode
 const lightModeColors = [
-  "rgba(100, 149, 237, 0.5)", // cornflower blue
-  "rgba(255, 105, 180, 0.5)", // hot pink
-  "rgba(50, 205, 50, 0.5)", // lime green
-  "rgba(147, 112, 219, 0.5)", // medium purple
-  "rgba(255, 165, 0, 0.5)", // orange
+  "rgba(100, 149, 237, 0.5)",
+  "rgba(255, 105, 180, 0.5)",
+  "rgba(50, 205, 50, 0.5)",
+  "rgba(147, 112, 219, 0.5)",
+  "rgba(255, 165, 0, 0.5)",
+  "rgba(255, 192, 203, 0.5)",
+  "rgba(135, 206, 235, 0.5)",
+  "rgba(255, 218, 185, 0.5)",
 ];
 
-// Memoized Cell for performance
-const Cell: React.FC = memo(() => {
+// Cell component exactly like Rauno's style
+const Cell: React.FC<{ index: number; gridCols: number }> = ({ index, gridCols }) => {
   const { isDarkMode } = useTheme();
   const colors = isDarkMode ? darkModeColors : lightModeColors;
-  const [bg, setBg] = useState(
-    isDarkMode ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.02)",
-  );
+  const [bg, setBg] = useState("transparent");
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -72,8 +74,8 @@ const Cell: React.FC = memo(() => {
     setIsHovered(true);
     if (timerRef.current) {
       clearTimeout(timerRef.current);
-      timerRef.current = null;
     }
+    
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     setBg(randomColor);
   };
@@ -81,28 +83,28 @@ const Cell: React.FC = memo(() => {
   const handleMouseLeave = () => {
     setIsHovered(false);
     timerRef.current = window.setTimeout(() => {
-      setBg(isDarkMode ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 0, 0, 0.02)");
-      timerRef.current = null;
-    }, 1000); // delay of 1 second before reverting
+      setBg("transparent");
+    }, 800);
   };
 
   return (
     <div
-      className={`cell transition-all duration-300 ${isHovered ? "scale-110 z-10" : ""}`}
+      className={`transition-all duration-300 ${isHovered ? "z-20" : ""}`}
+      data-cell-index={index}
       style={{
         background: bg,
         aspectRatio: "1 / 1",
         boxShadow: isHovered
-          ? `0 0 10px ${isDarkMode ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.2)"}`
+          ? `0 0 20px ${bg}, 0 0 40px ${bg.replace('0.6', '0.3')}`
           : "none",
+        borderRadius: isHovered ? "4px" : "0px",
+        transform: isHovered ? "scale(1.1)" : "scale(1)",
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     />
   );
-});
-
-Cell.displayName = "Cell";
+};
 
 const Custom3DView: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -110,16 +112,11 @@ const Custom3DView: React.FC = () => {
   const [clickCounts, setClickCounts] = useState<{ [key: string]: number }>({});
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const [cursorText, setCursorText] = useState("");
-  
-  // Create an array for 900 squares (30 x 30 grid) - more manageable than 2500
-  const squares = Array.from({ length: 900 }, (_, i) => i);
 
   const handleLetterClick = useCallback(
     (info: PersonaInfo) => {
       setSelectedInfo(info);
 
-      // Easter egg logic
       const newClickCounts = { ...clickCounts };
       newClickCounts[info.letter] = (newClickCounts[info.letter] || 0) + 1;
       setClickCounts(newClickCounts);
@@ -130,7 +127,6 @@ const Custom3DView: React.FC = () => {
         }, EASTER_EGG_TIMEOUT);
       }
 
-      // Reset click count after 2 seconds
       setTimeout(() => {
         setClickCounts((prevCounts) => ({
           ...prevCounts,
@@ -141,16 +137,11 @@ const Custom3DView: React.FC = () => {
     [clickCounts],
   );
 
-  const handleLetterHover = useCallback((info: PersonaInfo, entering: boolean) => {
-    if (entering) {
-      setCursorText(info.info);
-    } else {
-      setCursorText("");
-    }
-  }, []);
+
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     setHoverPosition({ x: e.clientX, y: e.clientY });
+    // No actualizar mousePosition para mantener el grid estático
   }, []);
 
   useEffect(() => {
@@ -163,158 +154,192 @@ const Custom3DView: React.FC = () => {
     }
   }, [showEasterEgg]);
 
+  // Create grid array (60x60 like Rauno)
+  const gridItems = Array.from({ length: 3600 }, (_, i) => i);
+
   return (
-    <div 
-      className={`w-screen h-screen overflow-hidden relative ${
-        isDarkMode
-          ? "bg-gradient-to-br from-gray-900 to-black"
-          : "bg-gradient-to-br from-gray-50 to-white"
-      }`}
-      style={{ overscrollBehavior: "none" }}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Custom cursor text follower */}
-      {cursorText && (
-        <div 
-          className={`fixed pointer-events-none z-50 p-2 rounded-md text-sm font-medium transition-opacity duration-200 ${
-            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black shadow-lg"
-          }`}
-          style={{ 
-            left: `${hoverPosition.x + 15}px`, 
-            top: `${hoverPosition.y + 15}px`,
-            opacity: cursorText ? 1 : 0,
-            backdropFilter: "blur(4px)",
-          }}
-        >
-          {cursorText}
-        </div>
-      )}
+    <>
+      {/* Global styles for animations */}
+      <style>{`
+        @keyframes fadeInOut3D {
+          0% {
+            transform: translateZ(0px) rotateX(0deg) rotateY(0deg) scale(0);
+            opacity: 0;
+          }
+          25% {
+            transform: translateZ(50px) rotateX(15deg) rotateY(15deg) scale(0.8);
+            opacity: 0.8;
+          }
+          50% {
+            transform: translateZ(80px) rotateX(25deg) rotateY(25deg) scale(1);
+            opacity: 1;
+          }
+          75% {
+            transform: translateZ(100px) rotateX(35deg) rotateY(35deg) scale(1.1);
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateZ(120px) rotateX(45deg) rotateY(45deg) scale(1.2);
+            opacity: 0;
+          }
+        }
+      `}</style>
       
-      {/* Container with 3D perspective */}
-      <div
-        className="absolute top-1/2 left-1/2"
-        style={{
-          width: "300vmin",
-          height: "300vmin",
-          display: "grid",
-          gridTemplateColumns: "repeat(30, 1fr)",
-          gridTemplateRows: "repeat(30, 1fr)",
-          gap: "2px", // Slightly larger gap for better definition
-          transform:
-            "translate(-50%, -50%) skewX(-48deg) skewY(16deg) scaleX(1.8) scale(0.35) rotate(0deg) translateZ(0)",
-          perspective: "1200px",
-          transformStyle: "preserve-3d",
-        }}
+      <div 
+        className={`w-screen h-screen overflow-hidden relative ${
+          isDarkMode
+            ? "bg-gradient-to-br from-gray-900 via-gray-800 to-black"
+            : "bg-gradient-to-br from-gray-50 via-white to-gray-100"
+        }`}
+        style={{ 
+          overscrollBehavior: "none",
+          '--x': '0px',
+          '--y': '0px',
+          '--rotate': '0deg'
+        } as React.CSSProperties}
+        onMouseMove={handleMouseMove}
       >
-        {squares.map((i) => (
-          <Cell key={i} />
-        ))}
-        
-        {/* Letters group with 3D perspective */}
+        {/* Rauno-style 3D Grid */}
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/2 left-1/2"
           style={{
-            transform: "translateZ(50px) scale(2.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "1.5rem",
+            opacity: 1,
+            transform: `translate(calc(-50% + var(--x)), calc(-50% + var(--y))) 
+                       skewX(-48deg) 
+                       skewY(14deg) 
+                       scaleX(2) 
+                       scale(0.54375) 
+                       rotate(var(--rotate)) 
+                       translateZ(0)`,
+            width: '200vmin',
+            height: '200vmin',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(60, 1fr)',
+            gridTemplateRows: 'repeat(60, 1fr)',
+            gap: '1px',
+            perspective: '1000px',
+            transformStyle: 'preserve-3d',
           }}
         >
-          {personaInfo.map((info) => (
-            <button
-              key={info.letter}
-              className={`text-8xl font-bold ${
-                isDarkMode ? "text-white" : "text-black"
-              } hover:scale-110 transition-all duration-300 relative`}
-              style={{
-                textShadow: isDarkMode
-                  ? "0.03em 0.03em 0px #2c3e50, 0.06em 0.06em 0px #1a252f, 0 0 35px rgba(80, 180, 255, 0.75), 0 0 10px rgba(180, 220, 255, 0.6)"
-                  : "0.03em 0.03em 0px #d1d5db, 0.06em 0.06em 0px #9ca3af, 0 0 20px rgba(0, 0, 0, 0.15), 0 0 30px rgba(100, 149, 237, 0.15)",
-                letterSpacing: "0.05em",
-              }}
-              onClick={() => handleLetterClick(info)}
-              onMouseEnter={() => handleLetterHover(info, true)}
-              onMouseLeave={() => handleLetterHover(info, false)}
-            >
-              {info.letter}
-            </button>
+          {gridItems.map((index) => (
+            <Cell key={index} index={index} gridCols={60} />
           ))}
-        </div>
-      </div>
-      
-      {/* Info popup - redesigned for a modern look */}
-      {selectedInfo && (
-        <div 
-          className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-40 backdrop-blur-sm transition-opacity duration-300`}
-          onClick={() => setSelectedInfo(null)}
-        >
-          <div 
-            className={`max-w-md p-8 rounded-xl shadow-2xl transform transition-all duration-500 ${
-              isDarkMode
-                ? "bg-gray-800 text-white"
-                : "bg-white text-gray-900"
-            }`}
-            style={{
-              boxShadow: isDarkMode
-                ? "0 15px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.4)"
-                : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-4xl font-bold mb-2">{selectedInfo.letter}</h2>
-            <h3 className="text-2xl font-semibold mb-4">{selectedInfo.info}</h3>
-            <p className="text-lg leading-relaxed mb-6">{selectedInfo.detail}</p>
-            <button
-              className={`px-4 py-2 rounded-md transition-colors ${
-                isDarkMode 
-                  ? "bg-white text-black hover:bg-gray-200" 
-                  : "bg-black text-white hover:bg-gray-800"
-              }`}
-              onClick={() => setSelectedInfo(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {/* Easter egg popup */}
-      {showEasterEgg && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md z-50">
+          
+          {/* JORGE Letters floating above grid */}
           <div
-            className={`p-8 rounded-xl max-w-md text-center transform transition-all duration-300 ${
-              isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-            }`}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             style={{
-              boxShadow: isDarkMode
-                ? "0 15px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.4)"
-                : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              transform: 'translateZ(100px) scale(2.2) translateX(-50px) translateY(-80px)',
+              zIndex: 100,
             }}
           >
-            <h2 className={`text-3xl font-bold mb-4`}>
-              ¡Felicidades! Has encontrado el easter egg
-            </h2>
-            <p className={`text-lg mb-4`}>
-              Aquí hay un dato curioso sobre mí:
-            </p>
-            <p className={`text-xl font-semibold mb-6`}>
-              Me encanta programar mientras escucho música electrónica
-            </p>
-            <button
-              className={`px-4 py-2 rounded-md transition-colors ${
-                isDarkMode
-                  ? "bg-white text-black hover:bg-gray-200"
-                  : "bg-black text-white hover:bg-gray-800"
-              }`}
-              onClick={() => setShowEasterEgg(false)}
+            <div
+              className="flex justify-center items-center gap-5 p-7"
             >
-              Cerrar
-            </button>
+              {personaInfo.map((info) => (
+                <button
+                  key={info.letter}
+                  className={`text-7xl font-bold ${
+                    isDarkMode ? "text-white" : "text-black"
+                  } hover:scale-110 transition-all duration-300 relative`}
+                  style={{
+                    textShadow: isDarkMode
+                      ? "0.03em 0.03em 0px #2c3e50, 0.06em 0.06em 0px #1a252f, 0 0 25px rgba(80, 180, 255, 0.5)"
+                      : "0.03em 0.03em 0px #d1d5db, 0.06em 0.06em 0px #9ca3af, 0 0 15px rgba(0, 0, 0, 0.1)",
+                    letterSpacing: "0.05em",
+                  }}
+                  onClick={() => handleLetterClick(info)}
+                >
+                  {info.letter}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      )}
-    </div>
+
+        
+        
+        {/* Info popup */}
+        {selectedInfo && (
+          <div 
+            className="fixed inset-0 flex items-center justify-center bg-black/20 z-40 transition-opacity duration-300"
+            style={{ backdropFilter: "blur(12px)" }}
+            onClick={() => setSelectedInfo(null)}
+          >
+            <div 
+              className={`max-w-md p-8 rounded-2xl transform transition-all duration-500 ${
+                isDarkMode
+                  ? "bg-gray-900/80 text-white border border-gray-700/50"
+                  : "bg-white/80 text-gray-900 border border-gray-200/50"
+              }`}
+              style={{
+                backdropFilter: "blur(25px)",
+                boxShadow: isDarkMode
+                  ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                  : "0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-4xl font-bold mb-2">{selectedInfo.letter}</h2>
+              <h3 className="text-2xl font-semibold mb-4 opacity-80">{selectedInfo.info}</h3>
+              <p className="text-lg leading-relaxed mb-6 opacity-70">{selectedInfo.detail}</p>
+              <button
+                className={`px-6 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  isDarkMode 
+                    ? "bg-white/10 text-white hover:bg-white/20 border border-white/20" 
+                    : "bg-black/10 text-black hover:bg-black/20 border border-black/20"
+                }`}
+                style={{ backdropFilter: "blur(10px)" }}
+                onClick={() => setSelectedInfo(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        
+        {/* Easter egg popup */}
+        {showEasterEgg && (
+          <div 
+            className="fixed inset-0 flex items-center justify-center bg-black/30 z-50 transition-opacity duration-300"
+            style={{ backdropFilter: "blur(15px)" }}
+          >
+            <div
+              className={`p-8 rounded-2xl max-w-md text-center transform transition-all duration-300 ${
+                isDarkMode ? "bg-gray-900/80 text-white border border-gray-700/50" : "bg-white/80 text-gray-900 border border-gray-200/50"
+              }`}
+              style={{
+                backdropFilter: "blur(25px)",
+                boxShadow: isDarkMode
+                  ? "0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
+                  : "0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+              }}
+            >
+              <h2 className="text-3xl font-bold mb-4">
+                ¡Felicidades! Has encontrado el easter egg
+              </h2>
+              <p className="text-lg mb-4 opacity-80">
+                Aquí hay un dato curioso sobre mí:
+              </p>
+              <p className="text-xl font-semibold mb-6">
+                Me encanta programar mientras escucho música electrónica
+              </p>
+              <button
+                className={`px-6 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  isDarkMode
+                    ? "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                    : "bg-black/10 text-black hover:bg-black/20 border border-black/20"
+                }`}
+                style={{ backdropFilter: "blur(10px)" }}
+                onClick={() => setShowEasterEgg(false)}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
