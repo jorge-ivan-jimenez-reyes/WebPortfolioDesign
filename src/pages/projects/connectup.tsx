@@ -111,8 +111,8 @@ const ConnectUpProject = () => {
               {/* Sketch note */}
               <div className="mt-6 p-4 bg-yellow-100 rounded-lg transform -rotate-1 relative">
                 <div className="absolute -top-2 -right-2 text-red-500">📌</div>
-                <p className="text-sm italic" style={{fontFamily: 'Kalam', color: '#8B5000'}}>
-                  "This was a challenging project that required deep understanding of academic workflows!"
+                                  <p className="text-sm italic" style={{fontFamily: 'Kalam', color: '#8B5000'}}>
+                  &quot;This was a challenging project that required deep understanding of academic workflows!&quot;
                 </p>
               </div>
             </div>
@@ -219,7 +219,7 @@ const ConnectUpProject = () => {
                 </svg>
               </div>
               <p className="text-sm italic text-right mr-20" style={{fontFamily: 'Kalam', color: 'var(--text-muted)'}}>
-                "Each tech was carefully chosen for the academic context!"
+                &quot;Each tech was carefully chosen for the academic context!&quot;
               </p>
             </div>
           </div>

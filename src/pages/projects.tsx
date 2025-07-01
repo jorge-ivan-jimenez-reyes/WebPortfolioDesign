@@ -93,12 +93,12 @@ const projects: Project[] = [
   },
   {
     id: 7,
-    title: "Astro Landing Page",
-    description: "High-performance landing page built with Astro framework achieving optimal SEO and lightning-fast loading times.",
-    technologies: ["Astro", "TypeScript", "Tailwind CSS", "Vite"],
+    title: "ChatGPT Local",
+    description: "Local AI chatbot running entirely in the browser with Llama model, built with vanilla JavaScript for complete privacy and offline functionality.",
+    technologies: ["Vanilla JS", "HTML5", "CSS3", "Web Workers"],
     category: "frontend",
     year: "2024",
-    impact: "98 PageSpeed",
+    impact: "100% Private",
     status: "completed",
     featured: false,
     slug: "astro-landing"

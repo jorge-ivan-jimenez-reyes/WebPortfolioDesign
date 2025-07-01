@@ -403,7 +403,7 @@ const AnalyticsDataLakeProject = () => {
                 <svg width="50" height="25">
                   <path d="M5,12 Q25,5 40,12 L35,8 M40,12 L35,16" stroke="#6366f1" strokeWidth="2" fill="none"/>
                 </svg>
-                <span className="text-sm font-handwritten text-indigo-600">Let's talk!</span>
+                <span className="text-sm font-handwritten text-indigo-600">Let&apos;s talk!</span>
               </div>
             </div>
             
