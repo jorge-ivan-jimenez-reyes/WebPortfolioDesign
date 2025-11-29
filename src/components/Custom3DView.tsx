@@ -1,5 +1,6 @@
 // src/components/Custom3DView.tsx
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import Image from "next/image";
 import { useTheme } from "../context/ThemeContext";
 
 interface PersonaInfo {
@@ -351,11 +352,28 @@ const Custom3DView: React.FC = () => {
                 }}
               >
                 {/* Simulated Video Content */}
-                <div className={`w-full h-full relative ${
-                  hoveredVideo === video.id 
-                    ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500' 
-                    : 'bg-gradient-to-br from-gray-400 to-gray-600'
-                } transition-all duration-500`}>
+                <div
+                  className="w-full h-full relative overflow-hidden transition-all duration-500"
+                >
+                  <Image
+                    src="/images/image.png"
+                    alt={`${video.title} preview`}
+                    fill
+                    sizes="200px"
+                    className={`object-cover transition-all duration-500 ${
+                      hoveredVideo === video.id
+                        ? 'scale-100 grayscale-0'
+                        : 'scale-105 grayscale'
+                    }`}
+                    priority={video.id === 'video1'}
+                  />
+                  <div
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      hoveredVideo === video.id
+                        ? 'bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 mix-blend-screen'
+                        : 'bg-gray-900/40'
+                    }`}
+                  />
                   
                   {/* Play Icon */}
                   <div className="absolute inset-0 flex items-center justify-center">
