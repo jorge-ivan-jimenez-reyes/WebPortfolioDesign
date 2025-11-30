@@ -12,28 +12,28 @@ interface PersonaInfo {
 const personaInfo: PersonaInfo[] = [
   {
     letter: "J",
-    info: "Graphic Designer",
-    detail: "Passionate about creating visually stunning designs with attention to detail."
+    info: "Junction Architect",
+    detail: "I connect cloud building blocks and DevOps practices into coherent, resilient solution blueprints."
   },
   {
     letter: "O",
-    info: "Frontend Developer",
-    detail: "Skilled in React and modern web technologies to build interactive user experiences."
+    info: "Ops Orchestrator",
+    detail: "I choreograph CI/CD pipelines, observability, and runtime policies so releases stay fast and safe."
   },
   {
     letter: "R",
-    info: "Responsive Design",
-    detail: "Expert in ensuring optimal user experience across all devices and screen sizes."
+    info: "Resilience Engineer",
+    detail: "Chaos drills, autoscaling, and failure-domain design keep every platform highly available."
   },
   {
     letter: "G",
-    info: "Growth Mindset",
-    detail: "Always learning and staying up-to-date with the latest industry trends and technologies."
+    info: "Governance Guide",
+    detail: "I align security, cost, and compliance guardrails with product velocity across multi-cloud estates."
   },
   {
     letter: "E",
-    info: "Engineer",
-    detail: "Software engineer with a strong foundation in computer science principles and problem-solving."
+    info: "Edge Enabler",
+    detail: "From CDN rules to edge runtimes, I push workloads closer to users without sacrificing control."
   },
 ];
 
@@ -146,6 +146,38 @@ const floatingVideos: FloatingVideo[] = [
     position: { top: '65%', left: '70%', rotate: '-15deg' }
   }
 ];
+
+const imageCardConfigs: Record<
+  string,
+  { src: string; alt: string; width: number; height: number; priority?: boolean }
+> = {
+  video1: {
+    src: "/images/image%20copy.png",
+    alt: "Solution Architecture preview",
+    width: 260,
+    height: 150,
+    priority: true,
+  },
+  video2: {
+    src: "/images/image%20copy%203.png",
+    alt: "Full Stack Development preview",
+    width: 240,
+    height: 140,
+  },
+  video3: {
+    src: "/images/image.png",
+    alt: "DevOps & Infrastructure preview",
+    width: 260,
+    height: 150,
+    priority: true,
+  },
+  video4: {
+    src: "/images/image%20copy%202.png",
+    alt: "Technical Leadership preview",
+    width: 240,
+    height: 140,
+  },
+};
 
 const Custom3DView: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -279,9 +311,11 @@ const Custom3DView: React.FC = () => {
                   key={info.letter}
                   className="text-7xl font-excalidraw hover:scale-110 transition-all duration-300 relative excalidraw-letter"
                   style={{
-                    color: '#15253B',
+                    color: isDarkMode ? '#F4F8FF' : '#0B1120',
                     letterSpacing: "0.08em",
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)',
+                    textShadow: isDarkMode
+                      ? '0 0 12px rgba(15, 23, 42, 0.8), 0 0 18px rgba(59, 130, 246, 0.35)'
+                      : '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)',
                     background: 'none',
                     border: 'none',
                     padding: '0.7rem',
@@ -297,15 +331,19 @@ const Custom3DView: React.FC = () => {
                   onMouseEnter={(e) => {
                     e.currentTarget.style.opacity = '1';
                     e.currentTarget.style.transform = 'perspective(1000px) rotateX(8deg) rotateY(-3deg) scale(1.15)';
-                    e.currentTarget.style.color = '#1e3a5f';
-                    e.currentTarget.style.textShadow = '3px 3px 6px rgba(0,0,0,0.2), 0 0 12px rgba(30, 58, 95, 0.3)';
+                    e.currentTarget.style.color = isDarkMode ? '#FFFFFF' : '#111827';
+                    e.currentTarget.style.textShadow = isDarkMode
+                      ? '0 0 18px rgba(255,255,255,0.65), 0 0 24px rgba(96, 165, 250, 0.5)'
+                      : '3px 3px 6px rgba(0,0,0,0.2), 0 0 12px rgba(30, 58, 95, 0.3)';
                     e.currentTarget.style.filter = 'drop-shadow(4px 4px 8px rgba(0,0,0,0.25))';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.opacity = '0.95';
                     e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg) rotateY(-2deg) scale(1)';
-                    e.currentTarget.style.color = '#15253B';
-                    e.currentTarget.style.textShadow = '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)';
+                    e.currentTarget.style.color = isDarkMode ? '#F4F8FF' : '#0B1120';
+                    e.currentTarget.style.textShadow = isDarkMode
+                      ? '0 0 12px rgba(15, 23, 42, 0.8), 0 0 18px rgba(59, 130, 246, 0.35)'
+                      : '2px 2px 4px rgba(0,0,0,0.1), 0 0 8px rgba(21, 37, 59, 0.15)';
                     e.currentTarget.style.filter = 'drop-shadow(3px 3px 6px rgba(0,0,0,0.15))';
                   }}
                   onClick={() => handleLetterClick(info)}
@@ -318,120 +356,127 @@ const Custom3DView: React.FC = () => {
         </div>
 
         {/* Floating Videos */}
-        {floatingVideos.map((video) => (
-          <div
-            key={video.id}
-            className="fixed z-30 cursor-pointer"
-            style={{
-              top: video.position.top,
-              left: video.position.left,
-              transform: `rotate(${video.position.rotate})`,
-            }}
-            onMouseEnter={() => setHoveredVideo(video.id)}
-            onMouseLeave={() => setHoveredVideo(null)}
-            onClick={() => window.location.href = video.href}
-          >
+        {floatingVideos.map((video) => {
+          const imageConfig = imageCardConfigs[video.id];
+          const cardWidth = imageConfig ? imageConfig.width : 200;
+          const cardHeight = imageConfig ? imageConfig.height : 120;
+
+          return (
             <div
-              className={`relative transition-all duration-500 hover:scale-105 ${
-                hoveredVideo === video.id ? 'z-40' : ''
-              }`}
+              key={video.id}
+              className="fixed z-30 cursor-pointer"
               style={{
-                width: '200px',
-                height: '120px',
+                top: video.position.top,
+                left: video.position.left,
+                transform: `rotate(${video.position.rotate})`,
               }}
+              onMouseEnter={() => setHoveredVideo(video.id)}
+              onMouseLeave={() => setHoveredVideo(null)}
+              onClick={() => window.location.href = video.href}
             >
-              {/* Video Container */}
               <div
-                className={`w-full h-full rounded-lg overflow-hidden border-2 transition-all duration-500 ${
-                  isDarkMode 
-                    ? 'border-gray-700/50 bg-gray-900/80' 
-                    : 'border-gray-300/50 bg-white/80'
-                } backdrop-blur-sm shadow-xl`}
+                className={`relative transition-all duration-500 hover:scale-105 ${
+                  hoveredVideo === video.id ? 'z-40' : ''
+                }`}
                 style={{
-                  filter: hoveredVideo === video.id ? 'none' : 'grayscale(100%)',
+                  width: `${cardWidth}px`,
+                  height: `${cardHeight}px`,
                 }}
               >
-                {/* Simulated Video Content */}
+                {/* Video Container */}
                 <div
-                  className="w-full h-full relative overflow-hidden transition-all duration-500"
+                  className={`w-full h-full rounded-lg overflow-hidden border-2 transition-all duration-500 ${
+                    isDarkMode 
+                      ? 'border-gray-700/50 bg-gray-900/80' 
+                      : 'border-gray-300/50 bg-white/80'
+                  } backdrop-blur-sm shadow-xl`}
                 >
-                  <Image
-                    src="/images/image.png"
-                    alt={`${video.title} preview`}
-                    fill
-                    sizes="200px"
-                    className={`object-cover transition-all duration-500 ${
-                      hoveredVideo === video.id
-                        ? 'scale-100 grayscale-0'
-                        : 'scale-105 grayscale'
-                    }`}
-                    priority={video.id === 'video1'}
-                  />
+                  {/* Content */}
                   <div
-                    className={`absolute inset-0 transition-all duration-500 ${
-                      hoveredVideo === video.id
-                        ? 'bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/20 mix-blend-screen'
-                        : 'bg-gray-900/40'
-                    }`}
-                  />
-                  
-                  {/* Play Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className={`w-12 h-12 rounded-full ${
-                      hoveredVideo === video.id
-                        ? 'bg-white/20 border-2 border-white/50'
-                        : 'bg-black/20 border-2 border-white/30'
-                    } flex items-center justify-center transition-all duration-300`}>
-                      <svg
-                        className={`w-6 h-6 ml-1 ${
-                          hoveredVideo === video.id ? 'text-white' : 'text-gray-300'
-                        }`}
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+                  className={`w-full h-full relative overflow-hidden transition-all duration-500 ${
+                    imageConfig
+                      ? ''
+                      : hoveredVideo === video.id
+                        ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500'
+                        : 'bg-gradient-to-br from-gray-400 to-gray-600'
+                  }`}
+                  >
+                    {imageConfig && (
+                      <>
+                        <Image
+                          src={imageConfig.src}
+                          alt={imageConfig.alt}
+                          fill
+                          sizes={`${cardWidth}px`}
+                          className={`object-cover transition-transform duration-500 ${
+                            hoveredVideo === video.id ? 'scale-100' : 'scale-105'
+                          }`}
+                          priority={Boolean(imageConfig.priority)}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-br from-black/15 via-transparent to-black/35" />
+                      </>
+                    )}
+
+                    {/* Play Icon */}
+                    {!imageConfig && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className={`w-12 h-12 rounded-full ${
+                          hoveredVideo === video.id
+                            ? 'bg-white/20 border-2 border-white/50'
+                            : 'bg-black/20 border-2 border-white/30'
+                        } flex items-center justify-center transition-all duration-300`}>
+                          <svg
+                            className={`w-6 h-6 ml-1 ${
+                              hoveredVideo === video.id ? 'text-white' : 'text-gray-300'
+                            }`}
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Info Overlay */}
+                    <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t ${
+                      isDarkMode 
+                        ? 'from-black/80 to-transparent' 
+                        : 'from-white/80 to-transparent'
+                    } transition-opacity duration-300 ${
+                      hoveredVideo === video.id ? 'opacity-100' : 'opacity-70'
+                    }`}>
+                      <h3 className={`text-sm font-semibold ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      } leading-tight`}>
+                        {video.title}
+                      </h3>
+                      <p className={`text-xs ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                      } mt-1 leading-tight`}>
+                        {video.description}
+                      </p>
                     </div>
                   </div>
+                </div>
 
-                  {/* Video Info Overlay */}
-                  <div className={`absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t ${
+                {/* Hover Tooltip */}
+                {hoveredVideo === video.id && (
+                  <div className={`absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-md text-xs font-medium ${
                     isDarkMode 
-                      ? 'from-black/80 to-transparent' 
-                      : 'from-white/80 to-transparent'
-                  } transition-opacity duration-300 ${
-                    hoveredVideo === video.id ? 'opacity-100' : 'opacity-70'
-                  }`}>
-                    <h3 className={`text-sm font-semibold ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
-                    } leading-tight`}>
-                      {video.title}
-                    </h3>
-                    <p className={`text-xs ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    } mt-1 leading-tight`}>
-                      {video.description}
-                    </p>
+                      ? 'bg-gray-900/90 text-white border border-gray-700/50' 
+                      : 'bg-white/90 text-gray-900 border border-gray-200/50'
+                  } backdrop-blur-sm shadow-lg transition-opacity duration-200`}>
+                    Click to explore
+                    <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 ${
+                      isDarkMode ? 'border-t-gray-900/90' : 'border-t-white/90'
+                    } border-l-transparent border-r-transparent`}></div>
                   </div>
-                </div>
+                )}
               </div>
-
-              {/* Hover Tooltip */}
-              {hoveredVideo === video.id && (
-                <div className={`absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-md text-xs font-medium ${
-                  isDarkMode 
-                    ? 'bg-gray-900/90 text-white border border-gray-700/50' 
-                    : 'bg-white/90 text-gray-900 border border-gray-200/50'
-                } backdrop-blur-sm shadow-lg transition-opacity duration-200`}>
-                  Click to explore
-                  <div className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 ${
-                    isDarkMode ? 'border-t-gray-900/90' : 'border-t-white/90'
-                  } border-l-transparent border-r-transparent`}></div>
-                </div>
-              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
         
         {/* Info popup */}
         {selectedInfo && (
